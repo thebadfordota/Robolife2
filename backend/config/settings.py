@@ -11,21 +11,30 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Get environment settings
+env = environ.Env()
+env_file = os.path.join(BASE_DIR, '.env.dev')
+if os.path.exists(env_file):
+    env.read_env(env_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-o5hssw+(rjm!1&m!w%g$l#p8$17s)a8!t06%mkbc80e+5z)9i%'
+# SECRET_KEY = 'django-insecure-o5hssw+(rjm!1&m!w%g$l#p8$17s)a8!t06%mkbc80e+5z)9i%'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', cast=bool, default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +46,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # libraries
+    'rest_framework',
+    'drf_yasg',
+
+    # components
+
 ]
 
 MIDDLEWARE = [
@@ -80,6 +96,18 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": os.environ.get("POSTGRES_ENGINE", "django.db.backends.postgresql_psycopg2"),
+#         "NAME": os.environ.get("POSTGRES_DB", "insure_brother"),
+#         "USER": os.environ.get("POSTGRES_USER", "postgres"),
+#         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "322322"),
+#         "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
+#         "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+#     }
+# }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -103,9 +131,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-Ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Samara'
 
 USE_I18N = True
 
