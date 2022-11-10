@@ -6,5 +6,4 @@ import pages from './pages';
 const menuItems = {
     items: [dashboard, pages]
 };
-x;
 export default menuItems;

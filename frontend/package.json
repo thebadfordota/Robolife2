@@ -4,6 +4,7 @@
     "private": true,
     "homepage": "https://berrydashboard.io/free",
     "dependencies": {
+        "@amcharts/amcharts5": "^5.2.31",
         "@emotion/cache": "^11.9.3",
         "@emotion/react": "^11.9.3",
         "@emotion/styled": "^11.9.3",
