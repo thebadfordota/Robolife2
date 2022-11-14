@@ -7,9 +7,11 @@ import Loadable from 'ui-component/Loadable';
 // import WelcomePage from '../views/welcome-page/WelcomePage';
 
 // dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const WelcomePage = Loadable(lazy(() => import('views/welcome-page/WelcomePage')));
 
-const DashboardWelcomePage = Loadable(lazy(() => import('views/welcome-page/WelcomePage')));
+const TemperaturePage = Loadable(lazy(() => import('views/dashboard/Temperature')));
+
+const PrecipitationPage = Loadable(lazy(() => import('views/dashboard/Precipitation')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -19,14 +21,23 @@ const MainRoutes = {
     children: [
         {
             path: '/',
-            element: <DashboardWelcomePage />
+            element: <WelcomePage />
         },
         {
             path: 'dashboard',
             children: [
                 {
-                    path: 'default',
-                    element: <DashboardDefault />
+                    path: 'temperature',
+                    element: <TemperaturePage />
+                }
+            ]
+        },
+        {
+            path: 'dashboard',
+            children: [
+                {
+                    path: 'precipitation',
+                    element: <PrecipitationPage />
                 }
             ]
         }

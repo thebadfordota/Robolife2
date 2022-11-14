@@ -8,16 +8,31 @@ const icons = { IconDashboard };
 
 const dashboard = {
     id: 'dashboard',
-    title: 'Dashboard',
+    title: 'Графики',
     type: 'group',
     children: [
         {
-            id: 'default',
-            title: 'Dashboard',
-            type: 'item',
-            url: '/dashboard/default',
+            id: 'main',
+            title: 'Графики',
+            type: 'collapse',
+            // url: '/dashboard/default',
             icon: icons.IconDashboard,
-            breadcrumbs: false
+            // breadcrumbs: false
+            children: [
+                {
+                    id: 'temperature',
+                    title: 'Температура',
+                    type: 'item',
+                    url: '/dashboard/temperature'
+                    // target: true  // для редиректа на другую страницу
+                },
+                {
+                    id: 'precipitation',
+                    title: 'Осадки',
+                    type: 'item',
+                    url: '/dashboard/precipitation'
+                }
+            ]
         }
     ]
 };
