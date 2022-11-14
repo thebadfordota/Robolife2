@@ -1,7 +1,7 @@
 import Chart from '../../../ui-component/Chart';
 
-const index = () => {
+const Index = () => {
     return <Chart />;
 };
 
-export default index;
+export default Index;
