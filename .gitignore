@@ -152,5 +152,5 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-.backend/db.sqlite3
-.backend/db.sqlite3-journal
+backend/db.sqlite3
+backend/db.sqlite3-journal
