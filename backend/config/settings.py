@@ -56,6 +56,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'shared.middlewares.logging_middleware.RequestTimeMiddleware',
+    
+    # default middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
