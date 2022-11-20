@@ -8,10 +8,12 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 import { useLayoutEffect } from 'react';
+import { create } from 'yup/es/Lazy';
+import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 
-const Chart = () => {
+const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
     useLayoutEffect(() => {
-        let root = am5.Root.new('chartdiv');
+        let root = am5.Root.new(chartRootName);
 
         root.setThemes([am5themes_Animated.new(root)]);
 
@@ -22,58 +24,13 @@ const Chart = () => {
             })
         );
 
-        // Define data
-
-        let data = [
-            {
-                date: new Date(2012, 1, 1).getTime(),
-                value: 8
-            },
-            {
-                date: new Date(2012, 1, 2).getTime(),
-                value: 5
-            },
-            {
-                date: new Date(2012, 1, 3).getTime(),
-                value: 12
-            },
-            {
-                date: new Date(2012, 1, 4).getTime(),
-                value: 14
-            },
-            {
-                date: new Date(2012, 1, 5).getTime(),
-                value: 11
-            },
-            {
-                date: new Date(2012, 1, 6).getTime(),
-                value: 11
-            },
-            {
-                date: new Date(2012, 1, 7).getTime(),
-                value: 11
-            },
-            {
-                date: new Date(2012, 1, 8).getTime(),
-                value: 11
-            },
-            {
-                date: new Date(2012, 1, 9).getTime(),
-                value: 11
-            },
-            {
-                date: new Date(2012, 1, 15).getTime(),
-                value: 13
-            }
-        ];
-
         let xAxis = chart.xAxes.push(
             am5xy.DateAxis.new(root, {
                 maxDeviation: 0.1,
                 groupData: false,
                 baseInterval: {
-                    timeUnit: 'day',
-                    count: 1
+                    timeUnit: intervalTimeUnit,
+                    count: intervalCount
                 },
                 renderer: am5xy.AxisRendererX.new(root, {
                     minGridDistance: 50
@@ -91,43 +48,85 @@ const Chart = () => {
         xAxis.data.setAll(data);
 
         // Create series
-        let series = chart.series.push(
-            am5xy.LineSeries.new(root, {
-                minBulletDistance: 10,
-                xAxis: xAxis,
-                yAxis: yAxis,
-                valueYField: 'value',
-                valueXField: 'date',
-                tooltip: am5.Tooltip.new(root, {
-                    pointerOrientation: 'horizontal',
-                    labelText: '{valueX.formatDate()}: {valueY}'
+        function createSeries(name, field) {
+            let series = chart.series.push(
+                am5xy.LineSeries.new(root, {
+                    minBulletDistance: 10,
+                    xAxis: xAxis,
+                    yAxis: yAxis,
+                    name: name,
+                    valueYField: field,
+                    valueXField: 'date',
+                    tooltip: am5.Tooltip.new(root, {
+                        pointerOrientation: 'horizontal',
+                        labelText: '{valueX.formatDate()}: {valueY}'
+                    })
                 })
-            })
-        );
+            );
 
-        series.strokes.template.setAll({
-            strokeWidth: 3,
-            templateField: 'strokeSettings'
-        });
-
-        series.bullets.push(function () {
-            return am5.Bullet.new(root, {
-                locationY: 0,
-                sprite: am5.Circle.new(root, {
-                    radius: 6,
-                    stroke: root.interfaceColors.get('background'),
-                    strokeWidth: 0,
-                    fill: series.get('fill')
-                })
+            series.strokes.template.setAll({
+                strokeWidth: 3,
+                templateField: 'strokeSettings'
             });
-        });
 
-        series.data.setAll(data);
+            series.bullets.push(function () {
+                return am5.Bullet.new(root, {
+                    locationY: 0,
+                    sprite: am5.Circle.new(root, {
+                        radius: 6,
+                        stroke: root.interfaceColors.get('background'),
+                        strokeWidth: 0,
+                        fill: series.get('fill')
+                    })
+                });
+            });
+
+            series.data.setAll(data);
+        }
+        if (data.length) {
+            Object.keys(data[0]).forEach((key) => {
+                if (key !== 'date') createSeries(CHART_PARAMETERS_ENUM[key], key);
+            });
+        }
+
+        // let series = chart.series.push(
+        //     am5xy.LineSeries.new(root, {
+        //         minBulletDistance: 10,
+        //         xAxis: xAxis,
+        //         yAxis: yAxis,
+        //         name: 'name',
+        //         valueYField: 'value',
+        //         valueXField: 'date',
+        //         tooltip: am5.Tooltip.new(root, {
+        //             pointerOrientation: 'horizontal',
+        //             labelText: '{valueX.formatDate()}: {valueY}'
+        //         })
+        //     })
+        // );
+        //
+        // series.strokes.template.setAll({
+        //     strokeWidth: 3,
+        //     templateField: 'strokeSettings'
+        // });
+        //
+        // series.bullets.push(function () {
+        //     return am5.Bullet.new(root, {
+        //         locationY: 0,
+        //         sprite: am5.Circle.new(root, {
+        //             radius: 6,
+        //             stroke: root.interfaceColors.get('background'),
+        //             strokeWidth: 0,
+        //             fill: series.get('fill')
+        //         })
+        //     });
+        // });
+        //
+        // series.data.setAll(data);
 
         // Add legend
         // Add cursor
         // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
-        var cursor = chart.set(
+        let cursor = chart.set(
             'cursor',
             am5xy.XYCursor.new(root, {
                 xAxis: xAxis
@@ -135,14 +134,14 @@ const Chart = () => {
         );
         cursor.lineY.set('visible', false);
 
-        var scrollbarX = am5xy.XYChartScrollbar.new(root, {
+        let scrollbarX = am5xy.XYChartScrollbar.new(root, {
             orientation: 'horizontal',
             height: 50
         });
 
         chart.set('scrollbarX', scrollbarX);
 
-        var sbxAxis = scrollbarX.chart.xAxes.push(
+        let sbxAxis = scrollbarX.chart.xAxes.push(
             am5xy.DateAxis.new(root, {
                 groupData: true,
                 groupIntervals: [{ timeUnit: 'year', count: 1 }],
@@ -154,13 +153,13 @@ const Chart = () => {
             })
         );
 
-        var sbyAxis = scrollbarX.chart.yAxes.push(
+        let sbyAxis = scrollbarX.chart.yAxes.push(
             am5xy.ValueAxis.new(root, {
                 renderer: am5xy.AxisRendererY.new(root, {})
             })
         );
 
-        var sbseries = scrollbarX.chart.series.push(
+        let sbseries = scrollbarX.chart.series.push(
             am5xy.LineSeries.new(root, {
                 xAxis: sbxAxis,
                 yAxis: sbyAxis,
@@ -168,14 +167,31 @@ const Chart = () => {
                 valueXField: 'date'
             })
         );
+
+        let legend = chart.children.push(
+            am5.Legend.new(root, {
+                centerX: am5.p50,
+                x: am5.p50
+            })
+        );
+        legend.itemContainers.template.states.create('hover', {});
+
+        legend.itemContainers.template.events.on('pointerover', function (e) {
+            e.target.dataItem.dataContext.hover();
+        });
+        legend.itemContainers.template.events.on('pointerout', function (e) {
+            e.target.dataItem.dataContext.unhover();
+        });
+        legend.data.setAll(chart.series.values);
+
         sbseries.data.setAll(data);
 
         return () => {
             root.dispose();
         };
-    }, []);
+    }, [data]);
 
-    return <div id="chartdiv" style={{ width: '100%', height: '500px' }}></div>;
+    return <div id={chartRootName} style={{ width: '100%', height: '500px' }}></div>;
 };
 
 export default Chart;
