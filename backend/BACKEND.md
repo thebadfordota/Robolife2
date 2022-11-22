@@ -10,6 +10,11 @@
 - в корне backend не должно быть файла  `__init__.py`
 - содержимое файла `.env.sample` необходимо скопировать в файл `.env.dev`, заполнив необходимые параметры
 
+### Запуск
+- python3 manage.py runserver
+- python3 manage.py migrate
+- python3 manage.py createsuperuser
+
 ### Создание компонента
 
 1. Создать директорию `без __init__.py` с названием компонента `%NAME%`
