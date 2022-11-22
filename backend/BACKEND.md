@@ -18,3 +18,5 @@
 > mkdir %NAME%
 > python manage.py startapp %NAME% components/%NAME% --template shared/component_template
 ```
+3. Отредактировать файлы `apps.py` и `urls.py`
+4. Импортировать все модели в `__init__.py` файл пакета models
