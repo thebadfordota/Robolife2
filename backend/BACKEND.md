@@ -2,7 +2,8 @@
 
 ### Платформа
 - Python 3.10
-- Django Rest Framework
+- Django 4.1.3
+- Django Rest Framework 3.14.0
 
 ### Настройка проекта
 
