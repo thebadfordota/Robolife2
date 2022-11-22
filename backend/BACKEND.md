@@ -1,6 +1,7 @@
 # Backend Robolife2
 
 ### Платформа
+
 - Python 3.10
 - Django 4.1.3
 - Django Rest Framework 3.14.0
@@ -12,6 +13,7 @@
 - содержимое файла `.env.sample` необходимо скопировать в файл `.env.dev`, заполнив необходимые параметры
 
 ### Запуск
+
 - python3 manage.py runserver
 - python3 manage.py migrate
 - python3 manage.py createsuperuser
