@@ -9,7 +9,6 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-# from backend.main.views import get_list
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -26,6 +25,7 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/v1/', include('components.main.urls')),
     # path('api-auth/', include('rest_framework.urls')),
     # path('api/v1/req', get_list),
     # swagger urls
