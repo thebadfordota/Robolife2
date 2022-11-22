@@ -1,3 +1,6 @@
-# from .infrastructure.admin.my_model_admin import MyModelAdmin
+from django.contrib import admin
 
+from .models import ProductModel
+
+admin.site.register(ProductModel)
 # __all__ = ['MyModelAdmin']

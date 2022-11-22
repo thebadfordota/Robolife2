@@ -1,3 +1,4 @@
-# from .infrastructure.admin.my_model_admin import MyModelAdmin
+# from .models import MyModel
+# from django.contrib import admin
 
-# __all__ = ['MyModelAdmin']
+# admin.site.register(MyModel)
