@@ -89,40 +89,6 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
             });
         }
 
-        // let series = chart.series.push(
-        //     am5xy.LineSeries.new(root, {
-        //         minBulletDistance: 10,
-        //         xAxis: xAxis,
-        //         yAxis: yAxis,
-        //         name: 'name',
-        //         valueYField: 'value',
-        //         valueXField: 'date',
-        //         tooltip: am5.Tooltip.new(root, {
-        //             pointerOrientation: 'horizontal',
-        //             labelText: '{valueX.formatDate()}: {valueY}'
-        //         })
-        //     })
-        // );
-        //
-        // series.strokes.template.setAll({
-        //     strokeWidth: 3,
-        //     templateField: 'strokeSettings'
-        // });
-        //
-        // series.bullets.push(function () {
-        //     return am5.Bullet.new(root, {
-        //         locationY: 0,
-        //         sprite: am5.Circle.new(root, {
-        //             radius: 6,
-        //             stroke: root.interfaceColors.get('background'),
-        //             strokeWidth: 0,
-        //             fill: series.get('fill')
-        //         })
-        //     });
-        // });
-        //
-        // series.data.setAll(data);
-
         // Add legend
         // Add cursor
         // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
@@ -143,9 +109,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
 
         let sbxAxis = scrollbarX.chart.xAxes.push(
             am5xy.DateAxis.new(root, {
-                groupData: true,
-                groupIntervals: [{ timeUnit: 'year', count: 1 }],
-                baseInterval: { timeUnit: 'day', count: 1 },
+                baseInterval: { timeUnit: 'hour', count: 1 },
                 renderer: am5xy.AxisRendererX.new(root, {
                     opposite: false,
                     strokeOpacity: 0
