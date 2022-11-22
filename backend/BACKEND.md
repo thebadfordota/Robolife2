@@ -13,7 +13,7 @@
 - содержимое файла `.env.sample` необходимо скопировать в файл `.env.dev`, заполнив необходимые параметры
 
 ### Запуск
-
+- pip install -r requirements.txt
 - python3 manage.py runserver
 - python3 manage.py migrate
 - python3 manage.py createsuperuser
