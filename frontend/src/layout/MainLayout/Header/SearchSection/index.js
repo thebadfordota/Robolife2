@@ -1,9 +1,24 @@
 import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, ButtonBase, Card, Grid, InputAdornment, OutlinedInput, Popper } from '@mui/material';
+import {
+    Avatar,
+    Box,
+    ButtonBase,
+    Card,
+    FormControl,
+    Grid,
+    InputAdornment,
+    InputLabel,
+    Menu,
+    MenuItem,
+    OutlinedInput,
+    Popper,
+    Select
+} from '@mui/material';
 
 // third-party
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
@@ -14,6 +29,10 @@ import Transitions from 'ui-component/extended/Transitions';
 // assets
 import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 import { shouldForwardProp } from '@mui/system';
+import { useDispatch, useSelector } from 'react-redux';
+import stationReducer from '../../../../store/stationReducer';
+import fieldClimateAPI from '../../../../clients/FieldClimateClient';
+import { getChartData } from '../../../../utils/ChartUtils';
 
 // styles
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
@@ -31,10 +50,20 @@ const OutlineInputStyle = styled(OutlinedInput, { shouldForwardProp })(({ theme 
     marginLeft: 16,
     paddingLeft: 16,
     paddingRight: 16,
-    '& input': {
-        background: 'transparent !important',
-        paddingLeft: '4px !important'
+    [theme.breakpoints.down('lg')]: {
+        width: 250
     },
+    [theme.breakpoints.down('md')]: {
+        width: '100%',
+        marginLeft: 4,
+        background: '#fff'
+    }
+}));
+const SelectHeader = styled(Menu, { shouldForwardProp })(({ theme }) => ({
+    width: 434,
+    marginLeft: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
     [theme.breakpoints.down('lg')]: {
         width: 250
     },
@@ -116,74 +145,54 @@ MobileSearch.propTypes = {
 // ==============================|| SEARCH INPUT ||============================== //
 
 const SearchSection = () => {
+    const station = useSelector((state) => state.station);
+    const [stations, setStations] = useState([station]);
+    const dispatch = useDispatch();
     const theme = useTheme();
-    const [value, setValue] = useState('');
+
+    // useEffect(() => {
+    //     fieldClimateAPI.getStations().then((response) => {
+    //         let getStations = [];
+    //         response.forEach((station) => {
+    //             getStations.push({
+    //                 id: station.name.original,
+    //                 name: station.name.custom,
+    //                 deviceType: station.info.device_name
+    //             });
+    //         });
+    //         setStations(getStations);
+    //     });
+    // }, []);
+    //
+    // useEffect(() => {
+    //     fieldClimateAPI.getStationData().then((response) => {});
+    // }, []);
+
+    const handleChange = (event) => {
+        dispatch({ type: 'SET_STATION', id: event.target.value });
+    };
 
     return (
         <>
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                <PopupState variant="popper" popupId="demo-popup-popper">
-                    {(popupState) => (
-                        <>
-                            <Box sx={{ ml: 2 }}>
-                                <ButtonBase sx={{ borderRadius: '12px' }}>
-                                    <HeaderAvatarStyle variant="rounded" {...bindToggle(popupState)}>
-                                        <IconSearch stroke={1.5} size="1.2rem" />
-                                    </HeaderAvatarStyle>
-                                </ButtonBase>
-                            </Box>
-                            <PopperStyle {...bindPopper(popupState)} transition>
-                                {({ TransitionProps }) => (
-                                    <>
-                                        <Transitions type="zoom" {...TransitionProps} sx={{ transformOrigin: 'center left' }}>
-                                            <Card
-                                                sx={{
-                                                    background: '#fff',
-                                                    [theme.breakpoints.down('sm')]: {
-                                                        border: 0,
-                                                        boxShadow: 'none'
-                                                    }
-                                                }}
-                                            >
-                                                <Box sx={{ p: 2 }}>
-                                                    <Grid container alignItems="center" justifyContent="space-between">
-                                                        <Grid item xs>
-                                                            <MobileSearch value={value} setValue={setValue} popupState={popupState} />
-                                                        </Grid>
-                                                    </Grid>
-                                                </Box>
-                                            </Card>
-                                        </Transitions>
-                                    </>
-                                )}
-                            </PopperStyle>
-                        </>
-                    )}
-                </PopupState>
-            </Box>
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-                <OutlineInputStyle
-                    id="input-search-header"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    placeholder="Search"
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
-                        </InputAdornment>
-                    }
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <ButtonBase sx={{ borderRadius: '12px' }}>
-                                <HeaderAvatarStyle variant="rounded">
-                                    <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                                </HeaderAvatarStyle>
-                            </ButtonBase>
-                        </InputAdornment>
-                    }
-                    aria-describedby="search-helper-text"
-                    inputProps={{ 'aria-label': 'weight' }}
-                />
+                <FormControl fullWidth sx={{ width: 200, marginLeft: 1 }}>
+                    <InputLabel id="label">Станции</InputLabel>
+                    <Select labelId="label" value={station.id} label="Станции" onChange={handleChange}>
+                        {/*{stations.map((station) => {*/}
+                        {/*    return (*/}
+                        {/*        <MenuItem key={station.id} value={station.id}>*/}
+                        {/*            {station.name}*/}
+                        {/*        </MenuItem>*/}
+                        {/*    );*/}
+                        {/*})}*/}
+                        <MenuItem value="00001F76">Сервисный центр</MenuItem>
+                        <MenuItem value="00001F77">Отделение 17</MenuItem>
+                        <MenuItem value="00001F78">Отделение 9</MenuItem>
+                        <MenuItem value="00001F7D">Отделение 12</MenuItem>
+                        <MenuItem value="0000235D">ПУ Север</MenuItem>
+                        <MenuItem value="0000235E">ПУ Кавказ</MenuItem>
+                    </Select>
+                </FormControl>
             </Box>
         </>
     );

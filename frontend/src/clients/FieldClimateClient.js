@@ -35,13 +35,9 @@ const fieldClimateAPI = {
     getStations() {
         let params = {
             method: 'GET',
-            request: '/user/'
+            request: '/user/stations'
         };
-        fieldClimateAPI.getFetch(params).then((result) => {
-            result.map((userData, key) => {
-                console.log(userData);
-            });
-        });
+        return fieldClimateAPI.getFetch(params);
     },
     getForecast(stationId = '00001F76', firstDate = 1666937600, secondDate = 1668103813, intervalTimeUnit = 'daily') {
         let params = {
@@ -49,6 +45,11 @@ const fieldClimateAPI = {
             request: API_INFO.forecastUrl + stationId + '/' + intervalTimeUnit + '/from/' + firstDate + '/to/' + secondDate
         };
         return fieldClimateAPI.getFetch(params);
+    },
+    getStationData(stationId = '00001F76') {
+        let params = {
+            method: 'GET'
+        };
     }
 };
 

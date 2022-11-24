@@ -12,7 +12,14 @@ const CHART_PARAMETERS_ENUM = {
     averageTemperature: 'Средняя температура воздуха',
     maxTemperature: 'Максимальная температура',
     minTemperature: 'Минимальная температура',
-    windSpeed: 'Скорость ветра'
+    averageWindSpeed: 'Средння скорость ветра',
+    maxWindSpeed: 'Максимальная скорость ветра'
 };
 
-export { API_INFO, CHART_PARAMETERS_ENUM };
+const DATA_FREQUENCY_CONVERT = {
+    hourly: 'hour',
+    daily: 'day',
+    monthly: 'month'
+};
+
+export { API_INFO, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT };

@@ -31,6 +31,12 @@ const dashboard = {
                     title: 'Осадки',
                     type: 'item',
                     url: '/dashboard/precipitation'
+                },
+                {
+                    id: 'wind_speed',
+                    title: 'Скорость ветра',
+                    type: 'item',
+                    url: '/dashboard/wind_speed'
                 }
             ]
         }

@@ -1,31 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import Chart from '../../ui-component/Chart';
-import fieldClimateAPI from '../../clients/FieldClimateClient';
-import { getChartData } from '../../utils/ChartUtils';
-import { subDays } from 'date-fns';
 import MainCard from '../../ui-component/cards/MainCard';
 import ChartDateRangePicker from '../../ui-component/pickers/ChartDateRangePicker';
 import DataFrequencyPicker from '../../ui-component/pickers/DataFrequencyPicker';
 import SubCard from '../../ui-component/cards/SubCard';
+import Chart from '../../ui-component/Chart';
 import { DATA_FREQUENCY_CONVERT } from '../../constants/Constants';
+import { subDays } from 'date-fns';
 import { useSelector } from 'react-redux';
+import fieldClimateAPI from '../../clients/FieldClimateClient';
+import { getChartData } from '../../utils/ChartUtils';
 
-const Precipitation = () => {
+const WindSpeed = () => {
     const [data, setData] = useState({});
     const [date, setDate] = useState([subDays(new Date(), 1), new Date()]);
     const [freq, setFreq] = useState('hourly');
     const station = useSelector((state) => state.station);
     const stationData = station.id + ' • ' + station.name + ' • ' + station.deviceType + ' • Последние данные: ' + station.lastData;
+    // const stationName = useSelector((state) => state.station.stationName);
 
     useEffect(() => {
         fieldClimateAPI.getForecast(station.id, Math.round(date[0] / 1000), Math.round(date[1] / 1000), freq).then((response) => {
-            setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
+            setData(
+                getChartData(
+                    response.data.length
+                        ? { averageWindSpeed: response.data[2].values.avg, maxWindSpeed: response.data[2].values.max }
+                        : {},
+                    response.dates
+                )
+            );
         });
     }, [date, freq, station.id]);
 
     return (
         <div>
-            <MainCard title="Осадки" subheader={stationData}>
+            <MainCard title="Скорость ветра" subheader={stationData}>
                 <ChartDateRangePicker date={date} setDate={setDate} />
                 <DataFrequencyPicker freq={freq} setFreq={setFreq} />
             </MainCard>
@@ -36,4 +44,4 @@ const Precipitation = () => {
     );
 };
 
-export default Precipitation;
+export default WindSpeed;
