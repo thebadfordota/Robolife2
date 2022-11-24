@@ -13,6 +13,8 @@ const TemperaturePage = Loadable(lazy(() => import('views/dashboard/Temperature'
 
 const PrecipitationPage = Loadable(lazy(() => import('views/dashboard/Precipitation')));
 
+const WindSpeedPage = Loadable(lazy(() => import('views/dashboard/WindSpeed')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -38,6 +40,15 @@ const MainRoutes = {
                 {
                     path: 'precipitation',
                     element: <PrecipitationPage />
+                }
+            ]
+        },
+        {
+            path: 'dashboard',
+            children: [
+                {
+                    path: 'wind_speed',
+                    element: <WindSpeedPage />
                 }
             ]
         }

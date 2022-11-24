@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
 
+import 'rsuite/dist/rsuite.css';
+
 // routing
 import Routes from 'routes';
 

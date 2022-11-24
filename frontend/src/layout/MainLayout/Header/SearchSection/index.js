@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 
 // material-ui
@@ -31,6 +31,8 @@ import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 import { shouldForwardProp } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import stationReducer from '../../../../store/stationReducer';
+import fieldClimateAPI from '../../../../clients/FieldClimateClient';
+import { getChartData } from '../../../../utils/ChartUtils';
 
 // styles
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
@@ -143,12 +145,31 @@ MobileSearch.propTypes = {
 // ==============================|| SEARCH INPUT ||============================== //
 
 const SearchSection = () => {
-    const stationId = useSelector((state) => state.station.stationId);
+    const station = useSelector((state) => state.station);
+    const [stations, setStations] = useState([station]);
     const dispatch = useDispatch();
     const theme = useTheme();
 
+    // useEffect(() => {
+    //     fieldClimateAPI.getStations().then((response) => {
+    //         let getStations = [];
+    //         response.forEach((station) => {
+    //             getStations.push({
+    //                 id: station.name.original,
+    //                 name: station.name.custom,
+    //                 deviceType: station.info.device_name
+    //             });
+    //         });
+    //         setStations(getStations);
+    //     });
+    // }, []);
+    //
+    // useEffect(() => {
+    //     fieldClimateAPI.getStationData().then((response) => {});
+    // }, []);
+
     const handleChange = (event) => {
-        dispatch({ type: 'SET_STATION', stationId: event.target.value });
+        dispatch({ type: 'SET_STATION', id: event.target.value });
     };
 
     return (
@@ -156,10 +177,20 @@ const SearchSection = () => {
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                 <FormControl fullWidth sx={{ width: 200, marginLeft: 1 }}>
                     <InputLabel id="label">Станции</InputLabel>
-                    <Select labelId="label" value={stationId} label="Станции" onChange={handleChange}>
-                        <MenuItem value="A">Ten</MenuItem>
-                        <MenuItem value="B">Twenty</MenuItem>
-                        <MenuItem value="C">Thirty</MenuItem>
+                    <Select labelId="label" value={station.id} label="Станции" onChange={handleChange}>
+                        {/*{stations.map((station) => {*/}
+                        {/*    return (*/}
+                        {/*        <MenuItem key={station.id} value={station.id}>*/}
+                        {/*            {station.name}*/}
+                        {/*        </MenuItem>*/}
+                        {/*    );*/}
+                        {/*})}*/}
+                        <MenuItem value="00001F76">Сервисный центр</MenuItem>
+                        <MenuItem value="00001F77">Отделение 17</MenuItem>
+                        <MenuItem value="00001F78">Отделение 9</MenuItem>
+                        <MenuItem value="00001F7D">Отделение 12</MenuItem>
+                        <MenuItem value="0000235D">ПУ Север</MenuItem>
+                        <MenuItem value="0000235E">ПУ Кавказ</MenuItem>
                     </Select>
                 </FormControl>
             </Box>

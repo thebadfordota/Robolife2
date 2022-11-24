@@ -8,7 +8,6 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
 import { useLayoutEffect } from 'react';
-import { create } from 'yup/es/Lazy';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 
 const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
@@ -20,6 +19,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
                 panY: false,
+                wheelY: 'zoomX',
                 layout: root.verticalLayout
             })
         );
@@ -27,7 +27,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         let xAxis = chart.xAxes.push(
             am5xy.DateAxis.new(root, {
                 maxDeviation: 0.1,
-                groupData: false,
+                groupData: true,
                 baseInterval: {
                     timeUnit: intervalTimeUnit,
                     count: intervalCount
