@@ -16,7 +16,6 @@ const WindSpeed = () => {
     const [freq, setFreq] = useState('hourly');
     const station = useSelector((state) => state.station);
     const stationData = station.id + ' • ' + station.name + ' • ' + station.deviceType + ' • Последние данные: ' + station.lastData;
-    // const stationName = useSelector((state) => state.station.stationName);
 
     useEffect(() => {
         fieldClimateAPI.getForecast(station.id, Math.round(date[0] / 1000), Math.round(date[1] / 1000), freq).then((response) => {
