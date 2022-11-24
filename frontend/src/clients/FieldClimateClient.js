@@ -48,8 +48,10 @@ const fieldClimateAPI = {
     },
     getStationData(stationId = '00001F76') {
         let params = {
-            method: 'GET'
+            method: 'GET',
+            request: '/station/' + stationId
         };
+        return fieldClimateAPI.getFetch(params);
     }
 };
 

@@ -150,26 +150,37 @@ const SearchSection = () => {
     const dispatch = useDispatch();
     const theme = useTheme();
 
-    // useEffect(() => {
-    //     fieldClimateAPI.getStations().then((response) => {
-    //         let getStations = [];
-    //         response.forEach((station) => {
-    //             getStations.push({
-    //                 id: station.name.original,
-    //                 name: station.name.custom,
-    //                 deviceType: station.info.device_name
-    //             });
-    //         });
-    //         setStations(getStations);
-    //     });
-    // }, []);
-    //
-    // useEffect(() => {
-    //     fieldClimateAPI.getStationData().then((response) => {});
-    // }, []);
+    useEffect(() => {
+        fieldClimateAPI.getStations().then((response) => {
+            let getStations = [];
+            response.forEach((station, index) => {
+                const stationData = {
+                    id: station.name.original,
+                    name: station.name.custom,
+                    deviceType: station.info.device_name,
+                    lastData: station.dates.max_date
+                };
+                getStations.push(stationData);
+                if (index === 0) {
+                    dispatch({
+                        type: 'SET_STATION',
+                        ...stationData
+                    });
+                }
+            });
+            setStations(getStations);
+        });
+    }, []);
 
     const handleChange = (event) => {
-        dispatch({ type: 'SET_STATION', id: event.target.value });
+        let stationData = stations.find((station) => station.id === event.target.value);
+        dispatch({
+            type: 'SET_STATION',
+            id: stationData.id,
+            name: stationData.name,
+            deviceType: stationData.deviceType,
+            lastData: stationData.lastData
+        });
     };
 
     return (
@@ -178,19 +189,19 @@ const SearchSection = () => {
                 <FormControl fullWidth sx={{ width: 200, marginLeft: 1 }}>
                     <InputLabel id="label">Станции</InputLabel>
                     <Select labelId="label" value={station.id} label="Станции" onChange={handleChange}>
-                        {/*{stations.map((station) => {*/}
-                        {/*    return (*/}
-                        {/*        <MenuItem key={station.id} value={station.id}>*/}
-                        {/*            {station.name}*/}
-                        {/*        </MenuItem>*/}
-                        {/*    );*/}
-                        {/*})}*/}
-                        <MenuItem value="00001F76">Сервисный центр</MenuItem>
-                        <MenuItem value="00001F77">Отделение 17</MenuItem>
-                        <MenuItem value="00001F78">Отделение 9</MenuItem>
-                        <MenuItem value="00001F7D">Отделение 12</MenuItem>
-                        <MenuItem value="0000235D">ПУ Север</MenuItem>
-                        <MenuItem value="0000235E">ПУ Кавказ</MenuItem>
+                        {stations.map((station) => {
+                            return (
+                                <MenuItem key={station.id} value={station.id}>
+                                    {station.name}
+                                </MenuItem>
+                            );
+                        })}
+                        {/*<MenuItem value="00001F76">Сервисный центр</MenuItem>*/}
+                        {/*<MenuItem value="00001F77">Отделение 17</MenuItem>*/}
+                        {/*<MenuItem value="00001F78">Отделение 9</MenuItem>*/}
+                        {/*<MenuItem value="00001F7D">Отделение 12</MenuItem>*/}
+                        {/*<MenuItem value="0000235D">ПУ Север</MenuItem>*/}
+                        {/*<MenuItem value="0000235E">ПУ Кавказ</MenuItem>*/}
                     </Select>
                 </FormControl>
             </Box>
