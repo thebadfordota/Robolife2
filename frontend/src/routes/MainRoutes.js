@@ -4,7 +4,7 @@ import { lazy } from 'react';
 // eslint-disable-next-line no-unused-vars
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-// import WelcomePage from '../views/welcome-page/WelcomePage';
+import SystemParams from '../views/dashboard/SystemParams';
 
 // dashboard routing
 const WelcomePage = Loadable(lazy(() => import('views/welcome-page/WelcomePage')));
@@ -14,6 +14,8 @@ const TemperaturePage = Loadable(lazy(() => import('views/dashboard/Temperature'
 const PrecipitationPage = Loadable(lazy(() => import('views/dashboard/Precipitation')));
 
 const WindSpeedPage = Loadable(lazy(() => import('views/dashboard/WindSpeed')));
+
+const SystemParamsPage = Loadable(lazy(() => import('views/dashboard/SystemParams')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -49,6 +51,15 @@ const MainRoutes = {
                 {
                     path: 'wind_speed',
                     element: <WindSpeedPage />
+                }
+            ]
+        },
+        {
+            path: 'dashboard',
+            children: [
+                {
+                    path: 'system_params',
+                    element: <SystemParamsPage />
                 }
             ]
         }

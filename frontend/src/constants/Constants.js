@@ -17,7 +17,8 @@ const CHART_PARAMETERS_ENUM = {
     increaseCountPrecipitation: 'Нарастающее количество осадков',
     degreesHours: 'Градусо-часы',
     degreesDays: 'Градусо-дни',
-    degreesDaysUsa: 'Градусо-дни (мин+макс)/2'
+    degreesDaysUsa: 'Градусо-дни (мин+макс)/2',
+    battery: 'Заряд АКБ'
 };
 
 const DATA_FREQUENCY_CONVERT = {
