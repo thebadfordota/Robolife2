@@ -46,10 +46,27 @@ const fieldClimateAPI = {
         };
         return fieldClimateAPI.getFetch(params);
     },
-    getStationData(stationId = '00001F76') {
+    getCalculationTemperature(
+        stationId = '00001F76',
+        type = 'temp',
+        ch = 22,
+        date_from = '1640995200',
+        date_to = '1668124740',
+        tmin = 10,
+        tmax = 24
+    ) {
         let params = {
-            method: 'GET',
-            request: '/station/' + stationId
+            method: 'POST',
+            request: API_INFO.calculationUrl + stationId,
+            body: JSON.stringify({ type: type, ch: ch, date_from: date_from, date_to: date_to, tmin: tmin, tmax: tmax })
+        };
+        return fieldClimateAPI.getFetch(params);
+    },
+    getCalculationRain(stationId = '00001F76', ch = 5, date_from = '1640995200', date_to = '1668124740') {
+        let params = {
+            method: 'POST',
+            request: API_INFO.calculationUrl + stationId + '/rain',
+            body: JSON.stringify({ type: 'rain', ch: ch, date_from: date_from, date_to: date_to })
         };
         return fieldClimateAPI.getFetch(params);
     }
