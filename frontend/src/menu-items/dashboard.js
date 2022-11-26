@@ -37,6 +37,12 @@ const dashboard = {
                     title: 'Скорость ветра',
                     type: 'item',
                     url: '/dashboard/wind_speed'
+                },
+                {
+                    id: 'system_params',
+                    title: 'Системные параметры',
+                    type: 'item',
+                    url: '/dashboard/system_params'
                 }
             ]
         }
