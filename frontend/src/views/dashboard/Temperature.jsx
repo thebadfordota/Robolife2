@@ -13,6 +13,7 @@ import ChartDateRangePicker from '../../ui-component/pickers/ChartDateRangePicke
 const Temperature = () => {
     const [data, setData] = useState({});
     const [date, setDate] = useState([subDays(new Date(), 1), new Date()]);
+    const [dataInc, setDataInc] = useState({});
     const [freq, setFreq] = useState('hourly');
     const station = useSelector((state) => state.station);
     const stationData = station.id + ' • ' + station.name + ' • ' + station.deviceType + ' • Последние данные: ' + station.lastData;
@@ -32,6 +33,22 @@ const Temperature = () => {
                 )
             );
         });
+        fieldClimateAPI
+            .getCalculationTemperature(station.id, 'temp', 22, Math.round(date[0] / 1000), Math.round(date[1] / 1000), 10, 24)
+            .then((response) => {
+                setDataInc(
+                    getChartData(
+                        Object.values(response.chart).length
+                            ? {
+                                  degreesHours: Object.values(response.chart).map((value) => Number(value.degree_hours)),
+                                  degreesDays: Object.values(response.chart).map((value) => Number(value.degree_days)),
+                                  degreesDaysUsa: Object.values(response.chart).map((value) => Number(value.degree_days_usa))
+                              }
+                            : {},
+                        Object.keys(response.chart)
+                    )
+                );
+            });
     }, [date, freq, station.id]);
 
     return (
@@ -42,6 +59,9 @@ const Temperature = () => {
             </MainCard>
             <SubCard>
                 <Chart chartRootName="chart1" data={data} intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]} intervalCount={1} />
+            </SubCard>
+            <SubCard>
+                <Chart chartRootName="chart2" data={dataInc} intervalTimeUnit="hour" intervalCount={1} />
             </SubCard>
         </div>
     );

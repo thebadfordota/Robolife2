@@ -13,7 +13,11 @@ const CHART_PARAMETERS_ENUM = {
     maxTemperature: 'Максимальная температура',
     minTemperature: 'Минимальная температура',
     averageWindSpeed: 'Средння скорость ветра',
-    maxWindSpeed: 'Максимальная скорость ветра'
+    maxWindSpeed: 'Максимальная скорость ветра',
+    increaseCountPrecipitation: 'Нарастающее количество осадков',
+    degreesHours: 'Градусо-часы',
+    degreesDays: 'Градусо-дни',
+    degreesDaysUsa: 'Градусо-дни (мин+макс)/2'
 };
 
 const DATA_FREQUENCY_CONVERT = {
