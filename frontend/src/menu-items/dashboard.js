@@ -43,6 +43,12 @@ const dashboard = {
                     title: 'Системные параметры',
                     type: 'item',
                     url: '/dashboard/system_params'
+                },
+                {
+                    id: 'humidity',
+                    title: 'Влажность',
+                    type: 'item',
+                    url: '/dashboard/humidity'
                 }
             ]
         }
