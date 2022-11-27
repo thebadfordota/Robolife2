@@ -4,6 +4,7 @@
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
+import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
@@ -45,6 +46,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
                 renderer: am5xy.AxisRendererY.new(root, {})
             })
         );
+
         xAxis.data.setAll(data);
 
         // Create series
@@ -149,6 +151,11 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         legend.data.setAll(chart.series.values);
 
         sbseries.data.setAll(data);
+
+        let exporting = am5plugins_exporting.Exporting.new(root, {
+            menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+            dataSource: data
+        });
 
         return () => {
             root.dispose();
