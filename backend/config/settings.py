@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
 COMPONENTS = [
     'components.main',
+    'components.charts'
 ]
 
 
@@ -177,3 +178,9 @@ REST_FRAMEWORK = {
     # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'PAGE_SIZE': 20
 }
+
+# External urls
+OPEN_METEO_BASE_URL = env('OPEN_METEO_BASE_URL')
+
+# Constants
+BASE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'

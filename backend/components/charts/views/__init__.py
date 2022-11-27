@@ -1,0 +1,1 @@
+from .wind_speed_model_viewset import WindSpeedViewSet
