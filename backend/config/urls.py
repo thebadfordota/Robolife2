@@ -25,7 +25,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include('components.main.urls')),
+    path('api/v1/main/', include('components.main.urls')),
+    path('api/v1/charts/', include('components.charts.urls')),
     # path('api-auth/', include('rest_framework.urls')),
     # swagger urls
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
