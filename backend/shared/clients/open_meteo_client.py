@@ -27,7 +27,6 @@ class OpenMeteoClient:
     def get_wind_speed_metrics_by_time_interval(self, start_date: str, end_date: str) -> tuple[list[float], list[str]]:
         url = ''.join((
             self.base_url,
-            'asdedsadas',
             self.coordinates_params,
             self.endpoint_wind_speed,
             self.time_settings_params + self.time_interval_params.format(start_date, end_date)
@@ -42,7 +41,10 @@ class OpenMeteoClient:
         if not wind_speeds.get('windspeed_10m'):
             raise NotFoundValueError('Не удалось получить значения параметра')
 
-        time = [datetime.utcfromtimestamp(time).strftime(BASE_DATE_TIME_FORMAT) for time in wind_speeds.get('time')]
+        date_time = [
+            datetime.utcfromtimestamp(time).strftime(BASE_DATE_TIME_FORMAT)
+            for time in wind_speeds.get('time')
+        ]
         value = wind_speeds.get('windspeed_10m')
         #  datetime.utcfromtimestamp(wind_speed_metrics['hourly']['time'][0]).strftime('%Y-%m-%d %H:%M:%S')
-        return value, time
+        return value, date_time
