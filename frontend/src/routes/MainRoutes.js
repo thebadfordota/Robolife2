@@ -17,6 +17,7 @@ const WindSpeedPage = Loadable(lazy(() => import('views/dashboard/WindSpeed')));
 
 const SystemParamsPage = Loadable(lazy(() => import('views/dashboard/SystemParams')));
 
+const HumidityPage = Loadable(lazy(() => import('views/dashboard/Humidity')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -60,6 +61,15 @@ const MainRoutes = {
                 {
                     path: 'system_params',
                     element: <SystemParamsPage />
+                }
+            ]
+        },
+        {
+            path: 'dashboard',
+            children: [
+                {
+                    path: 'humidity',
+                    element: <HumidityPage />
                 }
             ]
         }
