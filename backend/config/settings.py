@@ -104,11 +104,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": env("POSTGRES_ENGINE", "django.db.backends.postgresql_psycopg2"),
-        "NAME": env("POSTGRES_DB", "robolife2"),
-        "USER": env("POSTGRES_USER", "postgres"),
+        "ENGINE": env("POSTGRES_ENGINE", default="django.db.backends.postgresql_psycopg2"),
+        "NAME": env("POSTGRES_DB", default="robolife2"),
+        "USER": env("POSTGRES_USER", default="postgres"),
         "PASSWORD": env("POSTGRES_PASSWORD", default="322322"),
-        "HOST": env("POSTGRES_HOST", "localhost"),
+        "HOST": env("POSTGRES_HOST", default="localhost"),
         "PORT": env("POSTGRES_PORT", cast=int, default="5432"),
     }
 }

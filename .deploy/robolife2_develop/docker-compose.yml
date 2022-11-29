@@ -17,20 +17,20 @@ services:
     volumes:
       - robolife2_pg_volume:/var/lib/postgresql/data
 
-#  nginx_proxy_server:
-#    container_name: nginx_proxy_server
-#    image: nginx:latest
-#    depends_on:
-#      - django_server
-##    restart: always
-#    ports:
-#      - "8080:80"
-#    networks:
-#      robolife2_network:
-#        aliases:
-#          - nginx_proxy_server
-#    volumes:
-#      - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
+  nginx_proxy_server:
+    container_name: nginx_proxy_server
+    image: nginx:latest
+    depends_on:
+      - django_server
+#    restart: always
+    ports:
+      - "8080:80"
+    networks:
+      robolife2_network:
+        aliases:
+          - nginx_proxy_server
+    volumes:
+      - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
 
   django_server:
     container_name: django_server
@@ -63,7 +63,7 @@ services:
       - -c
       - 'python manage.py migrate --database=default --noinput
         && python manage.py collectstatic --noinput
-        && python manage.py runserver'
+        && python manage.py runserver 0.0.0.0:8000'
 
 volumes:
   robolife2_pg_volume:
