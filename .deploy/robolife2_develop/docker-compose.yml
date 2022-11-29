@@ -1,0 +1,75 @@
+version: '3.8'
+services:
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:15.1-alpine
+    ports:
+      - "5432:5432"
+    networks:
+      robolife2_network:
+        aliases:
+          - postgres_db
+#    restart: always
+    environment:
+      POSTGRES_PASSWORD: 322322
+      POSTGRES_USER: postgres
+      POSTGRES_DB: 'robolife2'
+    volumes:
+      - robolife2_pg_volume:/var/lib/postgresql/data
+
+#  nginx_proxy_server:
+#    container_name: nginx_proxy_server
+#    image: nginx:latest
+#    depends_on:
+#      - django_server
+##    restart: always
+#    ports:
+#      - "8080:80"
+#    networks:
+#      robolife2_network:
+#        aliases:
+#          - nginx_proxy_server
+#    volumes:
+#      - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
+
+  django_server:
+    container_name: django_server
+    build:
+      context: ../..
+      dockerfile: ./backend/.build/Dockerfile
+#    restart: always
+    depends_on:
+      - postgres_db
+    ports:
+      - "8000:8000"
+    networks:
+      robolife2_network:
+        aliases:
+          - django_server
+    environment:
+      - DJANGO_SETTINGS_MODULE=config.settings
+      - DB_HOST=postgres_db
+      - DB_PORT=5432
+      - DB_NAME=robolife2
+      - DB_USER=postgres
+      - DB_PASSWORD=322322
+      - DEFAULT_FILE_STORAGE=django.core.files.storage.FileSystemStorage
+      - STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
+      - STATIC_URL=/static/
+    env_file:
+      - ../../backend/.env.dev
+    command:
+      - sh
+      - -c
+      - 'python manage.py migrate --database=default --noinput
+        && python manage.py collectstatic --noinput
+        && python manage.py runserver'
+
+volumes:
+  robolife2_pg_volume:
+
+networks:
+  robolife2_network:
+    name: robolife2_network
+    external: false
+

@@ -153,6 +153,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Static files (CSS, JavaScript, Images)
 # STATIC_URL = 'static/'
 STATIC_URL = env('STATIC_URL', default='/static/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = env('STATIC_URL', default='/static/')
 DEFAULT_FILE_STORAGE = env('DEFAULT_FILE_STORAGE', default='django.core.files.storage.FileSystemStorage')
 STATICFILES_STORAGE = env('STATICFILES_STORAGE', default='django.contrib.staticfiles.storage.StaticFilesStorage')
 
