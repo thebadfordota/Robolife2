@@ -107,9 +107,9 @@ DATABASES = {
         "ENGINE": env("POSTGRES_ENGINE", "django.db.backends.postgresql_psycopg2"),
         "NAME": env("POSTGRES_DB", "robolife2"),
         "USER": env("POSTGRES_USER", "postgres"),
-        "PASSWORD": env("POSTGRES_PASSWORD", "322322"),
+        "PASSWORD": env("POSTGRES_PASSWORD", default="322322"),
         "HOST": env("POSTGRES_HOST", "localhost"),
-        "PORT": env("POSTGRES_PORT", "5432"),
+        "PORT": env("POSTGRES_PORT", cast=int, default="5432"),
     }
 }
 
