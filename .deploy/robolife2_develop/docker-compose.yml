@@ -10,10 +10,12 @@ services:
         aliases:
           - postgres_db
 #    restart: always
-    environment:
-      POSTGRES_PASSWORD: 322322
-      POSTGRES_USER: postgres
-      POSTGRES_DB: 'robolife2'
+#    environment:
+#      POSTGRES_PASSWORD: 322322
+#      POSTGRES_USER: postgres
+#      POSTGRES_DB: 'robolife2'
+    env_file:
+      - ../../backend/.env.dev
     volumes:
       - robolife2_pg_volume:/var/lib/postgresql/data
 
@@ -64,6 +66,55 @@ services:
       - 'python manage.py migrate --database=default --noinput
         && python manage.py collectstatic --noinput
         && python manage.py runserver 0.0.0.0:8000'
+
+  celery_worker:
+    container_name: celery_worker
+    build:
+      context: ../..
+      dockerfile: ./backend/.build/Dockerfile
+    command: celery -A config worker -l INFO
+    #    volumes:
+    #    - .:/backend/
+    depends_on:
+      - django_server
+      - redis_db
+    networks:
+      robolife2_network:
+        aliases:
+          - celery_worker
+
+  celery_beat_worker:
+    container_name: celery_beat_worker
+    build:
+      context: ../..
+      dockerfile: ./backend/.build/Dockerfile
+    command: celery -A config beat -l INFO
+    #    volumes:
+    #    - .:/backend/
+    depends_on:
+      - django_server
+      - redis_db
+    networks:
+      robolife2_network:
+        aliases:
+          - celery_beat_worker
+
+  redis_db:
+    container_name: redis_db
+    image: redis:5.0.8-alpine
+    depends_on:
+      - django_server
+    ports:
+      - "0.0.0.0:6379:6379"
+    volumes:
+      - ./data:/data
+    #      - ./redis.conf:/etc/redis.conf
+    #    command: redis-server /etc/redis.conf --appendonly yes
+    networks:
+      robolife2_network:
+        aliases:
+          - redis_db
+
 
 volumes:
   robolife2_pg_volume:

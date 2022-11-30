@@ -24,3 +24,11 @@ sqlparse==0.4.3
 tzdata==2022.6
 uritemplate==4.1.1
 urllib3==1.26.12
+
+celery==5.2.7
+redis==4.3.4
+django-celery-results==2.4.0
+django-celery-beat==2.4.0
+django-timezone-field==5.0
+python-crontab==2.6.0
+tzdata==2022.6

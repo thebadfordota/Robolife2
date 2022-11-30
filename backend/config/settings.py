@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     # external libraries
     'rest_framework',
     'drf_yasg',
+    'django_celery_results',
+    'django_celery_beat',
+
 ]
 
 COMPONENTS = [
@@ -186,3 +189,10 @@ OPEN_METEO_BASE_URL = env('OPEN_METEO_BASE_URL')
 
 # Constants
 BASE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+# Celery config
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
