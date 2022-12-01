@@ -7,7 +7,7 @@ from components.charts.services import ChartsService
 class TestViewSet(ViewSet):
 
     def list(self, request):
-        ChartsService().update_wind_speed_data()
+        # ChartsService().update_wind_speed_data()
         return Response('test')
 
 

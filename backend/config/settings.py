@@ -36,6 +36,9 @@ INSTALLED_APPS = [
     # external libraries
     'rest_framework',
     'drf_yasg',
+    'django_celery_results',
+    'django_celery_beat',
+
 ]
 
 COMPONENTS = [
@@ -95,23 +98,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 # DATABASES = {
-#     "default": {
-#         "ENGINE": os.environ.get("POSTGRES_ENGINE", "django.db.backends.postgresql_psycopg2"),
-#         "NAME": os.environ.get("POSTGRES_DB", "insure_brother"),
-#         "USER": os.environ.get("POSTGRES_USER", "postgres"),
-#         "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "322322"),
-#         "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
-#         "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+DATABASES = {
+    "default": {
+        "ENGINE": env("POSTGRES_ENGINE", default="django.db.backends.postgresql_psycopg2"),
+        "NAME": env("POSTGRES_DB", default="robolife2"),
+        "USER": env("POSTGRES_USER", default="postgres"),
+        "PASSWORD": env("POSTGRES_PASSWORD", default="322322"),
+        "HOST": env("POSTGRES_HOST", default="localhost"),
+        "PORT": env("POSTGRES_PORT", cast=int, default="5432"),
+    }
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -153,6 +156,8 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Static files (CSS, JavaScript, Images)
 # STATIC_URL = 'static/'
 STATIC_URL = env('STATIC_URL', default='/static/')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = env('STATIC_URL', default='/static/')
 DEFAULT_FILE_STORAGE = env('DEFAULT_FILE_STORAGE', default='django.core.files.storage.FileSystemStorage')
 STATICFILES_STORAGE = env('STATICFILES_STORAGE', default='django.contrib.staticfiles.storage.StaticFilesStorage')
 
@@ -184,3 +189,10 @@ OPEN_METEO_BASE_URL = env('OPEN_METEO_BASE_URL')
 
 # Constants
 BASE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+# Celery config
+CELERY_BROKER_URL = env('CELERY_BROKER_URL')
+
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
+# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
