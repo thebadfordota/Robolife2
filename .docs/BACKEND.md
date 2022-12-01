@@ -6,7 +6,7 @@
 - Django 4.1.3
 - Django Rest Framework 3.14.0
 
-### Настройка проекта
+### Настройка backend-a
 
 - backend должен быть помечен как Sources Root
 - в корне backend не должно быть файла  `__init__.py`
