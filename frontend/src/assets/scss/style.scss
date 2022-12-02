@@ -10,7 +10,13 @@
 }
 
 // ==============================|| APEXCHART ||============================== //
+.css-4rfrnx-MuiCardHeader-root .MuiCardHeader-title{
+    font-size: 1rem;
+}
 
+.rs-modal-backdrop{
+    z-index: 1299;
+}
 .apexcharts-legend-series .apexcharts-legend-marker {
     margin-right: 8px;
 }

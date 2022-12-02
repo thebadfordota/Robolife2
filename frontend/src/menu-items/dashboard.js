@@ -51,10 +51,10 @@ const dashboard = {
                     url: '/dashboard/humidity'
                 },
                 {
-                    id: 'solar_radiation',
-                    title: 'Солнечная радиация',
+                    id: 'test_komment_solar_radiation',
+                    title: 'Комменты(Солнечная радиация)',
                     type: 'item',
-                    url: '/dashboard/solar_radiation'
+                    url: '/dashboard/test_komment_solar_radiation'
                 }
             ]
         }
