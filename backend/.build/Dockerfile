@@ -6,6 +6,7 @@ ENV WORKDIR=/code \
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+
 # set work directory
 WORKDIR $WORKDIR
 
@@ -13,8 +14,6 @@ COPY $BASEDIR/config/requirements.txt $WORKDIR
 
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev zlib-dev jpeg-dev  musl-dev gcc make
-#    && pip install -r $WORKDIR/config/requirements.txt \
-#    && rm -rf .cache/pip \
 
 # install dependencies
 RUN pip install --upgrade pip
