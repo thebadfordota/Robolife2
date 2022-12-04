@@ -4,8 +4,8 @@ const API_INFO = {
     calculationUrl: '/calculation/',
     forecastUrl: '/forecast/',
     // Api tokens
-    publicKey: '92f910fe220f8595dc4ee84deae1ab3925b7422e2396e78f',
-    privateKey: 'cf6820ad409b72c796ce088634bd6ac06ba633966a9b3356'
+    publicKey: 'ba9c8f7415885c20da4ab8e7cd46bf2de6a49b8c1e320dea',
+    privateKey: '9e9f3139bbe88c1a47475225b5991713bb1c4e8fc7a49c8f'
 };
 
 const CHART_PARAMETERS_ENUM = {
