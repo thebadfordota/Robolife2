@@ -190,6 +190,3 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # External urls
 OPEN_METEO_BASE_URL = env('OPEN_METEO_BASE_URL')
-
-# Constants
-BASE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
