@@ -1,4 +1,4 @@
-"""Django settings for config project 'Django 4.1.3'"""
+"""Django settings for Robolife2 project 'Django 4.1.3'"""
 
 import os
 from pathlib import Path
@@ -25,13 +25,11 @@ ALLOWED_HOSTS = ['*']
 # Trusted urls
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
 
-# Admins
 ADMINS = (
     ('Aleksandr Skrynnik', 'a.skrunnik@fake_mail.ru'),
 )
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # external libraries
     'rest_framework',
     'drf_yasg',
@@ -188,5 +185,5 @@ CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
-# External urls
+# Open-meteo integration config
 OPEN_METEO_BASE_URL = env('OPEN_METEO_BASE_URL')
