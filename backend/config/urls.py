@@ -10,14 +10,18 @@ from django.urls import (
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView, TokenVerifyView,
+)
 
-from config import settings
+from config.settings import MEDIA_URL, MEDIA_ROOT
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Snippets API",
+        title="Robolife2 API",
         default_version='v1',
-        description="Test description",
+        description="Robolife2 API for AgroIntelligence.Meteo",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="contact@snippets.local"),
         license=openapi.License(name="BSD License"),
@@ -31,6 +35,10 @@ urlpatterns = [
     path('api/main/v1/', include('components.main.urls')),
     path('api/charts/v1/', include('components.charts.urls')),
     # path('api-auth/', include('rest_framework.urls')),
+    # jwt token auth urls
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     # swagger urls
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
@@ -38,4 +46,4 @@ urlpatterns = [
 ]
 
 urlpatterns += staticfiles_urlpatterns()
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
