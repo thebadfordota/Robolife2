@@ -29,7 +29,8 @@ services:
           - nginx_proxy_server
     volumes:
       - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
-#      - robolife2_django_server_static:/django_static
+      - robolife2_django_server_static:/django_static
+      - robolife2_django_server_media:/django_media
 
   django_server:
     container_name: django_server
@@ -41,7 +42,8 @@ services:
       - postgres_db
     volumes:
       - ../../backend:/code/
-#      - robolife2_django_server_static:/code/static
+      - robolife2_django_server_static:/code/static
+      - robolife2_django_server_media:/code/media
     ports:
       - "8000:8000"
     networks:
@@ -107,7 +109,8 @@ services:
 
 volumes:
   robolife2_pg_volume:
-#  robolife2_django_server_static:
+  robolife2_django_server_static:
+  robolife2_django_server_media:
 
 networks:
   robolife2_network:
