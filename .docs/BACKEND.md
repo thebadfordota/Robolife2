@@ -29,3 +29,17 @@
 ```
 3. Отредактировать файлы `apps.py` и `urls.py`
 4. Импортировать все модели в `__init__.py` файл пакета models
+
+### Команды docker-a (прописывать в корне приложения)
+* Собрать и запустить контейнеры
+```bash
+ docker-compose -f .deploy/robolife2_develop/docker-compose.yml  up -d --build
+```
+* Остановить и удалить контейнеры
+```bash
+docker-compose -f .deploy/robolife2_develop/docker-compose.yml  down -v
+```
+* Удалить все неиспользуемые тома и контейнеры
+```bash
+docker system prune
+```

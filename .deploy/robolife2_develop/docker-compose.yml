@@ -9,11 +9,7 @@ services:
       robolife2_network:
         aliases:
           - postgres_db
-#    restart: always
-#    environment:
-#      POSTGRES_PASSWORD: 322322
-#      POSTGRES_USER: postgres
-#      POSTGRES_DB: 'robolife2'
+    restart: on-failure
     env_file:
       - ../../backend/.env.dev
     volumes:
@@ -24,7 +20,7 @@ services:
     image: nginx:latest
     depends_on:
       - django_server
-#    restart: always
+    restart: on-failure
     ports:
       - "8080:80"
     networks:
@@ -33,31 +29,26 @@ services:
           - nginx_proxy_server
     volumes:
       - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
+      - robolife2_django_server_static:/django_static
 
   django_server:
     container_name: django_server
     build:
       context: ../..
       dockerfile: ./backend/.build/Dockerfile
-#    restart: always
+    restart: on-failure
     depends_on:
       - postgres_db
+    volumes:
+      - ../../backend:/code/
+#      - .:/code/
+      - robolife2_django_server_static:/code/static
     ports:
       - "8000:8000"
     networks:
       robolife2_network:
         aliases:
           - django_server
-    environment:
-      - DJANGO_SETTINGS_MODULE=config.settings
-      - DB_HOST=postgres_db
-      - DB_PORT=5432
-      - DB_NAME=robolife2
-      - DB_USER=postgres
-      - DB_PASSWORD=322322
-      - DEFAULT_FILE_STORAGE=django.core.files.storage.FileSystemStorage
-      - STATICFILES_STORAGE=django.contrib.staticfiles.storage.StaticFilesStorage
-      - STATIC_URL=/static/
     env_file:
       - ../../backend/.env.dev
     command:
@@ -72,12 +63,12 @@ services:
     build:
       context: ../..
       dockerfile: ./backend/.build/Dockerfile
-    command: celery -A config worker -l INFO
-    #    volumes:
-    #    - .:/backend/
+    command: celery -A config worker -E -l INFO
     depends_on:
       - django_server
       - redis_db
+    volumes:
+      - ../../backend:/code/
     networks:
       robolife2_network:
         aliases:
@@ -89,11 +80,11 @@ services:
       context: ../..
       dockerfile: ./backend/.build/Dockerfile
     command: celery -A config beat -l INFO
-    #    volumes:
-    #    - .:/backend/
     depends_on:
       - django_server
       - redis_db
+    volumes:
+      - ../../backend:/code/
     networks:
       robolife2_network:
         aliases:
@@ -105,11 +96,11 @@ services:
     depends_on:
       - django_server
     ports:
-      - "0.0.0.0:6379:6379"
+      - "6379:6379"
     volumes:
       - ./data:/data
-    #      - ./redis.conf:/etc/redis.conf
-    #    command: redis-server /etc/redis.conf --appendonly yes
+      - ./redis.conf:/etc/redis.conf
+    command: redis-server /etc/redis.conf --appendonly yes
     networks:
       robolife2_network:
         aliases:
@@ -118,6 +109,7 @@ services:
 
 volumes:
   robolife2_pg_volume:
+  robolife2_django_server_static:
 
 networks:
   robolife2_network:
