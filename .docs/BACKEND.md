@@ -33,7 +33,7 @@
 ### Команды docker-a (прописывать в корне приложения)
 * Собрать и запустить контейнеры
 ```bash
- docker-compose -f .deploy/robolife2_develop/docker-compose.yml  up -d --build
+docker-compose -f .deploy/robolife2_develop/docker-compose.yml  up -d --build
 ```
 * Остановить и удалить контейнеры
 ```bash
