@@ -1,60 +1,29 @@
-### --- Build pip packages --- ###
-FROM python:3.9.13-alpine3.16 as build
+FROM python:3.10.8-alpine3.17
 
 ENV WORKDIR=/code \
-    WHEELDIR=/opt/pip_packages \
     BASEDIR=backend
 
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-
+# set work directory
 WORKDIR $WORKDIR
 
 COPY $BASEDIR/config/requirements.txt $WORKDIR
 
-RUN apk --no-cache add --virtual build-dependencies \
-    gcc \
-    musl-dev \
-    linux-headers \
-    make \
-    libffi-dev \
-    libxml2-dev \
-    libxslt-dev \
-    postgresql-dev \
-    libressl-dev \
-    openssl-dev \
-    cargo \
-    librdkafka-dev \
-    && pip wheel --wheel-dir=${WHEELDIR} -r requirements.txt \
-    && rm -rf .cache/pip
+RUN apk update \
+    && apk add postgresql-dev gcc python3-dev zlib-dev jpeg-dev  musl-dev gcc make
+#    && pip install -r $WORKDIR/config/requirements.txt \
+#    && rm -rf .cache/pip \
 
-### --- Final small image --- ###
+# install dependencies
+RUN pip install --upgrade pip
 
-FROM python:3.9.13-alpine3.16
+COPY $BASEDIR/config/requirements.txt /code/
 
-ARG VERSION
+RUN pip install -r requirements.txt
+RUN rm -rf .cache/pip
 
-ENV VERSION=${VERSION:-local-build} \
-    WORKDIR=/code \
-    WHEELDIR=/opt/pip_packages \
-    BASEDIR=backend
-
-WORKDIR $WORKDIR
-
-COPY --from=build ${WHEELDIR} ${WHEELDIR}
+# copy project
 COPY $BASEDIR/. $WORKDIR
-
-RUN apk --no-cache add \
-    libpq \
-    gcc \
-    libxslt \
-    musl-dev \
-    linux-headers \
-    libc-dev \
-    libressl-dev \
-    openssl-dev \
-    zlib-dev \
-    librdkafka-dev \
-    && pip install -r config/requirements.txt --find-links=${WHEELDIR} \
-    && rm -rf .cache/pip
-
 EXPOSE 8000
