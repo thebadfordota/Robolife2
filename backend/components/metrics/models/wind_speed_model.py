@@ -1,10 +1,11 @@
 from django.db import models
 
-from shared.models.base_model import BaseModel
+from shared.models import BaseModel
 
 
 class WindSpeedModel(BaseModel):
     """Модель скорости ветра"""
+
     value = models.FloatField(blank=True, verbose_name='Значение')
     date_time = models.DateTimeField(blank=True, verbose_name='Дата и время')
 

@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 
 COMPONENTS = [
     'components.main',
-    'components.charts'
+    'components.metrics'
 ]
 
 
