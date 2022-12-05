@@ -69,6 +69,14 @@ const fieldClimateAPI = {
             body: JSON.stringify({ type: 'rain', ch: ch, date_from: date_from, date_to: date_to })
         };
         return fieldClimateAPI.getFetch(params);
+    },
+    setRainData(stationId = '00001F76', editData = [{ dt: '2022-12-05 08:00:00', c: 6, ch: 5, v: 0 }]) {
+        let params = {
+            method: 'POST',
+            request: '/station/' + stationId + '/rain',
+            body: JSON.stringify(editData)
+        };
+        return fieldClimateAPI.getFetch(params);
     }
 };
 

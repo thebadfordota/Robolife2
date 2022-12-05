@@ -13,6 +13,7 @@ import { Grid } from '@mui/material';
 import { Button, IconButton, Table } from 'rsuite';
 import EditIcon from '@rsuite/icons/Edit';
 import CheckIcon from '@rsuite/icons/Check';
+import CloseIcon from '@rsuite/icons/Close';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -45,7 +46,7 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
                     onClick(rowData.id);
                 }}
             >
-                {rowData.status === 'EDIT' ? 'Save' : 'Edit'}
+                {rowData.status === 'EDIT' ? 'Сохранить' : 'Редактировать'}
             </Button>
         </Cell>
     );
@@ -69,8 +70,32 @@ const Precipitation = () => {
     const handleEditState = (id) => {
         const nextData = Object.assign([], editData);
         const activeItem = nextData.find((item) => item.id === id);
-        activeItem.status = activeItem.status ? null : 'EDIT';
+        activeItem.status = activeItem.status === 'EDIT' ? 'Edited' : 'EDIT';
         setEditData(nextData);
+    };
+
+    const saveData = (editData) => {
+        console.log(editData);
+        const data = editData
+            .filter((obj) => obj.status === 'Edited')
+            .map((obj) => {
+                return { dt: obj.dateTime, c: 6, ch: 5, v: Number(obj.precipitation) };
+            });
+        fieldClimateAPI.setRainData(station.id, data).then(() => {
+            fieldClimateAPI.getForecast(station.id, Math.round(date[0] / 1000), Math.round(date[1] / 1000), freq).then((response) => {
+                setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
+            });
+            fieldClimateAPI.getCalculationRain(station.id, 5, Math.round(date[0] / 1000), Math.round(date[1] / 1000)).then((response) => {
+                setDataInc(
+                    getChartData(
+                        Object.values(response.chart).length
+                            ? { increaseCountPrecipitation: Object.values(response.chart).map((value) => Number(value)) }
+                            : {},
+                        Object.keys(response.chart)
+                    )
+                );
+            });
+        });
     };
 
     useEffect(() => {
@@ -78,7 +103,7 @@ const Precipitation = () => {
             setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
             let editableData = [];
             response.dates.forEach((value, index) => {
-                editableData.push({ dateTime: value, precipitation: response.data[1].values.sum[index] });
+                editableData.push({ id: index, dateTime: value, precipitation: response.data[1].values.sum[index] });
             });
             setEditData(editableData);
         });
@@ -108,9 +133,26 @@ const Precipitation = () => {
                                 Редактировать данные
                             </IconButton>
                         ) : (
-                            <IconButton icon={<CheckIcon />} onClick={() => setEditMode(false)}>
-                                Применить
-                            </IconButton>
+                            <div>
+                                <IconButton
+                                    style={{ marginRight: '10px' }}
+                                    icon={<CloseIcon />}
+                                    onClick={() => {
+                                        setEditMode(false);
+                                    }}
+                                >
+                                    Отменить
+                                </IconButton>
+                                <IconButton
+                                    icon={<CheckIcon />}
+                                    onClick={() => {
+                                        setEditMode(false);
+                                        saveData(editData);
+                                    }}
+                                >
+                                    Применить
+                                </IconButton>
+                            </div>
                         )}
                     </Grid>
                 </Grid>
@@ -120,7 +162,7 @@ const Precipitation = () => {
                     <Table height={420} data={editData}>
                         <Column width={200}>
                             <HeaderCell>Дата и время</HeaderCell>
-                            <Cell dataKey="dateTime" onChange={handleChange} />
+                            <Cell dataKey="dateTime" />
                         </Column>
 
                         <Column width={200}>
