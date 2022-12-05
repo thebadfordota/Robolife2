@@ -149,16 +149,15 @@ EMAIL_USE_SSL = env('EMAIL_USE_SSL', cast=bool, default=False)
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = env('STATIC_URL', default='/static/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-DEFAULT_FILE_STORAGE = env('DEFAULT_FILE_STORAGE', default='django.core.files.storage.FileSystemStorage')
 STATICFILES_STORAGE = env('STATICFILES_STORAGE', default='django.contrib.staticfiles.storage.StaticFilesStorage')
 
 # Media files
-MEDIA_URL = '/media/'
+MEDIA_URL = env('MEDIA_URL', default='/media/')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_FILE_STORAGE = env('DEFAULT_FILE_STORAGE', default='django.core.files.storage.FileSystemStorage')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
