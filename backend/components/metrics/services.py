@@ -1,4 +1,3 @@
-from components.metrics.models import WindSpeedModel
 from components.metrics.repository import MetricsRepository
 from shared.clients import OpenMeteoClient
 from shared.exceptions import (
@@ -13,17 +12,23 @@ class MetricsService:
     client_class = OpenMeteoClient
     repository_class = MetricsRepository
 
-    def __init__(self):
+    def __init__(self, start_date: str = '', end_date: str = ''):
+        self.start_date = start_date
+        self.end_date = end_date
+        # self.base_begin_date = BASE_BEGIN_DATE
+
         self.client_class = self.client_class()
         self.repository_class = self.repository_class()
 
     def update_metrics(self):
         """Обновить данные для всех метрик"""
-
-        self.update_wind_speed_data()
-        self.update_wind_direction_data()
+        self.update_temperature_data()
+        # self.update_wind_speed_data()
+        # self.update_wind_direction_data()
 
     def update_temperature_data(self):
+        # last_date = self.repository_class.get_metric_last_date('Temperature')
+        start_datetime, end_datetime = self.get_time_interval('Temperature')
         try:
             temperature = self.client_class.get_temperature_metrics_by_time_interval('2022-06-08', '2022-12-01')
         except NotFoundValueError as e:
@@ -60,6 +65,9 @@ class MetricsService:
             raise CommandError('Не получилось обновить данные о направлении ветра')
         self.repository_class.bulk_create_weather_metrics(3, wind_direction[0], wind_direction[1])
 
-    def update_precipitation_data(self):
-        ...
+    def get_time_interval(self, metric_name: str) -> tuple[str, str]:
+        """Получить интервал времени для обновления метрик погоды"""
 
+        start_datetime = self.repository_class.get_metric_last_date(metric_name)
+        end_datetime = self.repository_class.get_newest_datetime()
+        return start_datetime, end_datetime

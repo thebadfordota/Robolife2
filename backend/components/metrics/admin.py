@@ -1,9 +1,5 @@
 from django.contrib import admin
 
-from components.metrics.models import (
-    WindSpeedModel,
-    WeatherMetricsModel,
-)
+from components.metrics.models import WeatherMetricsModel
 
-admin.site.register(WindSpeedModel)
 admin.site.register(WeatherMetricsModel)
