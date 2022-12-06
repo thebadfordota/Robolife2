@@ -2,8 +2,6 @@ from django.db.models import (
     FloatField,
     DateTimeField,
     CharField,
-    ForeignKey,
-    SET_NULL,
 )
 
 from config.constants import WEATHER_METRIC_NAME_CHOICES
