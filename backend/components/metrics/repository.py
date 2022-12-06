@@ -15,11 +15,10 @@ class MetricsRepository:
         # ])
         WeatherMetricsModel.objects.bulk_create([
             WeatherMetricsModel(
-                metric_name=WEATHER_METRIC_NAME_CHOICES[metric_type],
+                name=WEATHER_METRIC_NAME_CHOICES[metric_type],
                 value=value[idx],
                 date_and_time=date_and_time[idx]
             )
             for idx in range(list_length)
         ])
-
 

@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
 COMPONENTS = [
     'components.main',
-    'components.metrics'
+    'components.metrics',
+    'components.accounts'
 ]
 
 
@@ -101,6 +102,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Default user model
+AUTH_USER_MODEL = "auth.User"
 
 DATABASES = {
     "default": {
