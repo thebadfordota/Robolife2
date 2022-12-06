@@ -48,7 +48,8 @@ INSTALLED_APPS = [
 
 COMPONENTS = [
     'components.main',
-    'components.charts'
+    'components.metrics',
+    'components.accounts'
 ]
 
 
@@ -101,6 +102,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Default user model
+AUTH_USER_MODEL = "auth.User"
 
 DATABASES = {
     "default": {
@@ -183,7 +186,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,

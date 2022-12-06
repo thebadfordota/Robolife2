@@ -1,18 +1,15 @@
 from django.core.management.base import BaseCommand
 
-from components.charts.services import ChartsService
-# from shared.clients import OpenMeteoClient
+from components.metrics.services import MetricsService
 from shared.exceptions import NotFoundValueError, CommandError
 
 
 class Command(BaseCommand):
-    # client_class = OpenMeteoClient
-    service_class = ChartsService
+    service_class = MetricsService
     help = 'Обновляет информацию для графиков из api open-meteo'
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
-        # self.client_class = self.client_class()
         self.service_class = self.service_class()
         self.is_success_command = True
 
