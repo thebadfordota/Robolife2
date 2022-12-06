@@ -6,7 +6,7 @@ from components.metrics.services import MetricsService
 
 
 class TestViewSet(ViewSet):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def list(self, request):
         # ChartsService().update_wind_speed_data()
