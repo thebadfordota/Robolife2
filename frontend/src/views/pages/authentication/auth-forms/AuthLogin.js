@@ -31,7 +31,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
-import { BACKEND_INFO } from '../../../../constants/Constants';
+import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -78,16 +78,16 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.cm',
-                    password: '123456',
+                    username: 'admin',
+                    password: '1',
                     submit: null
                 }}
-                validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Email введен неверно').max(255).required('Email не введен'),
-                    password: Yup.string().max(255).required('Пароль не введен')
-                })}
+                // validationSchema={Yup.object().shape({
+                //     email: Yup.string().email('Email введен неверно').max(255).required('Email не введен'),
+                //     password: Yup.string().max(255).required('Пароль не введен')
+                // })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    axios.post(BACKEND_INFO.url + '/api/token', values).then((r) => console.log(r));
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/token/', values).then((r) => console.log(r));
                     console.log(values, scriptedRef.current);
                     try {
                         if (scriptedRef.current) {
@@ -110,9 +110,9 @@ const FirebaseLogin = ({ ...others }) => {
                             <InputLabel htmlFor="outlined-adornment-email-login">Email / Логин</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
-                                type="email"
-                                value={values.email}
-                                name="email"
+                                type="text"
+                                value={values.username}
+                                name="username"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
                                 label="Email Address / Username"
