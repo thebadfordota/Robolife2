@@ -30,6 +30,8 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import { BACKEND_INFO } from '../../../../constants/Constants';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
@@ -85,6 +87,8 @@ const FirebaseLogin = ({ ...others }) => {
                     password: Yup.string().max(255).required('Пароль не введен')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+                    axios.post(BACKEND_INFO.url + '/api/token', values).then((r) => console.log(r));
+                    console.log(values, scriptedRef.current);
                     try {
                         if (scriptedRef.current) {
                             setStatus({ success: true });
