@@ -24,7 +24,16 @@ DEBUG = env('DEBUG', cast=bool, default=False)
 ALLOWED_HOSTS = ['*']
 
 # Trusted urls
-CSRF_TRUSTED_ORIGINS = ['http://localhost:8080']
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8080',
+    'http://localhost:3000',
+]
+
+# CORS Policy
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:3000',
+)
 
 ADMINS = (
     ('Aleksandr Skrynnik', 'a.skrunnik@fake_mail.ru'),
@@ -44,11 +53,13 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_celery_results',
     'django_celery_beat',
+    'corsheaders',
 ]
 
 COMPONENTS = [
     'components.main',
-    'components.charts'
+    'components.metrics',
+    'components.accounts'
 ]
 
 
@@ -62,7 +73,6 @@ def setup_components(installed_apps, components) -> tuple[list, dict]:
 
 INSTALLED_APPS, MIGRATION_MODULES = setup_components(INSTALLED_APPS, COMPONENTS)
 
-
 MIDDLEWARE = [
     # custom middleware
     # 'shared.middlewares.logging_middleware.RequestTimeMiddleware',
@@ -71,6 +81,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -101,6 +112,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
+# Default user model
+AUTH_USER_MODEL = "auth.User"
 
 DATABASES = {
     "default": {
@@ -128,7 +141,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 LANGUAGE_CODE = 'ru-Ru'
@@ -183,7 +195,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,

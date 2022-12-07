@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
-from components.charts.models import WindSpeedModel
-from components.charts.serializers import WindSpeedModelSerializer
+from components.metrics.models import WindSpeedModel
+from components.metrics.serializers import WindSpeedModelSerializer
 
 
 class WindSpeedViewSet(ModelViewSet):

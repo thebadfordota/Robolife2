@@ -2,7 +2,7 @@
 
 from rest_framework.serializers import ModelSerializer
 
-from components.charts.models import WindSpeedModel
+from components.metrics.models import WindSpeedModel
 
 
 class WindSpeedModelSerializer(ModelSerializer):
