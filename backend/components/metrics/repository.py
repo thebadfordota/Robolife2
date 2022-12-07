@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import NoReturn
 
 from components.metrics.models import WeatherMetricsModel
@@ -31,7 +31,7 @@ class MetricsRepository:
         if not last_record:
             return self.base_begin_date
 
-        return convert_from_datetime_to_string(last_record)
+        return convert_from_datetime_to_string(last_record.date_and_time + timedelta(hours=1))
 
     @staticmethod
     def get_newest_datetime() -> str:

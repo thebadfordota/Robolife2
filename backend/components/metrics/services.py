@@ -30,7 +30,7 @@ class MetricsService:
         # last_date = self.repository_class.get_metric_last_date('Temperature')
         start_datetime, end_datetime = self.get_time_interval('Temperature')
         try:
-            temperature = self.client_class.get_temperature_metrics_by_time_interval('2022-06-08', '2022-12-01')
+            temperature = self.client_class.get_temperature_metrics_by_time_interval(start_datetime, end_datetime)
         except NotFoundValueError as e:
             print(e)
             raise CommandError('Не получилось обновить данные о температуре')
