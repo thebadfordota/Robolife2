@@ -32,12 +32,14 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
+import { useNavigate } from 'react-router-dom';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
+    let navigate = useNavigate();
     // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     // const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
@@ -87,26 +89,33 @@ const FirebaseLogin = ({ ...others }) => {
                 //     password: Yup.string().max(255).required('Пароль не введен')
                 // })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/token/', values).then((r) => console.log(r));
-                    console.log(values, scriptedRef.current);
-                    try {
-                        if (scriptedRef.current) {
-                            setStatus({ success: true });
-                            setSubmitting(false);
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/token/', values).then((r) => {
+                        localStorage.setItem('token', r.data.access);
+                        scriptedRef.current = r.data.access;
+                        try {
+                            if (scriptedRef.current) {
+                                setStatus({ success: true });
+                                setSubmitting(false);
+                                navigate('/');
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            if (scriptedRef.current) {
+                                setStatus({ success: false });
+                                setErrors({ submit: err.message });
+                                setSubmitting(false);
+                            }
                         }
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
-                            setStatus({ success: false });
-                            setErrors({ submit: err.message });
-                            setSubmitting(false);
-                        }
-                    }
+                    });
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
-                        <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+                        <FormControl
+                            fullWidth
+                            error={Boolean(touched.username && errors.username)}
+                            sx={{ ...theme.typography.customInput }}
+                        >
                             <InputLabel htmlFor="outlined-adornment-email-login">Email / Логин</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
@@ -118,9 +127,9 @@ const FirebaseLogin = ({ ...others }) => {
                                 label="Email Address / Username"
                                 inputProps={{}}
                             />
-                            {touched.email && errors.email && (
+                            {touched.username && errors.username && (
                                 <FormHelperText error id="standard-weight-helper-text-email-login">
-                                    {errors.email}
+                                    {errors.username}
                                 </FormHelperText>
                             )}
                         </FormControl>
