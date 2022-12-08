@@ -8,10 +8,11 @@
 }
 
 .title-block {
+  position:relative;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   height: calc(100vh - 90px);
-  background-image: url(../images/hero-card/Frame1.png); /* Путь к фоновому изображению */
+  background-image: url(../images/hero-card/hero-page_heroWithCircle.png); /* Путь к фоновому изображению */
   &__wrapper {
     display:block;
     text-align: center;
@@ -20,7 +21,6 @@
 
   &__info {
     padding-top: 50px;
-    font-family: Galien, serif;
     font-size: 64px;
     color: #1f3f68;
   }
@@ -81,12 +81,21 @@
 
 .text {
 opacity: .6;
-font-size: 25px;
+font-size: 20px;
 letter-spacing: .04em;
 }
 
+.list-developers{
+  position:absolute; /* добавили */
+	bottom:0; /* добавили */
+  background: none;
+}
 
 @media (max-width: 901px) {
+  .list-developers{
+    position: relative; /* добавили */
+    max-width: 100vh;
+}
   .title-block{
     background: white;
   }

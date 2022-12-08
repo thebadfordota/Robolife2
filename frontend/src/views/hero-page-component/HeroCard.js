@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../../src/assets/scss/hero-page.scss';
-import hero from 'assets/images/hero-card/8400.png';
+import hero from 'assets/images/hero-card/hero-page_fullhero.png';
 import { Button } from 'rsuite';
 import GithubIcon from '@rsuite/icons/legacy/Github';
 
