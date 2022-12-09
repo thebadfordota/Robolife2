@@ -84,10 +84,10 @@ const FirebaseLogin = ({ ...others }) => {
                     password: '1',
                     submit: null
                 }}
-                // validationSchema={Yup.object().shape({
-                //     email: Yup.string().email('Email введен неверно').max(255).required('Email не введен'),
-                //     password: Yup.string().max(255).required('Пароль не введен')
-                // })}
+                validationSchema={Yup.object().shape({
+                    username: Yup.string().max(255).required('Логин не введен'),
+                    password: Yup.string().max(255).required('Пароль не введен')
+                })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/token/', values).then((r) => {
                         localStorage.setItem('token', r.data.access);
