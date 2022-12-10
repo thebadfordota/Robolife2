@@ -2,12 +2,12 @@
 
 from rest_framework.serializers import ModelSerializer
 
-from components.metrics.models import WindSpeedModel
+from components.metrics.models import WeatherMetricsModel
 
 
-class WindSpeedModelSerializer(ModelSerializer):
-    """"""
+class WeatherMetricsModelSerializer(ModelSerializer):
+    """Сериализатор для метрик погоды"""
 
     class Meta:
-        model = WindSpeedModel
-        fields = ('value', 'date_time')
+        model = WeatherMetricsModel
+        fields = '__all__'

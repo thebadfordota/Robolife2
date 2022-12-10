@@ -1,2 +1,1 @@
-from .wind_speed_model import WindSpeedModel
 from .weather_metrics_model import WeatherMetricsModel

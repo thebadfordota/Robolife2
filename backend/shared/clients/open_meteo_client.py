@@ -97,5 +97,5 @@ class OpenMeteoClient:
         if not wind_directions.get('winddirection_10m'):
             raise NotFoundValueError('Не удалось получить значения параметра')
 
-        date_time = [ convert_to_base_date_time_format(time) for time in wind_directions.get('time')]
+        date_time = [convert_to_base_date_time_format(time) for time in wind_directions.get('time')]
         return wind_directions.get('winddirection_10m"'), date_time
