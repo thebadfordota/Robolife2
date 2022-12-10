@@ -1,4 +1,4 @@
-const API_INFO = {
+const FIELD_CLIMATE_API = {
     // Urls
     fieldClimateUrl: 'https://api.fieldclimate.com/v2',
     calculationUrl: '/calculation/',
@@ -6,6 +6,10 @@ const API_INFO = {
     // Api tokens
     publicKey: 'ba9c8f7415885c20da4ab8e7cd46bf2de6a49b8c1e320dea',
     privateKey: '9e9f3139bbe88c1a47475225b5991713bb1c4e8fc7a49c8f'
+};
+
+const ROBOLIFE2_BACKEND_API = {
+    base_url: 'http://localhost:8080'
 };
 
 const CHART_PARAMETERS_ENUM = {
@@ -29,4 +33,4 @@ const DATA_FREQUENCY_CONVERT = {
     monthly: 'month'
 };
 
-export { API_INFO, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT };
+export { FIELD_CLIMATE_API, ROBOLIFE2_BACKEND_API, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT };
