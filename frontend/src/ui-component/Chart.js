@@ -16,6 +16,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         let root = am5.Root.new(chartRootName);
 
         root.setThemes([am5themes_Animated.new(root)]);
+        root.numberFormatter.set('intlLocales', 'ru-RU');
 
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {

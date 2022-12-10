@@ -18,7 +18,16 @@ const ChartDateRangePicker = ({ date, setDate }) => {
         }
     ];
 
-    return <DateRangePicker size="lg" value={date} onChange={setDate} ranges={ranges} disabledDate={(date) => isAfter(date, new Date())} />;
+    return (
+        <DateRangePicker
+            format="HH:mm dd.MM.yyyy"
+            size="lg"
+            value={date}
+            onChange={setDate}
+            ranges={ranges}
+            disabledDate={(date) => isAfter(date, new Date())}
+        />
+    );
 };
 
 export default ChartDateRangePicker;
