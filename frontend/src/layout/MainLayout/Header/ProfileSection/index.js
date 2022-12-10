@@ -106,7 +106,6 @@ const ProfileSection = () => {
                 }}
                 icon={
                     <Avatar
-                        src={User1}
                         sx={{
                             ...theme.typography.mediumAvatar,
                             margin: '8px 0 8px 8px !important',
@@ -116,7 +115,9 @@ const ProfileSection = () => {
                         aria-controls={open ? 'menu-list-grow' : undefined}
                         aria-haspopup="true"
                         color="inherit"
-                    />
+                    >
+                        ИИ
+                    </Avatar>
                 }
                 label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />}
                 variant="outlined"
@@ -173,7 +174,7 @@ const ProfileSection = () => {
                                                         <Grid item>
                                                             <Grid item container alignItems="center" justifyContent="space-between">
                                                                 <Grid item>
-                                                                    <Typography variant="subtitle1">Что-нибудь включить</Typography>
+                                                                    <Typography variant="subtitle1">Включить уведомления</Typography>
                                                                 </Grid>
                                                                 <Grid item>
                                                                     <Switch
@@ -206,16 +207,16 @@ const ProfileSection = () => {
                                                     }
                                                 }}
                                             >
-                                                <ListItemButton
-                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                    selected={selectedIndex === 0}
-                                                    onClick={(event) => handleListItemClick(event, 0, '/user/settings')}
-                                                >
-                                                    <ListItemIcon>
-                                                        <IconSettings stroke={1.5} size="1.3rem" />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Настройки аккаунта</Typography>} />
-                                                </ListItemButton>
+                                                {/*<ListItemButton*/}
+                                                {/*    sx={{ borderRadius: `${customization.borderRadius}px` }}*/}
+                                                {/*    selected={selectedIndex === 0}*/}
+                                                {/*    onClick={(event) => handleListItemClick(event, 0, '/user/settings')}*/}
+                                                {/*>*/}
+                                                {/*    <ListItemIcon>*/}
+                                                {/*        <IconSettings stroke={1.5} size="1.3rem" />*/}
+                                                {/*    </ListItemIcon>*/}
+                                                {/*    <ListItemText primary={<Typography variant="body2">Настройки аккаунта</Typography>} />*/}
+                                                {/*</ListItemButton>*/}
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 1}

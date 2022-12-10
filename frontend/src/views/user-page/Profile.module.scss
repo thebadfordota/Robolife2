@@ -7,6 +7,7 @@
   max-height: 250px;
   margin-right: 3rem;
   margin-left: calc(3rem - 24px);
+  font-size: 3rem;
 }
 
 .textField {
@@ -15,4 +16,12 @@
 
 .h5 {
   margin-top: 2rem;
+}
+
+.profileCard{
+  min-height: calc(100vh - 128px);
+}
+
+input[disabled]{
+  cursor: pointer;
 }
