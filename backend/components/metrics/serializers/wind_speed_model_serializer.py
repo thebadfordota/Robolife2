@@ -10,4 +10,9 @@ class WeatherMetricsModelSerializer(ModelSerializer):
 
     class Meta:
         model = WeatherMetricsModel
-        fields = '__all__'
+        fields = [
+            'id',
+            'name',
+            'value',
+            'date',
+        ]

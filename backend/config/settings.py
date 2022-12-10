@@ -36,7 +36,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 ADMINS = (
-    ('Aleksandr Skrynnik', 'a.skrunnik@fake_mail.ru'),
+    ('Aleksandr Skrynnik', 'a.skrynnik@fake_mail.ru'),
 )
 
 # Application definition
