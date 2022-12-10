@@ -32,14 +32,17 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import axios from 'axios';
 import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
     const theme = useTheme();
     const scriptedRef = useScriptRef();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const fromPage = location.state?.from?.pathname || '/';
     // const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     // const customization = useSelector((state) => state.customization);
     const [checked, setChecked] = useState(true);
@@ -96,7 +99,7 @@ const FirebaseLogin = ({ ...others }) => {
                             if (scriptedRef.current) {
                                 setStatus({ success: true });
                                 setSubmitting(false);
-                                navigate('/');
+                                navigate(fromPage, { replace: true });
                             }
                         } catch (err) {
                             console.error(err);

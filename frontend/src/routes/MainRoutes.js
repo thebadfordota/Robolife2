@@ -5,6 +5,8 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import SystemParams from '../views/dashboard/SystemParams';
+import { Navigate } from 'react-router';
+import RequiredAuth from '../utils/RequiredAuth';
 
 // dashboard routing
 const WelcomePage = Loadable(lazy(() => import('views/welcome-page/WelcomePage')));
@@ -24,18 +26,30 @@ const SolarRadiationPage = Loadable(lazy(() => import('views/dashboard/SolarRadi
 
 const MainRoutes = {
     path: '/',
-    element: <MainLayout />,
+    element: (
+        <RequiredAuth>
+            <MainLayout />
+        </RequiredAuth>
+    ),
     children: [
         {
             path: '/',
-            element: <WelcomePage />
+            element: (
+                <RequiredAuth>
+                    <WelcomePage />
+                </RequiredAuth>
+            )
         },
         {
             path: 'dashboard',
             children: [
                 {
                     path: 'temperature',
-                    element: <TemperaturePage />
+                    element: (
+                        <RequiredAuth>
+                            <TemperaturePage />
+                        </RequiredAuth>
+                    )
                 }
             ]
         },
@@ -44,7 +58,11 @@ const MainRoutes = {
             children: [
                 {
                     path: 'precipitation',
-                    element: <PrecipitationPage />
+                    element: (
+                        <RequiredAuth>
+                            <PrecipitationPage />
+                        </RequiredAuth>
+                    )
                 }
             ]
         },
@@ -53,7 +71,11 @@ const MainRoutes = {
             children: [
                 {
                     path: 'wind_speed',
-                    element: <WindSpeedPage />
+                    element: (
+                        <RequiredAuth>
+                            <WindSpeedPage />
+                        </RequiredAuth>
+                    )
                 }
             ]
         },
@@ -62,7 +84,11 @@ const MainRoutes = {
             children: [
                 {
                     path: 'system_params',
-                    element: <SystemParamsPage />
+                    element: (
+                        <RequiredAuth>
+                            <SystemParamsPage />
+                        </RequiredAuth>
+                    )
                 }
             ]
         },
@@ -71,7 +97,11 @@ const MainRoutes = {
             children: [
                 {
                     path: 'humidity',
-                    element: <HumidityPage />
+                    element: (
+                        <RequiredAuth>
+                            <HumidityPage />
+                        </RequiredAuth>
+                    )
                 }
             ]
         },
@@ -80,7 +110,11 @@ const MainRoutes = {
             children: [
                 {
                     path: 'solar_radiation',
-                    element: <SolarRadiationPage />
+                    element: (
+                        <RequiredAuth>
+                            <SolarRadiationPage />
+                        </RequiredAuth>
+                    )
                 }
             ]
         }
