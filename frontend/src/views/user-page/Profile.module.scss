@@ -1,0 +1,27 @@
+.avatar {
+  width: 15vw;
+  min-width: 100px;
+  max-width: 250px;
+  height: 15vw;
+  min-height: 100px;
+  max-height: 250px;
+  margin-right: 3rem;
+  margin-left: calc(3rem - 24px);
+  font-size: 3rem;
+}
+
+.textField {
+  margin: 1rem 2rem 1rem 0;
+}
+
+.h5 {
+  margin-top: 2rem;
+}
+
+.profileCard{
+  min-height: calc(100vh - 128px);
+}
+
+input[disabled]{
+  cursor: pointer;
+}
