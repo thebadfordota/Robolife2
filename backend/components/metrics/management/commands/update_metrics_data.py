@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from components.metrics.services import MetricsService
-from shared.exceptions import NotFoundValueError, CommandError
+from shared.exceptions import CommandError
 
 
 class Command(BaseCommand):
@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write(self.style.SUCCESS('Инициализировано обновление информации из api open-meteo'))
         try:
-            self.service_class.update_wind_speed_data()
+            self.service_class.update_metrics()
         except CommandError as e:
             self.stdout.write(self.style.ERROR(e))
             self.is_success_command = False

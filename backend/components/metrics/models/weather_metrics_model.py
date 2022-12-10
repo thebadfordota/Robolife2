@@ -1,6 +1,6 @@
 from django.db.models import (
     FloatField,
-    DateTimeField,
+    DateField,
     CharField,
 )
 
@@ -17,12 +17,12 @@ class WeatherMetricsModel(BaseModel):
         verbose_name='Название метрики'
     )
     value = FloatField(blank=True, verbose_name='Значение')
-    date_and_time = DateTimeField(blank=True, verbose_name='Дата и время')
+    date = DateField(blank=True, null=True, verbose_name='Дата')
 
     class Meta:
         verbose_name_plural = 'Метрики погоды'
         verbose_name = 'Метрика погоды'
-        ordering = ['-date_and_time']
+        ordering = ['-date']
 
     def __str__(self):
-        return f'{self.name} | {self.value} | {self.date_and_time}'
+        return f'{self.name} | {self.value} | {self.date}'
