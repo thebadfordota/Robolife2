@@ -24,7 +24,8 @@ const CHART_PARAMETERS_ENUM = {
     degreesDays: 'Градусо-дни',
     degreesDaysUsa: 'Градусо-дни (мин+макс)/2',
     battery: 'Заряд АКБ',
-    solarRadiation: 'Солнечная радиация'
+    solarRadiation: 'Солнечная радиация',
+    humidity: 'Влажность листа'
 };
 
 const DATA_FREQUENCY_CONVERT = {

@@ -2,10 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Chart from '../../ui-component/Chart';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { getChartData } from '../../utils/ChartUtils';
-import { subDays } from 'date-fns';
-import MainCard from '../../ui-component/cards/MainCard';
-import ChartDateRangePicker from '../../ui-component/pickers/ChartDateRangePicker';
-import DataFrequencyPicker from '../../ui-component/pickers/DataFrequencyPicker';
 import SubCard from '../../ui-component/cards/SubCard';
 import { DATA_FREQUENCY_CONVERT } from '../../constants/Constants';
 import { useSelector } from 'react-redux';
@@ -14,6 +10,8 @@ import { Button, IconButton, Table } from 'rsuite';
 import EditIcon from '@rsuite/icons/Edit';
 import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
+import ChartMainCard from '../../ui-component/extended/ChartMainCard';
+import { addHours } from 'date-fns';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -54,14 +52,12 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
 
 const Precipitation = () => {
     const [data, setData] = useState({});
-    const [date, setDate] = useState([subDays(new Date(), 1), new Date()]);
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({});
     const [dataInc, setDataInc] = useState({});
-    const [freq, setFreq] = useState('hourly');
+    const date = useSelector((state) => [state.chartSettings.dateFrom, state.chartSettings.dateTo]);
+    const freq = useSelector((state) => state.chartSettings.freq);
     const station = useSelector((state) => state.station);
-    const stationData = station.id + ' • ' + station.name + ' • ' + station.deviceType + ' • Последние данные: ' + station.lastData;
-
     const handleChange = (id, key, value) => {
         const nextData = Object.assign([], editData);
         nextData.find((item) => item.id === id)[key] = value;
@@ -82,10 +78,40 @@ const Precipitation = () => {
                 return { dt: obj.dateTime, c: 6, ch: 5, v: Number(obj.precipitation) };
             });
         fieldClimateAPI.setRainData(station.id, data).then(() => {
-            fieldClimateAPI.getForecast(station.id, Math.round(date[0] / 1000), Math.round(date[1] / 1000), freq).then((response) => {
+            fieldClimateAPI
+                .getForecast(station.id, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000), freq)
+                .then((response) => {
+                    setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
+                });
+            fieldClimateAPI
+                .getCalculationRain(station.id, 5, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000))
+                .then((response) => {
+                    setDataInc(
+                        getChartData(
+                            Object.values(response.chart).length
+                                ? { increaseCountPrecipitation: Object.values(response.chart).map((value) => Number(value)) }
+                                : {},
+                            Object.keys(response.chart)
+                        )
+                    );
+                });
+        });
+    };
+
+    useEffect(() => {
+        fieldClimateAPI
+            .getForecast(station.id, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000), freq)
+            .then((response) => {
                 setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
+                let editableData = [];
+                response.dates.forEach((value, index) => {
+                    editableData.push({ id: index, dateTime: value, precipitation: response.data[1].values.sum[index] });
+                });
+                setEditData(editableData);
             });
-            fieldClimateAPI.getCalculationRain(station.id, 5, Math.round(date[0] / 1000), Math.round(date[1] / 1000)).then((response) => {
+        fieldClimateAPI
+            .getCalculationRain(station.id, 5, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000))
+            .then((response) => {
                 setDataInc(
                     getChartData(
                         Object.values(response.chart).length
@@ -95,36 +121,11 @@ const Precipitation = () => {
                     )
                 );
             });
-        });
-    };
-
-    useEffect(() => {
-        fieldClimateAPI.getForecast(station.id, Math.round(date[0] / 1000), Math.round(date[1] / 1000), freq).then((response) => {
-            setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
-            let editableData = [];
-            response.dates.forEach((value, index) => {
-                editableData.push({ id: index, dateTime: value, precipitation: response.data[1].values.sum[index] });
-            });
-            setEditData(editableData);
-        });
-        fieldClimateAPI.getCalculationRain(station.id, 5, Math.round(date[0] / 1000), Math.round(date[1] / 1000)).then((response) => {
-            setDataInc(
-                getChartData(
-                    Object.values(response.chart).length
-                        ? { increaseCountPrecipitation: Object.values(response.chart).map((value) => Number(value)) }
-                        : {},
-                    Object.keys(response.chart)
-                )
-            );
-        });
-    }, [date, freq, station.id]);
+    }, [date[0], date[1], freq, station.id]);
 
     return (
         <div>
-            <MainCard title="Осадки" subheader={stationData}>
-                <ChartDateRangePicker date={date} setDate={setDate} />
-                <DataFrequencyPicker freq={freq} setFreq={setFreq} />
-            </MainCard>
+            <ChartMainCard title="Осадки" />
             <SubCard>
                 <Grid container style={{ justifyContent: 'right' }}>
                     <Grid item>
