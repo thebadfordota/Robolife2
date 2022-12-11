@@ -13,6 +13,7 @@ class RegisterUserModelSerializer(ModelSerializer):
             'username',
             'password',
             'email',
+            'phone',
             'first_name',
             'last_name',
             'patronymic',
