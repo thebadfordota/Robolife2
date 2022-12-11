@@ -10,7 +10,7 @@ from components.accounts.serializers import (
 )
 
 
-class UserCommentsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
+class WeatherMetricsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
     """ViewSet для работы с комментариями пользователя"""
 
     queryset = UserCommentsModel.objects.all()
@@ -20,6 +20,8 @@ class UserCommentsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin)
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
+        if 'metricId' in request.query_params:
+            queryset = self.queryset.filter(id=int(request.query_params.get('metricId')))
 
         # page = self.paginate_queryset(queryset)
         # if page is not None:
