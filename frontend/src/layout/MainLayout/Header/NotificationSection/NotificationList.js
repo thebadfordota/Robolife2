@@ -20,6 +20,9 @@ import {
 // assets
 import { IconBrandTelegram, IconBuildingStore, IconMailbox, IconPhoto } from '@tabler/icons';
 import User1 from 'assets/images/users/user-round.svg';
+import { useEffect, useState } from 'react';
+import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
+import axios from 'axios';
 
 // styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
@@ -37,6 +40,7 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 const NotificationList = () => {
     const theme = useTheme();
+    const [notifications, setNotifications] = useState([]);
 
     const chipSX = {
         height: 24,
@@ -54,6 +58,20 @@ const NotificationList = () => {
         color: theme.palette.warning.dark,
         backgroundColor: theme.palette.warning.light
     };
+
+    useEffect(() => {
+        axios
+            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + `?userId=${localStorage.getItem('id')}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
+            .then((response) => {
+                console.log(response.data);
+                setNotifications(response.data);
+                if (notifications.length) {
+                    return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
+                }
+            });
+    }, []);
 
     return (
         <List
@@ -77,35 +95,42 @@ const NotificationList = () => {
             }}
         >
             <Divider />
-            <ListItemWrapper>
-                <ListItem alignItems="center">
-                    <ListItemAvatar>
-                        <Avatar alt="Иван Иванов">ИИ</Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Иван Иванов" />
-                    <ListItemSecondaryAction>
-                        <Grid container justifyContent="flex-end">
+            {notifications.map((value) => {
+                return (
+                    <ListItemWrapper>
+                        <ListItem alignItems="center">
+                            <ListItemAvatar>
+                                <Avatar
+                                    alt={`${value.comment.user.first_name} ${value.comment.user.last_name}`}
+                                >{`${value.comment.user.first_name[0]}${value.comment.user.last_name[0]}`}</Avatar>
+                            </ListItemAvatar>
+                            <ListItemText primary={`${value.comment.user.first_name} ${value.comment.user.last_name}`} />
+                            <ListItemSecondaryAction>
+                                <Grid container justifyContent="flex-end">
+                                    <Grid item xs={12}>
+                                        <Typography style={{ marginBottom: '3.5em' }} variant="caption" display="block" gutterBottom>
+                                            {'11.11.2022 16:29'}
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </ListItemSecondaryAction>
+                        </ListItem>
+                        <Grid container direction="column" className="list-container">
+                            <Grid item xs={12} sx={{ pb: 2 }}>
+                                <Typography variant="subtitle2">Прокомментировал параметр "Температура" от 16.10.2022 16:00</Typography>
+                            </Grid>
                             <Grid item xs={12}>
-                                <Typography style={{ marginBottom: '3.5em' }} variant="caption" display="block" gutterBottom>
-                                    {'11.11.2022 16:29'}
-                                </Typography>
+                                <Grid container>
+                                    <Grid item>
+                                        <Chip label="Комментарий" sx={chipCommentSX} />
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <Grid container direction="column" className="list-container">
-                    <Grid item xs={12} sx={{ pb: 2 }}>
-                        <Typography variant="subtitle2">Прокомментировал параметр "Температура" от 16.10.2022 16:00</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Grid container>
-                            <Grid item>
-                                <Chip label="Комментарий" sx={chipCommentSX} />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </ListItemWrapper>
+                    </ListItemWrapper>
+                );
+            })}
+
             <Divider />
             <ListItemWrapper>
                 <ListItem alignItems="center">

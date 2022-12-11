@@ -15,5 +15,6 @@ class UserCommentsListModelSerializer(ModelSerializer):
             'id',
             'message',
             'user',
+            'weather_metric',
             'created'
         ]
