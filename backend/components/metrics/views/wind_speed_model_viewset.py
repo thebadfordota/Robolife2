@@ -6,12 +6,12 @@ from components.metrics.models import WeatherMetricsModel
 from components.metrics.serializers import WeatherMetricsModelSerializer
 
 
-class WeatherMetricsViewSet(ModelViewSet):
+class WeatherMetricsModelViewSet(ModelViewSet):
     """ViewSet для получения метрик погоды"""
 
     queryset = WeatherMetricsModel.objects.all()
     serializer_class = WeatherMetricsModelSerializer
-    permission_classes = (IsAuthenticated, )
+    permission_classes = [IsAuthenticated]
     pagination_class = None
 
     def list(self, request, *args, **kwargs):

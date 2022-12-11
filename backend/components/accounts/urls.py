@@ -1,12 +1,15 @@
+from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-# from components.my_comp.views.my_comp_viewset import MyCompViewSet
+from components.accounts.views import UserModelViewSet, TokenObtainPairView
 
 app_name = 'accounts'
 
-
 router = DefaultRouter()
-# router.register(r'product', MyCompViewSet, basename='product')
+router.register(r'user', UserModelViewSet, basename='user')
 
 urlpatterns = router.urls
 
+urlpatterns += [
+    path('authorization/', TokenObtainPairView.as_view(), name='token'),
+]
