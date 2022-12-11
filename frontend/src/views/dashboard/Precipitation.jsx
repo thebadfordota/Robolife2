@@ -3,7 +3,7 @@ import Chart from '../../ui-component/Chart';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { getChartData } from '../../utils/ChartUtils';
 import SubCard from '../../ui-component/cards/SubCard';
-import { DATA_FREQUENCY_CONVERT } from '../../constants/Constants';
+import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 import { useSelector } from 'react-redux';
 import { Grid } from '@mui/material';
 import { Button, IconButton, Table } from 'rsuite';
@@ -12,6 +12,8 @@ import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
 import { addHours } from 'date-fns';
+import axios from 'axios';
+import MainCard from '../../ui-component/cards/MainCard';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -51,10 +53,11 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
 };
 
 const Precipitation = () => {
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editData, setEditData] = useState({});
-    const [dataInc, setDataInc] = useState({});
+    const [dataInc, setDataInc] = useState([]);
+    const [dataHistory, setDataHistory] = useState([]);
     const date = useSelector((state) => [state.chartSettings.dateFrom, state.chartSettings.dateTo]);
     const freq = useSelector((state) => state.chartSettings.freq);
     const station = useSelector((state) => state.station);
@@ -123,10 +126,29 @@ const Precipitation = () => {
             });
     }, [date[0], date[1], freq, station.id]);
 
+    useEffect(() => {
+        axios
+            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.weather_metrics_url + '?precipitationSum', {
+                headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+            })
+            .then((response) => {
+                const dataHis = getChartData(
+                    Object.values(response.data).length
+                        ? {
+                              historyTemperatureMax: Object.values(response.data).map((value) => Number(value.value))
+                          }
+                        : {},
+                    Object.values(response.data).map((value) => value.date)
+                );
+                dataHis.sort((a, b) => a.date - b.date);
+                setDataHistory(dataHis);
+            });
+    }, []);
+
     return (
         <div>
             <ChartMainCard title="Осадки" />
-            <SubCard>
+            <SubCard title="Количество осадков">
                 <Grid container style={{ justifyContent: 'right' }}>
                     <Grid item>
                         {!editMode ? (
@@ -179,9 +201,12 @@ const Precipitation = () => {
                 )}
             </SubCard>
 
-            <SubCard>
+            <SubCard title="Нарастающее количество осадков">
                 <Chart chartRootName="chart2" data={dataInc} intervalTimeUnit="hour" intervalCount={1} />
             </SubCard>
+            <MainCard title="Исторические данные об осадках" subheader="Данные получены из API Robolife2">
+                <Chart chartRootName="chart3" data={dataHistory} intervalTimeUnit="day" intervalCount={1} />
+            </MainCard>
         </div>
     );
 };

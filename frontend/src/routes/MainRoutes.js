@@ -15,7 +15,7 @@ const TemperaturePage = Loadable(lazy(() => import('views/dashboard/Temperature'
 
 const PrecipitationPage = Loadable(lazy(() => import('views/dashboard/Precipitation')));
 
-const WindSpeedPage = Loadable(lazy(() => import('views/dashboard/WindSpeed')));
+const WindPage = Loadable(lazy(() => import('views/dashboard/Wind')));
 
 const SystemParamsPage = Loadable(lazy(() => import('views/dashboard/SystemParams')));
 
@@ -73,7 +73,7 @@ const MainRoutes = {
                     path: 'wind_speed',
                     element: (
                         <RequiredAuth>
-                            <WindSpeedPage />
+                            <WindPage />
                         </RequiredAuth>
                     )
                 }

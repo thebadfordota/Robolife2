@@ -1,6 +1,3 @@
-// material-ui
-
-// project imports
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
@@ -14,6 +11,9 @@ import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
+        if (root._logo) {
+            root._logo.dispose();
+        }
 
         root.setThemes([am5themes_Animated.new(root)]);
         root.numberFormatter.set('intlLocales', 'ru-RU');
@@ -138,38 +138,6 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         );
         cursor.lineY.set('visible', false);
 
-        // let scrollbarX = am5xy.XYChartScrollbar.new(root, {
-        //     orientation: 'horizontal',
-        //     height: 50
-        // });
-        //
-        // chart.set('scrollbarX', scrollbarX);
-        //
-        // let sbxAxis = scrollbarX.chart.xAxes.push(
-        //     am5xy.DateAxis.new(root, {
-        //         baseInterval: { timeUnit: 'hour', count: 1 },
-        //         renderer: am5xy.AxisRendererX.new(root, {
-        //             opposite: false,
-        //             strokeOpacity: 0
-        //         })
-        //     })
-        // );
-        //
-        // let sbyAxis = scrollbarX.chart.yAxes.push(
-        //     am5xy.ValueAxis.new(root, {
-        //         renderer: am5xy.AxisRendererY.new(root, {})
-        //     })
-        // );
-        //
-        // let sbseries = scrollbarX.chart.series.push(
-        //     am5xy.LineSeries.new(root, {
-        //         xAxis: sbxAxis,
-        //         yAxis: sbyAxis,
-        //         valueYField: 'countPrecipitation',
-        //         valueXField: 'date'
-        //     })
-        // );
-
         let legend = chart.children.push(
             am5.Legend.new(root, {
                 centerX: am5.p50,
@@ -185,8 +153,6 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
             e.target.dataItem.dataContext.unhover();
         });
         legend.data.setAll(chart.series.values);
-
-        // sbseries.data.setAll(data);
 
         let exporting = am5plugins_exporting.Exporting.new(root, {
             menu: am5plugins_exporting.ExportingMenu.new(root, {}),
