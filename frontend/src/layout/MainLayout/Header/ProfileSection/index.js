@@ -51,7 +51,7 @@ const ProfileSection = () => {
      * */
     const anchorRef = useRef(null);
     const handleLogout = async () => {
-        localStorage.removeItem('token');
+        localStorage.clear();
         navigate('/login', { replace: true });
     };
 
@@ -117,7 +117,7 @@ const ProfileSection = () => {
                         aria-haspopup="true"
                         color="inherit"
                     >
-                        ИИ
+                        {localStorage.getItem('firstName')[0] + localStorage.getItem('lastName')[0]}
                     </Avatar>
                 }
                 label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />}
@@ -156,7 +156,7 @@ const ProfileSection = () => {
                                             <Stack direction="row" spacing={0.5} alignItems="center">
                                                 <Typography variant="h4">Здравствуйте, </Typography>
                                                 <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    Обжект Обжектович
+                                                    {localStorage.getItem('firstName') + ' ' + localStorage.getItem('lastName')}
                                                 </Typography>
                                             </Stack>
                                             <Typography variant="subtitle2">Администратор</Typography>

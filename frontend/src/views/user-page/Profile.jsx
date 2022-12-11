@@ -10,7 +10,9 @@ const Profile = () => {
             <MainCard title="Профиль" className={styles.profileCard}>
                 <Grid container>
                     <Grid item>
-                        <Avatar className={styles.avatar}>ИИ</Avatar>
+                        <Avatar className={styles.avatar}>
+                            {localStorage.getItem('firstName')[0] + localStorage.getItem('lastName')[0]}
+                        </Avatar>
                     </Grid>
                     <Grid item>
                         <h5>Личные данные</h5>
@@ -20,15 +22,36 @@ const Profile = () => {
                             required
                             id="last-name"
                             label="Фамилия"
-                            value={'Иванов'}
+                            value={localStorage.getItem('lastName')}
                             disabled
                         />
-                        <TextField disabled className={styles.textField} required id="first-name" label="Имя" value={'Иван'} />
-                        <TextField disabled className={styles.textField} required id="patronymic" label="Отчество" value={'Иванович'} />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            required
+                            id="first-name"
+                            label="Имя"
+                            value={localStorage.getItem('firstName')}
+                        />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            required
+                            id="patronymic"
+                            label="Отчество"
+                            value={localStorage.getItem('patronymic')}
+                        />
 
                         <h5 className={styles.h5}>Данные авторизации</h5>
-                        <TextField disabled className={styles.textField} required id="login" label="Логин" value={'ivanov'} />
-                        <TextField disabled className={styles.textField} id="email" label="Email" value={'ivan_ivanov@mock.data.ru'} />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            required
+                            id="login"
+                            label="Логин"
+                            value={localStorage.getItem('username')}
+                        />
+                        <TextField disabled className={styles.textField} id="email" label="Email" value={localStorage.getItem('email')} />
                         <TextField disabled className={styles.textField} id="phone" label="Номер телефона" value={'+79000000000'} />
                     </Grid>
                 </Grid>

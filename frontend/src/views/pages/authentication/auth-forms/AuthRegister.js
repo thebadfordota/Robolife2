@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -33,10 +33,14 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
+    const navigate = useNavigate();
+
     const theme = useTheme();
     const scriptedRef = useScriptRef();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -85,26 +89,34 @@ const FirebaseRegister = ({ ...others }) => {
                 initialValues={{
                     email: '',
                     password: '',
+                    username: '',
+                    first_name: '',
+                    last_name: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
                     email: Yup.string().email('Email адрес неверный').max(255).required('Email не введен'),
-                    password: Yup.string().max(255).required('Пароль не введен')
+                    password: Yup.string().max(255).required('Пароль не введен'),
+                    username: Yup.string().max(255).required('Логин не введен')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        if (scriptedRef.current) {
-                            setStatus({ success: true });
-                            setSubmitting(false);
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/accounts/v1/register/', values).then((r) => {
+                        scriptedRef.current = r;
+                        try {
+                            if (scriptedRef.current) {
+                                setStatus({ success: true });
+                                setSubmitting(false);
+                                navigate('/login', { state: { username: values.username, password: values.password } });
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            if (scriptedRef.current) {
+                                setStatus({ success: false });
+                                setErrors({ submit: err.message });
+                                setSubmitting(false);
+                            }
                         }
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
-                            setStatus({ success: false });
-                            setErrors({ submit: err.message });
-                            setSubmitting(false);
-                        }
-                    }
+                    });
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -115,8 +127,11 @@ const FirebaseRegister = ({ ...others }) => {
                                     fullWidth
                                     label="Имя"
                                     margin="normal"
-                                    name="fname"
+                                    name="first_name"
                                     type="text"
+                                    value={values.first_name}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
                                     defaultValue=""
                                     sx={{ ...theme.typography.customInput }}
                                 />
@@ -126,15 +141,18 @@ const FirebaseRegister = ({ ...others }) => {
                                     fullWidth
                                     label="Фамилия"
                                     margin="normal"
-                                    name="lname"
+                                    value={values.last_name}
+                                    name="last_name"
                                     type="text"
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
                                     defaultValue=""
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </Grid>
                         </Grid>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-register">Email / Логин</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-register">Email</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-register"
                                 type="email"
@@ -147,6 +165,28 @@ const FirebaseRegister = ({ ...others }) => {
                             {touched.email && errors.email && (
                                 <FormHelperText error id="standard-weight-helper-text--register">
                                     {errors.email}
+                                </FormHelperText>
+                            )}
+                        </FormControl>
+
+                        <FormControl
+                            fullWidth
+                            error={Boolean(touched.username && errors.username)}
+                            sx={{ ...theme.typography.customInput }}
+                        >
+                            <InputLabel htmlFor="outlined-adornment-username-register">Логин</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-username-register"
+                                value={values.username}
+                                type="text"
+                                name="username"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                inputProps={{}}
+                            />
+                            {touched.username && errors.username && (
+                                <FormHelperText error id="standard-weight-helper-text--register">
+                                    {errors.username}
                                 </FormHelperText>
                             )}
                         </FormControl>
@@ -189,7 +229,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 </FormHelperText>
                             )}
                         </FormControl>
-
                         {strength !== 0 && (
                             <FormControl fullWidth>
                                 <Box sx={{ mb: 2 }}>
@@ -209,7 +248,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 </Box>
                             </FormControl>
                         )}
-
                         <Grid container alignItems="center" justifyContent="space-between">
                             <Grid item>
                                 <FormControlLabel
@@ -237,7 +275,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 <FormHelperText error>{errors.submit}</FormHelperText>
                             </Box>
                         )}
-
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton>
                                 <Button
