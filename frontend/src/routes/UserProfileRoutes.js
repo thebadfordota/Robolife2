@@ -2,16 +2,25 @@ import { lazy } from 'react';
 
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import RequiredAuth from '../utils/RequiredAuth';
 
 const UserProfilePage = Loadable(lazy(() => import('views/user-page/Profile')));
 
 const UserProfileRoutes = {
     path: '/',
-    element: <MainLayout />,
+    element: (
+        <RequiredAuth>
+            <MainLayout />
+        </RequiredAuth>
+    ),
     children: [
         {
             path: '/user/profile',
-            element: <UserProfilePage />
+            element: (
+                <RequiredAuth>
+                    <UserProfilePage />
+                </RequiredAuth>
+            )
         }
     ]
 };
