@@ -12,6 +12,7 @@ from components.comments.serializers import (
     UserCommentsCreateModelSerializer,
     UserCommentsListModelSerializer,
 )
+from components.metrics.models import WeatherMetricsModel
 from components.notifications.services import UserNotificationService
 
 
@@ -26,7 +27,9 @@ class UserCommentsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin)
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         if 'metricId' in request.query_params:
-            queryset = self.queryset.filter(id=int(request.query_params.get('metricId')))
+            metric_id = int(request.query_params.get('metricId'))
+            metric_model = WeatherMetricsModel.objects.get(id=metric_id)
+            queryset = self.queryset.filter(weather_metric=metric_model)
 
         serializer = UserCommentsListModelSerializer(data=queryset, many=True)
         serializer.is_valid()
