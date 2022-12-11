@@ -12,7 +12,7 @@ const reducer = combineReducers({
     customization: customizationReducer,
     station: stationReducer,
     chartSettings: chartSettingsReducer,
-    modalComments: modalCommentsReducer,
+    modalComments: modalCommentsReducer
 });
 
 export default reducer;
