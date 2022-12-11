@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 
-from components.accounts.serializers import UserCommentsListModelSerializer
 from components.accounts.serializers.user_model_serializer import UserModelSerializer
+from components.comments.serializers import UserCommentsListModelSerializer
 from components.notifications.models import UserNotificationsModel
 
 

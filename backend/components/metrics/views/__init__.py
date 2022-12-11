@@ -1,2 +1,1 @@
 from .weather_metrics_model_viewset import WeatherMetricsModelViewSet
-from .test_viewset import TestViewSet

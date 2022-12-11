@@ -3,7 +3,7 @@ from django.db.models import (
     CASCADE,
 )
 
-from components.accounts.models import UserCommentsModel
+from components.comments.models import UserCommentsModel
 from config.settings import AUTH_USER_MODEL
 from shared.models import BaseModel
 

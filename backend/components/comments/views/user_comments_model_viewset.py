@@ -1,18 +1,21 @@
 from rest_framework import status
-from rest_framework.mixins import CreateModelMixin, ListModelMixin
+from rest_framework.mixins import (
+    CreateModelMixin,
+    ListModelMixin,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from components.accounts.models import UserCommentsModel
-from components.accounts.serializers import (
+from components.comments.models import UserCommentsModel
+from components.comments.serializers import (
     UserCommentsCreateModelSerializer,
     UserCommentsListModelSerializer,
 )
 from components.notifications.services import UserNotificationService
 
 
-class WeatherMetricsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
+class UserCommentsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
     """ViewSet для работы с комментариями пользователя"""
 
     queryset = UserCommentsModel.objects.all()

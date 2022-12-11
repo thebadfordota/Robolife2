@@ -1,8 +1,7 @@
-from rest_framework.fields import CharField
 from rest_framework.serializers import ModelSerializer
 
-from components.accounts.models import UserCommentsModel
-from components.accounts.serializers.user_model_serializer import UserModelSerializer
+from components.accounts.serializers import UserModelSerializer
+from components.comments.models import UserCommentsModel
 
 
 class UserCommentsListModelSerializer(ModelSerializer):

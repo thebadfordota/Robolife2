@@ -34,6 +34,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/accounts/v1/', include('components.accounts.urls')),
     path('api/metrics/v1/', include('components.metrics.urls')),
+    path('api/comments/v1/', include('components.comments.urls')),
     path('api/notifications/v1/', include('components.notifications.urls')),
     # jwt token auth urls
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

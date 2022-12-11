@@ -1,10 +1,10 @@
 from rest_framework.serializers import ModelSerializer
 
-from components.accounts.models import UserCommentsModel
+from components.comments.models import UserCommentsModel
 
 
 class UserCommentsCreateModelSerializer(ModelSerializer):
-    """Сериализатор для метрик погоды"""
+    """Сериализатор для создания комментария пользователя"""
 
     class Meta:
         model = UserCommentsModel

@@ -1,6 +1,6 @@
 from typing import NoReturn
 
-from components.accounts.models import UserCommentsModel
+from components.comments.models import UserCommentsModel
 from components.notifications.repository import UserNotificationRepository
 
 

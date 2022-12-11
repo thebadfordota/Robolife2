@@ -1,6 +1,7 @@
 from typing import NoReturn
 
-from components.accounts.models import UserModel, UserCommentsModel
+from components.accounts.models import UserModel
+from components.comments.models import UserCommentsModel
 from components.notifications.models import UserNotificationsModel
 
 
