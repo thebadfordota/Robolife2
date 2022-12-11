@@ -16,7 +16,7 @@ class WeatherMetricsModel(BaseModel):
         choices=WEATHER_METRIC_NAME_CHOICES,
         verbose_name='Название метрики'
     )
-    value = FloatField(blank=True, verbose_name='Значение')
+    value = FloatField(blank=True, verbose_name='Значение', null=True)
     date = DateField(blank=True, null=True, verbose_name='Дата')
 
     class Meta:
