@@ -33,10 +33,10 @@ const dashboard = {
                     url: '/dashboard/precipitation'
                 },
                 {
-                    id: 'wind_speed',
-                    title: 'Скорость ветра',
+                    id: 'wind_',
+                    title: 'Ветер',
                     type: 'item',
-                    url: '/dashboard/wind_speed'
+                    url: '/dashboard/wind'
                 },
                 {
                     id: 'system_params',
@@ -49,6 +49,12 @@ const dashboard = {
                     title: 'Влажность',
                     type: 'item',
                     url: '/dashboard/humidity'
+                },
+                {
+                    id: 'solar_radiation',
+                    title: 'Солнечная радиация',
+                    type: 'item',
+                    url: '/dashboard/solar_radiation'
                 },
                 {
                     id: 'test_komment_solar_radiation',

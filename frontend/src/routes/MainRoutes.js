@@ -72,7 +72,7 @@ const MainRoutes = {
             path: 'dashboard',
             children: [
                 {
-                    path: 'wind_speed',
+                    path: 'wind',
                     element: (
                         <RequiredAuth>
                             <WindPage />

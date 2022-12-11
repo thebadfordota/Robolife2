@@ -63,10 +63,18 @@ const Temperature = () => {
 
     useEffect(() => {
         axios
-            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.weather_metrics_url + '?maxTemperature&minTemperature', {
-                headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
-            })
+            .get(
+                ROBOLIFE2_BACKEND_API.base_url +
+                    ROBOLIFE2_BACKEND_API.weather_metrics_url +
+                    `?maxTemperature&minTemperature&startDate=${date[0].toISOString().split('T')[0]}&endDate=${
+                        date[1].toISOString().split('T')[0]
+                    }`,
+                {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }
+            )
             .then((response) => {
+                console.log(response.data);
                 setDataHistory(
                     getChartData(
                         Object.values(response.data).length
@@ -79,11 +87,13 @@ const Temperature = () => {
                                       .map((value) => Number(value.value))
                               }
                             : {},
-                        Object.values(response.data).map((value) => value.date)
+                        Object.values(response.data)
+                            .filter((value, index) => index % 2 === 0)
+                            .map((value) => value.date)
                     )
                 );
             });
-    }, []);
+    }, [date[0], date[1]]);
     console.log(dataHistory);
 
     return (
