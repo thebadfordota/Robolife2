@@ -6,7 +6,7 @@ import * as am5 from '@amcharts/amcharts5';
 
 const WindRose = ({ chartRootName, data }) => {
     useLayoutEffect(() => {
-        var root = am5.Root.new(chartRootName);
+        let root = am5.Root.new(chartRootName);
         if (root._logo) {
             root._logo.dispose();
         }
@@ -17,7 +17,7 @@ const WindRose = ({ chartRootName, data }) => {
 
         // Create chart
         // https://www.amcharts.com/docs/v5/charts/radar-chart/
-        var chart = root.container.children.push(
+        let chart = root.container.children.push(
             am5radar.RadarChart.new(root, {
                 panX: false,
                 panY: false,
@@ -27,13 +27,13 @@ const WindRose = ({ chartRootName, data }) => {
 
         // Add cursor
         // https://www.amcharts.com/docs/v5/charts/radar-chart/#Cursor
-        var cursor = chart.set('cursor', am5radar.RadarCursor.new(root, {}));
+        let cursor = chart.set('cursor', am5radar.RadarCursor.new(root, {}));
 
         cursor.lineY.set('visible', false);
 
         // Create axes and their renderers
         // https://www.amcharts.com/docs/v5/charts/radar-chart/#Adding_axes
-        var xAxis = chart.xAxes.push(
+        let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
                 maxDeviation: 0.1,
                 groupData: false,
@@ -47,7 +47,7 @@ const WindRose = ({ chartRootName, data }) => {
             })
         );
 
-        var yAxis = chart.yAxes.push(
+        let yAxis = chart.yAxes.push(
             am5xy.ValueAxis.new(root, {
                 renderer: am5radar.AxisRendererRadial.new(root, {})
             })
@@ -56,7 +56,7 @@ const WindRose = ({ chartRootName, data }) => {
         // Create series
         // https://www.amcharts.com/docs/v5/charts/radar-chart/#Adding_series
         function createSeries(name, field) {
-            var series = chart.series.push(
+            let series = chart.series.push(
                 am5radar.RadarLineSeries.new(root, {
                     name: name,
                     xAxis: xAxis,
@@ -64,7 +64,7 @@ const WindRose = ({ chartRootName, data }) => {
                     valueYField: field,
                     valueXField: 'direction',
                     tooltip: am5.Tooltip.new(root, {
-                        labelText: '{valueY} м/с'
+                        labelText: '{valueY} км/ч'
                     })
                 })
             );
@@ -79,28 +79,20 @@ const WindRose = ({ chartRootName, data }) => {
             });
             series.fills.template.setAll({ visible: true });
 
-            return series;
+            series.data.setAll(data);
+            series.appear(1000);
         }
 
-        var series1 = createSeries('Series #1', 'windSpeed');
-
-        // Generate and set data
-        // https://www.amcharts.com/docs/v5/charts/radar-chart/#Setting_data
-        var data = [];
-        var windSpeed = 50;
-
-        for (var i = 1; i < 360; i++) {
-            windSpeed = Math.round(Math.random() * Math.random() * 50);
-            data.push({ direction: i, windSpeed: windSpeed });
-        }
-
-        series1.data.setAll(data);
+        if (data.length) createSeries('Максимальная скорость ветра', 'windSpeed');
 
         // Animate chart and series in
         // https://www.amcharts.com/docs/v5/concepts/animations/#Initial_animation
-        series1.appear(1000);
         chart.appear(1000, 100);
-    }, []);
+
+        return () => {
+            root.dispose();
+        };
+    }, [data]);
 
     return <div id={chartRootName} style={{ width: '100%', height: '500px' }}></div>;
 };
