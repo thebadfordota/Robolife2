@@ -1,3 +1,4 @@
-from .user_model_serializer import UserModelSerializer
+from .register_user_model_serializer import RegisterUserModelSerializer
 from .token_obtain_lifetime_serializer import TokenObtainLifetimeSerializer
-
+from .user_comments_create_model_serializer import UserCommentsCreateModelSerializer
+from .user_comments_list_model_serializer import UserCommentsListModelSerializer

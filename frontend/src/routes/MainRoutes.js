@@ -22,6 +22,8 @@ const SystemParamsPage = Loadable(lazy(() => import('views/dashboard/SystemParam
 const HumidityPage = Loadable(lazy(() => import('views/dashboard/Humidity')));
 
 const SolarRadiationPage = Loadable(lazy(() => import('views/dashboard/SolarRadiation')));
+
+const TestKommentSolarRadiationPage = Loadable(lazy(() => import('views/dashboard/TestKommentSolarRadiation')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -115,6 +117,15 @@ const MainRoutes = {
                             <SolarRadiationPage />
                         </RequiredAuth>
                     )
+                }
+            ]
+        },
+         {
+            path: 'dashboard',
+            children: [
+                {
+                    path: 'test_komment_solar_radiation',
+                    element: <TestKommentSolarRadiationPage />
                 }
             ]
         }
