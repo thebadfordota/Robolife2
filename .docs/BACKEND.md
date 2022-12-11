@@ -19,6 +19,9 @@
 - python3 manage.py migrate
 - python3 manage.py createsuperuser
 
+### Заполнить базу данных начальными значениями
+- python manage.py loaddata data.json
+
 ### Создание компонента
 
 1. Создать директорию `без __init__.py` с названием компонента `%NAME%`

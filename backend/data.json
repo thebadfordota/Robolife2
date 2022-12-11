@@ -1,0 +1,13 @@
+[
+  {
+    "model": "metrics.WeatherMetricsModel",
+    "pk": 1,
+    "fields": {
+      "name": "Dominant Wind Direction",
+      "value": 322,
+      "date": "2022-11-01",
+      "created": "2022-12-11 07:09:07.640902+04",
+      "updated": "2022-12-11 07:09:07.640902+04"
+    }
+  }
+]
