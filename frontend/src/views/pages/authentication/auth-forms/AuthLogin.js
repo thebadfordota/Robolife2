@@ -92,7 +92,7 @@ const FirebaseLogin = ({ ...others }) => {
                     password: Yup.string().max(255).required('Пароль не введен')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/accounts/v1/authorization/', values).then((r) => {
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/accounts/v1/authorization/', values).then((r) => {
                         localStorage.setItem('token', r.data.access);
                         localStorage.setItem('id', r.data.id);
                         localStorage.setItem('username', r.data.username);
@@ -100,6 +100,7 @@ const FirebaseLogin = ({ ...others }) => {
                         localStorage.setItem('firstName', r.data.first_name);
                         localStorage.setItem('lastName', r.data.last_name);
                         localStorage.setItem('patronymic', r.data.patronymic);
+                        localStorage.setItem('phone', r.data.phone);
                         scriptedRef.current = r.data.access;
                         try {
                             if (scriptedRef.current) {

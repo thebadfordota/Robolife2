@@ -74,7 +74,6 @@ const Precipitation = () => {
     };
 
     const saveData = (editData) => {
-        console.log(editData);
         const data = editData
             .filter((obj) => obj.status === 'Edited')
             .map((obj) => {
@@ -141,7 +140,8 @@ const Precipitation = () => {
                     getChartData(
                         Object.values(response.data).length
                             ? {
-                                  historyTemperatureMax: Object.values(response.data).map((value) => Number(value.value))
+                                  precipitationSum: Object.values(response.data).map((value) => Number(value.value)),
+                                  id: Object.values(response.data).map((value) => value.id)
                               }
                             : {},
                         Object.values(response.data).map((value) => value.date)
@@ -149,8 +149,6 @@ const Precipitation = () => {
                 );
             });
     }, [date[0], date[1]]);
-
-    console.log(dataHistory);
 
     return (
         <div>
@@ -212,7 +210,7 @@ const Precipitation = () => {
                 <Chart chartRootName="chart2" data={dataInc} intervalTimeUnit="hour" intervalCount={1} />
             </SubCard>
             <MainCard title="Исторические данные об осадках" subheader="Данные получены из API Robolife2">
-                <Chart chartRootName="chart3" data={dataHistory} intervalTimeUnit="day" intervalCount={1} />
+                <Chart chartRootName="chart3" data={dataHistory} intervalTimeUnit="day" intervalCount={1} comments={true} />
             </MainCard>
         </div>
     );

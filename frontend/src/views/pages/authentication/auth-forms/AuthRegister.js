@@ -92,15 +92,19 @@ const FirebaseRegister = ({ ...others }) => {
                     username: '',
                     first_name: '',
                     last_name: '',
+                    phone: '',
+                    patronymic: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Email адрес неверный').max(255).required('Email не введен'),
+                    email: Yup.string().email('Email адрес неверный').max(255),
                     password: Yup.string().max(255).required('Пароль не введен'),
-                    username: Yup.string().max(255).required('Логин не введен')
+                    username: Yup.string().max(255).required('Логин не введен'),
+                    first_name: Yup.string().max(255).required('Имя не введено'),
+                    last_name: Yup.string().max(255).required('Фамилия не введена')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/accounts/v1/register/', values).then((r) => {
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/accounts/v1/register/', values).then((r) => {
                         scriptedRef.current = r;
                         try {
                             if (scriptedRef.current) {
@@ -164,6 +168,54 @@ const FirebaseRegister = ({ ...others }) => {
                                     {touched.last_name && errors.last_name && (
                                         <FormHelperText error id="standard-weight-helper-text--register">
                                             {errors.last_name}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={matchDownSM ? 0 : 2}>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl
+                                    fullWidth
+                                    error={Boolean(touched.patronymic && errors.patronymic)}
+                                    sx={{ ...theme.typography.customInput }}
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-patronymic-register">Отчество</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-patronymic-register"
+                                        type="text"
+                                        value={values.patronymic}
+                                        name="patronymic"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.patronymic && errors.patronymic && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.patronymic}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl
+                                    fullWidth
+                                    error={Boolean(touched.phone && errors.phone)}
+                                    sx={{ ...theme.typography.customInput }}
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-phone-register">Номер телефона</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-phone-register"
+                                        type="phone"
+                                        value={values.phone}
+                                        name="phone"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.phone && errors.phone && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.phone}
                                         </FormHelperText>
                                     )}
                                 </FormControl>

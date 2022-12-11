@@ -22,7 +22,6 @@ const Profile = () => {
                         <TextField
                             style={{ cursor: 'pointer' }}
                             className={styles.textField}
-                            required
                             id="last-name"
                             label="Фамилия"
                             value={localStorage.getItem('lastName')}
@@ -31,7 +30,6 @@ const Profile = () => {
                         <TextField
                             disabled
                             className={styles.textField}
-                            required
                             id="first-name"
                             label="Имя"
                             value={localStorage.getItem('firstName')}
@@ -39,23 +37,33 @@ const Profile = () => {
                         <TextField
                             disabled
                             className={styles.textField}
-                            required
                             id="patronymic"
                             label="Отчество"
-                            value={localStorage.getItem('patronymic')}
+                            value={localStorage.getItem('patronymic') !== '' ? localStorage.getItem('patronymic') : '(не указано)'}
                         />
 
                         <h5 className={styles.h5}>Данные авторизации</h5>
                         <TextField
                             disabled
                             className={styles.textField}
-                            required
                             id="login"
                             label="Логин"
                             value={localStorage.getItem('username')}
                         />
-                        <TextField disabled className={styles.textField} id="email" label="Email" value={localStorage.getItem('email')} />
-                        <TextField disabled className={styles.textField} id="phone" label="Номер телефона" value={'+79000000000'} />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            id="email"
+                            label="Email"
+                            value={localStorage.getItem('email') !== '' ? localStorage.getItem('email') : '(не указан)'}
+                        />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            id="phone"
+                            label="Номер телефона"
+                            value={localStorage.getItem('phone') !== 'null' ? localStorage.getItem('phone') : '(не указан)'}
+                        />
                     </Grid>
                 </Grid>
             </MainCard>

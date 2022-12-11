@@ -7,8 +7,11 @@ import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 
 import { useLayoutEffect } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
+import { useDispatch } from 'react-redux';
 
-const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
+const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
+    const dispatch = useDispatch();
+
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
         if (root._logo) {
@@ -79,15 +82,39 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
                 templateField: 'strokeSettings'
             });
 
+            let bulletTemplate = am5.Template.new(root, {});
+
+            if (comments) {
+                bulletTemplate.events.on('click', function (ev) {
+                    const ModalWindowData = {
+                        status: true,
+                        date: ev.target.dataItem.dataContext.date,
+                        value: ev.target.dataItem.dataContext[field],
+                        id: ev.target.dataItem.dataContext.id,
+                        typeParam: name
+                    };
+                    if (ev.target.dataItem.dataContext.date) {
+                        dispatch({
+                            type: 'SET_STATE_MODAL',
+                            ...ModalWindowData
+                        });
+                    }
+                });
+            }
+
             series.bullets.push(function () {
                 return am5.Bullet.new(root, {
                     locationY: 0,
-                    sprite: am5.Circle.new(root, {
-                        radius: 6,
-                        stroke: root.interfaceColors.get('background'),
-                        strokeWidth: 0,
-                        fill: series.get('fill')
-                    })
+                    sprite: am5.Circle.new(
+                        root,
+                        {
+                            radius: 6,
+                            stroke: root.interfaceColors.get('background'),
+                            strokeWidth: 0,
+                            fill: series.get('fill')
+                        },
+                        bulletTemplate
+                    )
                 });
             });
 
@@ -123,7 +150,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
 
         if (data.length) {
             Object.keys(data[0]).forEach((key) => {
-                if (key !== 'date') createSeries(CHART_PARAMETERS_ENUM[key], key);
+                if (key !== 'date' && key !== 'id') createSeries(CHART_PARAMETERS_ENUM[key], key);
             });
         }
 

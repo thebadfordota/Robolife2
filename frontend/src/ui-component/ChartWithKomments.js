@@ -77,7 +77,6 @@ const ChartWithKomments = ({ chartRootName, data, intervalTimeUnit, intervalCoun
             let bulletTemplate = am5.Template.new(root, {});
 
             bulletTemplate.events.on('click', function (ev) {
-                console.log(ev.target.dataItem.dataContext.date);
                 const ModalWindowData = {
                     status: true,
                     date: ev.target.dataItem.dataContext.date,
@@ -109,6 +108,7 @@ const ChartWithKomments = ({ chartRootName, data, intervalTimeUnit, intervalCoun
 
             series.data.setAll(data);
         }
+
         if (data.length) {
             Object.keys(data[0]).forEach((key) => {
                 if (key !== 'date') createSeries(CHART_PARAMETERS_ENUM[key], key);
@@ -186,11 +186,7 @@ const ChartWithKomments = ({ chartRootName, data, intervalTimeUnit, intervalCoun
         };
     }, [data]);
 
-    return (
-        <>
-            <div id={chartRootName} style={{ width: '100%', height: '500px' }}></div>
-        </>
-    );
+    return <div id={chartRootName} style={{ width: '100%', height: '500px' }}></div>;
 };
 
 export default ChartWithKomments;

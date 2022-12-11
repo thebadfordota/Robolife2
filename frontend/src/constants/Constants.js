@@ -9,8 +9,9 @@ const FIELD_CLIMATE_API = {
 };
 
 const ROBOLIFE2_BACKEND_API = {
-    base_url: 'http://localhost:8080',
-    weather_metrics_url: '/api/metrics/v1/weather_metrics/'
+    base_url: 'http://localhost:8080/api',
+    weather_metrics_url: '/metrics/v1/weather_metrics/',
+    comments_url: '/comments/v1/comments/'
 };
 
 const CHART_PARAMETERS_ENUM = {
@@ -30,6 +31,7 @@ const CHART_PARAMETERS_ENUM = {
 
     historyTemperatureMax: 'Максимальная температура',
     historyTemperatureMin: 'Минимальная температура',
+    precipitationSum: 'Сумма осадков',
     windRose: 'Роза ветров'
 };
 
