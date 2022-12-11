@@ -7,7 +7,6 @@ import Loadable from 'ui-component/Loadable';
 import SystemParams from '../views/dashboard/SystemParams';
 import { Navigate } from 'react-router';
 import RequiredAuth from '../utils/RequiredAuth';
-
 // dashboard routing
 const WelcomePage = Loadable(lazy(() => import('views/welcome-page/WelcomePage')));
 
@@ -24,6 +23,8 @@ const HumidityPage = Loadable(lazy(() => import('views/dashboard/Humidity')));
 const SolarRadiationPage = Loadable(lazy(() => import('views/dashboard/SolarRadiation')));
 
 const TestKommentSolarRadiationPage = Loadable(lazy(() => import('views/dashboard/TestKommentSolarRadiation')));
+
+const SoilMoisturePage = Loadable(lazy(() => import('views/calculation-pages/soil-moisture-page/SoilMoisture')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -126,6 +127,19 @@ const MainRoutes = {
                 {
                     path: 'test_komment_solar_radiation',
                     element: <TestKommentSolarRadiationPage />
+                }
+            ]
+        },
+        {
+            path: 'calculation',
+            children: [
+                {
+                    path: 'soil_moisture',
+                    element: (
+                        <RequiredAuth>
+                            <SoilMoisturePage />
+                        </RequiredAuth>
+                    )
                 }
             ]
         }
