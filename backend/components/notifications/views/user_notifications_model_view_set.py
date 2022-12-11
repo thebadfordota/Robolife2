@@ -26,14 +26,6 @@ class UserNotificationsModelViewSet(GenericViewSet, ListModelMixin):
         user_model = UserModel.objects.get(id=user_id)
         queryset = queryset.filter(user=user_model)
 
-        # page = self.paginate_queryset(queryset)
-        # if page is not None:
-        #     serializer = self.get_serializer(page, many=True)
-        #     return self.get_paginated_response(serializer.data)
-
         serializer = UserNotificationsModelSerializer(data=queryset, many=True)
         serializer.is_valid()
         return Response(serializer.data)
-        # serializer = self.get_serializer(queryset, many=True)
-        # serializer.is_valid()
-        # return Response(serializer.data)

@@ -28,12 +28,6 @@ class UserCommentsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin)
         if 'metricId' in request.query_params:
             queryset = self.queryset.filter(id=int(request.query_params.get('metricId')))
 
-        # page = self.paginate_queryset(queryset)
-        # if page is not None:
-        #     serializer = self.get_serializer(page, many=True)
-        #     return self.get_paginated_response(serializer.data)
-
-        # serializer = self.get_serializer(queryset, many=True)
         serializer = UserCommentsListModelSerializer(data=queryset, many=True)
         serializer.is_valid()
         return Response(serializer.data)
@@ -41,7 +35,6 @@ class UserCommentsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin)
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        # self.perform_create(serializer)
         user_comment = serializer.save()
         headers = self.get_success_headers(serializer.data)
         UserNotificationService().create_user_notifications(user_comment)
