@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import UserCommentsModel
+from .models import UserCommentsModel, UserModel
 
 admin.site.site_title = 'Админ-панель Robolife2'
 admin.site.site_header = 'Админ-панель Robolife2'
@@ -20,3 +20,25 @@ class WeatherMetricsModelAdmin(admin.ModelAdmin):
         'weather_metric'
     )
     list_filter = ('created',)
+
+
+@admin.register(UserModel)
+class UserModelAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'username',
+        'email',
+        'first_name',
+        'last_name',
+        'is_staff',
+        'date_joined',
+    )
+    list_display_links = ('id', 'username')
+    search_fields = (
+        'username',
+        'email'
+        'first_name'
+        'last_name'
+    )
+    list_filter = ('date_joined',)
+

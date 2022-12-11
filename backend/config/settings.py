@@ -36,7 +36,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 ADMINS = (
-    ('Aleksandr Skrynnik', 'a.skrynnik@fake_mail.ru'),
+    ('Aleksandr Skrynnik', 'a.skrynnik@robolife2.ru'),
 )
 
 # Application definition
@@ -57,7 +57,6 @@ INSTALLED_APPS = [
 ]
 
 COMPONENTS = [
-    'components.main',
     'components.metrics',
     'components.accounts'
 ]
@@ -113,7 +112,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Default user model
-AUTH_USER_MODEL = "auth.User"
+AUTH_USER_MODEL = "accounts.UserModel"
 
 DATABASES = {
     "default": {

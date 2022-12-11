@@ -32,9 +32,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/main/v1/', include('components.main.urls')),
+    path('api/accounts/v1/', include('components.accounts.urls')),
     path('api/metrics/v1/', include('components.metrics.urls')),
-    # path('api-auth/', include('rest_framework.urls')),
     # jwt token auth urls
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
