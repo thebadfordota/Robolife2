@@ -1,1 +1,1 @@
-from .weather_metrics_model import WeatherMetricsModel
+from .weather_metrics_model import WeatherMetricsModel, WeatherAverageMetricsModel

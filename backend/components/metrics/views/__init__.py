@@ -1,2 +1,3 @@
 from .wind_speed_model_viewset import WeatherMetricsModelViewSet
+from .avg_weather_metrics_model_viewset import WeatherAvgMetricsViewSet
 from .test_viewset import TestViewSet
