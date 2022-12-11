@@ -232,16 +232,6 @@ const ProfileSection = () => {
                                                                 <Grid item>
                                                                     <Typography variant="body2">Личный профиль</Typography>
                                                                 </Grid>
-                                                                <Grid item>
-                                                                    <Chip
-                                                                        label="02"
-                                                                        size="small"
-                                                                        sx={{
-                                                                            bgcolor: theme.palette.warning.dark,
-                                                                            color: theme.palette.background.default
-                                                                        }}
-                                                                    />
-                                                                </Grid>
                                                             </Grid>
                                                         }
                                                     />
