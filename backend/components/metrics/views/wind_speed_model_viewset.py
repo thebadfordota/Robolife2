@@ -20,6 +20,8 @@ class WeatherMetricsModelViewSet(ModelViewSet):
             data = self.queryset.filter(name='Max Temperature')
         elif 'minTemperature' in request.query_params:
             data = self.queryset.filter(name='Min Temperature')
+        elif 'maxWindSpeed' in request.query_params:
+            data = self.queryset.filter(name='Max Wind Speed')
         elif 'precipitationSum' in request.query_params:
             data = self.queryset.filter(name='Precipitation Sum')
         elif 'dominantWindDirection' in request.query_params:
