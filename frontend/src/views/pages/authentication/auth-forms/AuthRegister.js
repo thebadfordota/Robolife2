@@ -123,32 +123,50 @@ const FirebaseRegister = ({ ...others }) => {
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                <FormControl
                                     fullWidth
-                                    label="Имя"
-                                    margin="normal"
-                                    name="first_name"
-                                    type="text"
-                                    value={values.first_name}
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    defaultValue=""
+                                    error={Boolean(touched.first_name && errors.first_name)}
                                     sx={{ ...theme.typography.customInput }}
-                                />
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-firstname-register">Имя</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-firstname-register"
+                                        type="text"
+                                        value={values.first_name}
+                                        name="first_name"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.first_name && errors.first_name && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.first_name}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                <FormControl
                                     fullWidth
-                                    label="Фамилия"
-                                    margin="normal"
-                                    value={values.last_name}
-                                    name="last_name"
-                                    type="text"
-                                    onBlur={handleBlur}
-                                    onChange={handleChange}
-                                    defaultValue=""
+                                    error={Boolean(touched.last_name && errors.last_name)}
                                     sx={{ ...theme.typography.customInput }}
-                                />
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-lastname-register">Фамилия</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-lastname-register"
+                                        type="text"
+                                        value={values.last_name}
+                                        name="last_name"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.last_name && errors.last_name && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.last_name}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
                             </Grid>
                         </Grid>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
