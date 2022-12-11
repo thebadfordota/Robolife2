@@ -117,7 +117,8 @@ const ProfileSection = () => {
                         aria-haspopup="true"
                         color="inherit"
                     >
-                        {localStorage.getItem('firstName')[0] + localStorage.getItem('lastName')[0]}
+                        {(localStorage.getItem('firstName') ? localStorage.getItem('firstName')[0] : localStorage.getItem('username')[0]) +
+                            (localStorage.getItem('lastName') ? localStorage.getItem('lastName')[0] : '')}
                     </Avatar>
                 }
                 label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />}

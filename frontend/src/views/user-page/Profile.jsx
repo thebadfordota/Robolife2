@@ -11,7 +11,10 @@ const Profile = () => {
                 <Grid container>
                     <Grid item>
                         <Avatar className={styles.avatar}>
-                            {localStorage.getItem('firstName')[0] + localStorage.getItem('lastName')[0]}
+                            {(localStorage.getItem('firstName')
+                                ? localStorage.getItem('firstName')[0]
+                                : localStorage.getItem('username')[0]) +
+                                (localStorage.getItem('lastName') ? localStorage.getItem('lastName')[0] : '')}
                         </Avatar>
                     </Grid>
                     <Grid item>

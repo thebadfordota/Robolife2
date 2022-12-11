@@ -5,6 +5,6 @@ import welcomePageSidebarItem from './welcome-page';
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-    items: [welcomePageSidebarItem, dashboard, pages]
+    items: [welcomePageSidebarItem, dashboard]
 };
 export default menuItems;

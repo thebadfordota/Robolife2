@@ -12,57 +12,46 @@ const dashboard = {
     type: 'group',
     children: [
         {
-            id: 'main',
-            title: 'Графики',
-            type: 'collapse',
-            // url: '/dashboard/default',
-            icon: icons.IconDashboard,
-            // breadcrumbs: false
-            children: [
-                {
-                    id: 'temperature',
-                    title: 'Температура',
-                    type: 'item',
-                    url: '/dashboard/temperature'
-                    // target: true  // для редиректа на другую страницу
-                },
-                {
-                    id: 'precipitation',
-                    title: 'Осадки',
-                    type: 'item',
-                    url: '/dashboard/precipitation'
-                },
-                {
-                    id: 'wind_',
-                    title: 'Ветер',
-                    type: 'item',
-                    url: '/dashboard/wind'
-                },
-                {
-                    id: 'system_params',
-                    title: 'Системные параметры',
-                    type: 'item',
-                    url: '/dashboard/system_params'
-                },
-                {
-                    id: 'humidity',
-                    title: 'Влажность',
-                    type: 'item',
-                    url: '/dashboard/humidity'
-                },
-                {
-                    id: 'solar_radiation',
-                    title: 'Солнечная радиация',
-                    type: 'item',
-                    url: '/dashboard/solar_radiation'
-                },
-                {
-                    id: 'test_komment_solar_radiation',
-                    title: 'Комменты(Солнечная радиация)',
-                    type: 'item',
-                    url: '/dashboard/test_komment_solar_radiation'
-                }
-            ]
+            id: 'temperature',
+            title: 'Температура',
+            type: 'item',
+            url: '/dashboard/temperature'
+        },
+        {
+            id: 'precipitation',
+            title: 'Осадки',
+            type: 'item',
+            url: '/dashboard/precipitation'
+        },
+        {
+            id: 'wind_',
+            title: 'Ветер',
+            type: 'item',
+            url: '/dashboard/wind'
+        },
+        {
+            id: 'system_params',
+            title: 'Системные параметры',
+            type: 'item',
+            url: '/dashboard/system_params'
+        },
+        {
+            id: 'humidity',
+            title: 'Влажность',
+            type: 'item',
+            url: '/dashboard/humidity'
+        },
+        {
+            id: 'solar_radiation',
+            title: 'Солнечная радиация',
+            type: 'item',
+            url: '/dashboard/solar_radiation'
+        },
+        {
+            id: 'test_komment_solar_radiation',
+            title: 'Комменты(Солнечная радиация)',
+            type: 'item',
+            url: '/dashboard/test_komment_solar_radiation'
         }
     ]
 };

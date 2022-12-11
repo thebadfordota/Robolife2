@@ -94,7 +94,6 @@ const Temperature = () => {
                 );
             });
     }, [date[0], date[1]]);
-    console.log(dataHistory);
 
     return (
         <div>
