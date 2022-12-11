@@ -9,3 +9,7 @@ class CommandError(Exception):
 
 class MethodNotAllowedError(Exception):
     ...
+
+
+class IncorrectParametersError(Exception):
+    ...

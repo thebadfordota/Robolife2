@@ -25,4 +25,4 @@ class WeatherMetricsModel(BaseModel):
         ordering = ['-date']
 
     def __str__(self):
-        return f'{self.name} | {self.value} | {self.date}'
+        return f'{self.pk} | {self.name} | {self.value} | {self.date}'

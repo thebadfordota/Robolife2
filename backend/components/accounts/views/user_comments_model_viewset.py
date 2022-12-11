@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -8,6 +9,7 @@ from components.accounts.serializers import (
     UserCommentsCreateModelSerializer,
     UserCommentsListModelSerializer,
 )
+from components.notifications.services import UserNotificationService
 
 
 class WeatherMetricsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin):
@@ -32,3 +34,12 @@ class WeatherMetricsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixi
         serializer = UserCommentsListModelSerializer(data=queryset, many=True)
         serializer.is_valid()
         return Response(serializer.data)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        # self.perform_create(serializer)
+        user_comment = serializer.save()
+        headers = self.get_success_headers(serializer.data)
+        UserNotificationService().create_user_notifications(user_comment)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

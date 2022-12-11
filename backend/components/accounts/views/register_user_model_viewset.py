@@ -11,3 +11,10 @@ class RegisterUserModelViewSet(GenericViewSet, CreateModelMixin):
     queryset = UserModel.objects.all()
     serializer_class = RegisterUserModelSerializer
     pagination_class = None
+
+    def perform_create(self, serializer):
+        instance = serializer.save()
+        instance.set_password(instance.password)
+        instance.save()
+
+
