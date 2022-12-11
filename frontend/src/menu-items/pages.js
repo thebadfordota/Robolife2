@@ -16,21 +16,21 @@ const pages = {
     children: [
         {
             id: 'authentication',
-            title: 'Authentication',
+            title: 'Аутентификация',
             type: 'collapse',
             icon: icons.IconKey,
 
             children: [
                 {
                     id: 'login3',
-                    title: 'Login',
+                    title: 'Вход',
                     type: 'item',
                     url: '/login',
                     target: true
                 },
                 {
                     id: 'register3',
-                    title: 'Register',
+                    title: 'Регистрация ',
                     type: 'item',
                     url: '/register',
                     target: true

@@ -145,3 +145,7 @@
         transform: translateX(10px);
     }
 }
+
+input[disabled] {
+  cursor: default!important;
+}

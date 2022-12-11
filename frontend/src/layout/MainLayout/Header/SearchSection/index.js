@@ -196,12 +196,6 @@ const SearchSection = () => {
                                 </MenuItem>
                             );
                         })}
-                        {/*<MenuItem value="00001F76">Сервисный центр</MenuItem>*/}
-                        {/*<MenuItem value="00001F77">Отделение 17</MenuItem>*/}
-                        {/*<MenuItem value="00001F78">Отделение 9</MenuItem>*/}
-                        {/*<MenuItem value="00001F7D">Отделение 12</MenuItem>*/}
-                        {/*<MenuItem value="0000235D">ПУ Север</MenuItem>*/}
-                        {/*<MenuItem value="0000235E">ПУ Кавказ</MenuItem>*/}
                     </Select>
                 </FormControl>
             </Box>

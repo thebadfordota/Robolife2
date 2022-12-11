@@ -16,6 +16,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         let root = am5.Root.new(chartRootName);
 
         root.setThemes([am5themes_Animated.new(root)]);
+        root.numberFormatter.set('intlLocales', 'ru-RU');
 
         let chart = root.container.children.push(
             am5xy.XYChart.new(root, {
@@ -48,6 +49,13 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         );
 
         xAxis.data.setAll(data);
+
+        let scrollbarX = am5xy.XYChartScrollbar.new(root, {
+            orientation: 'horizontal',
+            height: 50
+        });
+
+        chart.set('scrollbarX', scrollbarX);
 
         // Create series
         function createSeries(name, field) {
@@ -84,7 +92,35 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
             });
 
             series.data.setAll(data);
+
+            let sbxAxis = scrollbarX.chart.xAxes.push(
+                am5xy.DateAxis.new(root, {
+                    baseInterval: { timeUnit: 'hour', count: 1 },
+                    renderer: am5xy.AxisRendererX.new(root, {
+                        opposite: false,
+                        strokeOpacity: 0
+                    })
+                })
+            );
+
+            let sbyAxis = scrollbarX.chart.yAxes.push(
+                am5xy.ValueAxis.new(root, {
+                    renderer: am5xy.AxisRendererY.new(root, {})
+                })
+            );
+
+            let sbseries = scrollbarX.chart.series.push(
+                am5xy.LineSeries.new(root, {
+                    xAxis: sbxAxis,
+                    yAxis: sbyAxis,
+                    valueYField: field,
+                    valueXField: 'date'
+                })
+            );
+
+            sbseries.data.setAll(data);
         }
+
         if (data.length) {
             Object.keys(data[0]).forEach((key) => {
                 if (key !== 'date') createSeries(CHART_PARAMETERS_ENUM[key], key);
@@ -102,37 +138,37 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         );
         cursor.lineY.set('visible', false);
 
-        let scrollbarX = am5xy.XYChartScrollbar.new(root, {
-            orientation: 'horizontal',
-            height: 50
-        });
-
-        chart.set('scrollbarX', scrollbarX);
-
-        let sbxAxis = scrollbarX.chart.xAxes.push(
-            am5xy.DateAxis.new(root, {
-                baseInterval: { timeUnit: 'hour', count: 1 },
-                renderer: am5xy.AxisRendererX.new(root, {
-                    opposite: false,
-                    strokeOpacity: 0
-                })
-            })
-        );
-
-        let sbyAxis = scrollbarX.chart.yAxes.push(
-            am5xy.ValueAxis.new(root, {
-                renderer: am5xy.AxisRendererY.new(root, {})
-            })
-        );
-
-        let sbseries = scrollbarX.chart.series.push(
-            am5xy.LineSeries.new(root, {
-                xAxis: sbxAxis,
-                yAxis: sbyAxis,
-                valueYField: 'value',
-                valueXField: 'date'
-            })
-        );
+        // let scrollbarX = am5xy.XYChartScrollbar.new(root, {
+        //     orientation: 'horizontal',
+        //     height: 50
+        // });
+        //
+        // chart.set('scrollbarX', scrollbarX);
+        //
+        // let sbxAxis = scrollbarX.chart.xAxes.push(
+        //     am5xy.DateAxis.new(root, {
+        //         baseInterval: { timeUnit: 'hour', count: 1 },
+        //         renderer: am5xy.AxisRendererX.new(root, {
+        //             opposite: false,
+        //             strokeOpacity: 0
+        //         })
+        //     })
+        // );
+        //
+        // let sbyAxis = scrollbarX.chart.yAxes.push(
+        //     am5xy.ValueAxis.new(root, {
+        //         renderer: am5xy.AxisRendererY.new(root, {})
+        //     })
+        // );
+        //
+        // let sbseries = scrollbarX.chart.series.push(
+        //     am5xy.LineSeries.new(root, {
+        //         xAxis: sbxAxis,
+        //         yAxis: sbyAxis,
+        //         valueYField: 'countPrecipitation',
+        //         valueXField: 'date'
+        //     })
+        // );
 
         let legend = chart.children.push(
             am5.Legend.new(root, {
@@ -150,7 +186,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
         });
         legend.data.setAll(chart.series.values);
 
-        sbseries.data.setAll(data);
+        // sbseries.data.setAll(data);
 
         let exporting = am5plugins_exporting.Exporting.new(root, {
             menu: am5plugins_exporting.ExportingMenu.new(root, {}),

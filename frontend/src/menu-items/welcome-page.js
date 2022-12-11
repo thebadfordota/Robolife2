@@ -1,8 +1,8 @@
 // assets
-import { IconDashboard } from '@tabler/icons';
+import { IconHome } from '@tabler/icons';
 
 // constant
-const icons = { IconDashboard };
+const icons = { IconHome };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -15,7 +15,7 @@ const welcomePageSidebarItem = {
             title: 'Главная страница',
             type: 'item',
             url: '/',
-            icon: icons.IconDashboard,
+            icon: icons.IconHome,
             breadcrumbs: false
         }
     ]

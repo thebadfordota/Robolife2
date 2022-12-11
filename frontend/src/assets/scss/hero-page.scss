@@ -1,0 +1,121 @@
+
+
+.title-block {
+  margin: -20px;
+  position:relative;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  height: calc(100vh - 90px);
+  background-image: url(../images/hero-card/hero-page_heroWithCircle.png); /* Путь к фоновому изображению */
+  &__wrapper {
+    display:block;
+    text-align: center;
+  }
+  // .title-block__info
+
+  &__info {
+    padding-top: 50px;
+    font-size: 64px;
+    color: #1f3f68;
+  }
+  &__img {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+
+  }
+
+  // .title-block__img
+
+  &__title {
+
+    padding: 10px;
+    margin: 10px;
+    font-size: 45px;
+    line-height: 60px;
+    font-weight: bold;
+    color: #295389;
+  }
+
+  // .title-block__text
+
+  &__text {
+    padding: 10px;
+    margin-top: 25px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 30px;
+  }
+
+  // .title-block__btn
+
+  &__button-wrapper {
+    padding: 10px;
+    margin-top: 30px;
+
+    .rs-btn{
+      margin-top: 20px;
+      background: #5a98d0;
+      border-radius: 10px;
+      font-size: 20px;
+      line-height: 26px;
+      text-align: center;
+      letter-spacing: 0.04em;
+      color: #ffffff;
+      font-weight: bold;
+      border: 0;
+      &:hover{
+        background: #134774;
+      }
+    }
+  }
+}
+
+
+.text {
+opacity: .6;
+font-size: 20px;
+letter-spacing: .04em;
+}
+
+.list-developers{
+  position:absolute; /* добавили */
+	bottom:0; /* добавили */
+  background: none;
+}
+
+@media (max-width: 901px) {
+  .list-developers{
+    position: relative; /* добавили */
+    max-width: 100vh;
+}
+  .title-block{
+    background: white;
+  }
+  .title-block__wrapper {
+  display:block;
+  text-align: center;
+  }
+  .title-block__title{
+    font-size: 30px;
+    line-height: 40px;
+
+  }
+  .title-block__text{
+    margin-bottom: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  .title-block__btn {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+  }
+
+  .title-block__img{
+    visibility: visible;
+    width: 100%;
+    height: 100%;
+  }
+}

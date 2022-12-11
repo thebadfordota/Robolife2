@@ -3,6 +3,9 @@ import { lazy } from 'react';
 // project imports
 import Loadable from 'ui-component/Loadable';
 import MinimalLayout from 'layout/MinimalLayout';
+import MainLayout from '../layout/MainLayout';
+import { Navigate } from 'react-router';
+import RequiredNoAuth from '../utils/RequiredNoAuth';
 
 // login option 3 routing
 const AuthLogin3 = Loadable(lazy(() => import('views/pages/authentication/authentication3/Login3')));
@@ -16,11 +19,19 @@ const AuthenticationRoutes = {
     children: [
         {
             path: '/login',
-            element: <AuthLogin3 />
+            element: (
+                <RequiredNoAuth>
+                    <AuthLogin3 />
+                </RequiredNoAuth>
+            )
         },
         {
             path: '/register',
-            element: <AuthRegister3 />
+            element: (
+                <RequiredNoAuth>
+                    <AuthRegister3 />
+                </RequiredNoAuth>
+            )
         }
     ]
 };

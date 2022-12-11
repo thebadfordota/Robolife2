@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 // reducer import
 import customizationReducer from './customizationReducer';
 import stationReducer from './stationReducer';
+import chartSettingsReducer from './chartSettingsReducer';
 import modalCommentsReducer from './modalCommentsReducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
@@ -10,7 +11,8 @@ import modalCommentsReducer from './modalCommentsReducer';
 const reducer = combineReducers({
     customization: customizationReducer,
     station: stationReducer,
-    modalComments: modalCommentsReducer
+    chartSettings: chartSettingsReducer,
+    modalComments: modalCommentsReducer,
 });
 
 export default reducer;

@@ -1,9 +1,10 @@
 import React from 'react';
+import HeroCard from '../hero-page-component/HeroCard';
 
 const WelcomePage = () => {
     return (
         <div>
-            <h1>Welcome Page works!</h1>
+            <HeroCard />
         </div>
     );
 };

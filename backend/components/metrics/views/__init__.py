@@ -1,0 +1,2 @@
+from .wind_speed_model_viewset import WeatherMetricsModelViewSet
+from .test_viewset import TestViewSet

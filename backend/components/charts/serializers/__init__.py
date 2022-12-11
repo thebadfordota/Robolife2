@@ -1,2 +1,0 @@
-from .wind_speed_model_serializer import WindSpeedModelSerializer
-
