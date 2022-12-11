@@ -128,22 +128,29 @@ const Precipitation = () => {
 
     useEffect(() => {
         axios
-            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.weather_metrics_url + '?precipitationSum', {
-                headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
-            })
+            .get(
+                ROBOLIFE2_BACKEND_API.base_url +
+                    ROBOLIFE2_BACKEND_API.weather_metrics_url +
+                    `?precipitationSum&startDate=${date[0].toISOString().split('T')[0]}&endDate=${date[1].toISOString().split('T')[0]}`,
+                {
+                    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                }
+            )
             .then((response) => {
-                const dataHis = getChartData(
-                    Object.values(response.data).length
-                        ? {
-                              historyTemperatureMax: Object.values(response.data).map((value) => Number(value.value))
-                          }
-                        : {},
-                    Object.values(response.data).map((value) => value.date)
+                setDataHistory(
+                    getChartData(
+                        Object.values(response.data).length
+                            ? {
+                                  historyTemperatureMax: Object.values(response.data).map((value) => Number(value.value))
+                              }
+                            : {},
+                        Object.values(response.data).map((value) => value.date)
+                    )
                 );
-                dataHis.sort((a, b) => a.date - b.date);
-                setDataHistory(dataHis);
             });
-    }, []);
+    }, [date[0], date[1]]);
+
+    console.log(dataHistory);
 
     return (
         <div>

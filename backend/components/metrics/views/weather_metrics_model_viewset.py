@@ -16,7 +16,7 @@ class WeatherMetricsModelViewSet(ModelViewSet):
     pagination_class = None
 
     def list(self, request, *args, **kwargs):
-        data = self.queryset.all()
+        data = self.queryset.all().order_by("date")
         if 'startDate' in request.query_params and 'endDate' in request.query_params:
             data = data.filter(date__range=(
                 request.query_params.get('startDate'),

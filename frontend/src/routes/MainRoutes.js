@@ -120,7 +120,7 @@ const MainRoutes = {
                 }
             ]
         },
-         {
+        {
             path: 'dashboard',
             children: [
                 {
