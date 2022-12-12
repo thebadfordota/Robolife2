@@ -9,7 +9,7 @@ import { ROBOLIFE2_BACKEND_API } from '../constants/Constants';
 const ModalWindow = () => {
     const [comments, setComments] = useState([]);
     const station = useSelector((state) => state.station);
-    const titleModalWindow = station.id + ' • ' + station.name + ' • ' + station.deviceType;
+    const titleModalWindow = 'API Robolife2';
 
     const modalParam = useSelector((state) => state.modalComments);
     const dispatch = useDispatch();

@@ -52,12 +52,6 @@ const dashboard = {
             type: 'item',
             url: '/dashboard/solar_radiation',
             icon: icons.IconSun
-        },
-        {
-            id: 'test_komment_solar_radiation',
-            title: 'Комменты(Солнечная радиация)',
-            type: 'item',
-            url: '/dashboard/test_komment_solar_radiation'
         }
     ]
 };
