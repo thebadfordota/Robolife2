@@ -1,2 +1,2 @@
-from .wind_speed_model_serializer import WeatherMetricsModelSerializer
+from .weather_metrics_model_serializer import WeatherMetricsModelSerializer
 
