@@ -186,7 +186,13 @@ const Precipitation = () => {
                     </Grid>
                 </Grid>
                 {!editMode ? (
-                    <ColumnChart chartRootName="chart1" data={data} intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]} intervalCount={1} />
+                    <ColumnChart
+                        titleChart="Осадки, mm"
+                        chartRootName="chart1"
+                        data={data}
+                        intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
+                        intervalCount={1}
+                    />
                 ) : (
                     <Table height={420} data={editData}>
                         <Column width={200}>
@@ -208,10 +214,23 @@ const Precipitation = () => {
             </SubCard>
 
             <SubCard title="Нарастающее количество осадков">
-                <Chart chartRootName="chart2" data={dataInc} intervalTimeUnit="hour" intervalCount={1} />
+                <Chart
+                    titleChart="Нарастающее количество осадков, mm"
+                    chartRootName="chart2"
+                    data={dataInc}
+                    intervalTimeUnit="hour"
+                    intervalCount={1}
+                />
             </SubCard>
             <MainCard title="Исторические данные об осадках" subheader="Данные получены из API Robolife2">
-                <ColumnChart chartRootName="chart3" data={dataHistory} intervalTimeUnit="day" intervalCount={1} comments={true} />
+                <ColumnChart
+                    titleChart="Осадки (внешние данные), mm"
+                    chartRootName="chart3"
+                    data={dataHistory}
+                    intervalTimeUnit="day"
+                    intervalCount={1}
+                    comments={true}
+                />
             </MainCard>
         </div>
     );

@@ -25,7 +25,13 @@ const Humidity = () => {
         <div>
             <ChartMainCard title="Влажность" />
             <SubCard title="Влажность листа">
-                <Chart chartRootName="chart1" data={data} intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]} intervalCount={1} />
+                <Chart
+                    titleChart="Влажность листа"
+                    chartRootName="chart1"
+                    data={data}
+                    intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
+                    intervalCount={1}
+                />
             </SubCard>
         </div>
     );

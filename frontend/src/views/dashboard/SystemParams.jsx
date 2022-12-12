@@ -26,7 +26,13 @@ const SystemParams = () => {
         <div>
             <ChartMainCard title="Системные параметры" />
             <SubCard title="Заряд АКБ">
-                <Chart chartRootName="chart1" data={data} intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]} intervalCount={1} />
+                <Chart
+                    titleChart="Заряд АКБ, mV"
+                    chartRootName="chart1"
+                    data={data}
+                    intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
+                    intervalCount={1}
+                />
             </SubCard>
         </div>
     );

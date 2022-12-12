@@ -26,7 +26,13 @@ const SolarRadiation = () => {
         <div>
             <ChartMainCard title="Солнечная радиация" />
             <SubCard title="Солнечная радиация">
-                <Chart chartRootName="chart1" data={data} intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]} intervalCount={1} />
+                <Chart
+                    titleChart="Солнечная рвдиация, w/m2"
+                    chartRootName="chart1"
+                    data={data}
+                    intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
+                    intervalCount={1}
+                />
             </SubCard>
         </div>
     );
