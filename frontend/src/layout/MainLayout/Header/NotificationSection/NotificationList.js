@@ -81,7 +81,6 @@ const NotificationList = ({ notifications }) => {
         >
             <Divider />
             {notifications.map((value, index) => {
-                console.log(value);
                 return (
                     <div key={index}>
                         <ListItemWrapper>
