@@ -36,10 +36,14 @@ const CHART_PARAMETERS_ENUM = {
     windRose: 'Роза ветров'
 };
 
+const PARAMS_CONVERT = {
+    'Precipitation Sum': 'Сумма осадков'
+};
+
 const DATA_FREQUENCY_CONVERT = {
     hourly: 'hour',
     daily: 'day',
     monthly: 'month'
 };
 
-export { FIELD_CLIMATE_API, ROBOLIFE2_BACKEND_API, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT };
+export { FIELD_CLIMATE_API, ROBOLIFE2_BACKEND_API, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT, PARAMS_CONVERT };
