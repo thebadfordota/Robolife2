@@ -41,12 +41,14 @@ const ModalWindow = () => {
                 }
             )
             .then((response) => {
-                console.log(response);
+                axios
+                    .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url + `?metricId=${modalParam.id}`, {
+                        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+                    })
+                    .then((response) => {
+                        setComments(response.data);
+                    });
             });
-
-        dispatch({
-            type: 'RESET_STATE_MODAL'
-        });
     };
     const handleClose = () => {
         dispatch({

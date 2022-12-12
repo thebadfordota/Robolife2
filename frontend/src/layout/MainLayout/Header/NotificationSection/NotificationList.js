@@ -65,7 +65,6 @@ const NotificationList = () => {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
             .then((response) => {
-                console.log(response.data);
                 setNotifications(response.data);
                 if (notifications.length) {
                     return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
@@ -97,41 +96,42 @@ const NotificationList = () => {
             <Divider />
             {notifications.map((value) => {
                 return (
-                    <ListItemWrapper>
-                        <ListItem alignItems="center">
-                            <ListItemAvatar>
-                                <Avatar
-                                    alt={`${value.comment.user.first_name} ${value.comment.user.last_name}`}
-                                >{`${value.comment.user.first_name[0]}${value.comment.user.last_name[0]}`}</Avatar>
-                            </ListItemAvatar>
-                            <ListItemText primary={`${value.comment.user.first_name} ${value.comment.user.last_name}`} />
-                            <ListItemSecondaryAction>
-                                <Grid container justifyContent="flex-end">
-                                    <Grid item xs={12}>
-                                        <Typography style={{ marginBottom: '3.5em' }} variant="caption" display="block" gutterBottom>
-                                            {'11.11.2022 16:29'}
-                                        </Typography>
+                    <>
+                        <ListItemWrapper>
+                            <ListItem alignItems="center">
+                                <ListItemAvatar>
+                                    <Avatar
+                                        alt={`${value.comment.user.first_name} ${value.comment.user.last_name}`}
+                                    >{`${value.comment.user.first_name[0]}${value.comment.user.last_name[0]}`}</Avatar>
+                                </ListItemAvatar>
+                                <ListItemText primary={`${value.comment.user.first_name} ${value.comment.user.last_name}`} />
+                                <ListItemSecondaryAction>
+                                    <Grid container justifyContent="flex-end">
+                                        <Grid item xs={12}>
+                                            <Typography style={{ marginBottom: '3.5em' }} variant="caption" display="block" gutterBottom>
+                                                {new Date(Date.parse(value.comment.created)).toLocaleString()}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </ListItemSecondaryAction>
+                            </ListItem>
+                            <Grid container direction="column" className="list-container">
+                                <Grid item xs={12} sx={{ pb: 2 }}>
+                                    <Typography variant="subtitle2">Прокомментировал параметр "Температура" от 16.10.2022 16:00</Typography>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Grid container>
+                                        <Grid item>
+                                            <Chip label="Комментарий" sx={chipCommentSX} />
+                                        </Grid>
                                     </Grid>
                                 </Grid>
-                            </ListItemSecondaryAction>
-                        </ListItem>
-                        <Grid container direction="column" className="list-container">
-                            <Grid item xs={12} sx={{ pb: 2 }}>
-                                <Typography variant="subtitle2">Прокомментировал параметр "Температура" от 16.10.2022 16:00</Typography>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Grid container>
-                                    <Grid item>
-                                        <Chip label="Комментарий" sx={chipCommentSX} />
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </ListItemWrapper>
+                        </ListItemWrapper>
+                        <Divider />
+                    </>
                 );
             })}
-
-            <Divider />
             <ListItemWrapper>
                 <ListItem alignItems="center">
                     <ListItemAvatar>
@@ -165,5 +165,4 @@ const NotificationList = () => {
         </List>
     );
 };
-
 export default NotificationList;
