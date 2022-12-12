@@ -7,6 +7,7 @@ import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { getChartData } from '../../utils/ChartUtils';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
 import { addHours } from 'date-fns';
+import MainCard from '../../ui-component/cards/MainCard';
 
 const Humidity = () => {
     const [data, setData] = useState({});
@@ -24,7 +25,7 @@ const Humidity = () => {
     return (
         <div>
             <ChartMainCard title="Влажность" />
-            <SubCard title="Влажность листа">
+            <MainCard title="Влажность листа" subheader="Данные получены из API Fieldclimate">
                 <Chart
                     titleChart="Влажность листа"
                     chartRootName="chart1"
@@ -32,7 +33,7 @@ const Humidity = () => {
                     intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                     intervalCount={1}
                 />
-            </SubCard>
+            </MainCard>
         </div>
     );
 };

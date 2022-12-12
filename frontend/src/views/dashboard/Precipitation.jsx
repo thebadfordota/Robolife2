@@ -155,7 +155,7 @@ const Precipitation = () => {
     return (
         <div>
             <ChartMainCard title="Осадки" />
-            <SubCard title="Количество осадков">
+            <MainCard title="Количество осадков" subheader="Данные получены из API Fieldclimate">
                 <Grid container style={{ justifyContent: 'right' }}>
                     <Grid item>
                         {!editMode ? (
@@ -216,9 +216,9 @@ const Precipitation = () => {
                         </Column>
                     </Table>
                 )}
-            </SubCard>
+            </MainCard>
 
-            <SubCard title="Нарастающее количество осадков">
+            <MainCard title="Нарастающее количество осадков" subheader="Данные получены из API Fieldclimate">
                 <Chart
                     titleChart="Нарастающее количество осадков, mm"
                     chartRootName="chart2"
@@ -226,7 +226,7 @@ const Precipitation = () => {
                     intervalTimeUnit="hour"
                     intervalCount={1}
                 />
-            </SubCard>
+            </MainCard>
             <MainCard title="Исторические данные об осадках" subheader="Данные получены из API Robolife2">
                 <ColumnChart
                     titleChart="Осадки (внешние данные), mm"

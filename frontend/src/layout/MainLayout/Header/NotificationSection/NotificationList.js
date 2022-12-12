@@ -23,6 +23,7 @@ import User1 from 'assets/images/users/user-round.svg';
 import { useEffect, useState } from 'react';
 import { PARAMS_CONVERT, ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 // styles
 const ListItemWrapper = styled('div')(({ theme }) => ({
@@ -40,6 +41,23 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 const NotificationList = ({ notifications }) => {
     const theme = useTheme();
+    const dispatch = useDispatch();
+
+    const OpenModal = (event) => {
+        console.log(event);
+        // const ModalWindowData = {
+        //     status: true,
+        //     date: value.comment.weather_metric.date,
+        //     value: value.comment.weather_metric.value,
+        //     id: value.comment.weather_metric.id,
+        //     typeParam: PARAMS_CONVERT[value.comment.weather_metric.name]
+        // };
+        //
+        // dispatch({
+        //     type: 'SET_STATE_MODAL',
+        //     ...ModalWindowData
+        // });
+    };
 
     const chipSX = {
         height: 24,

@@ -7,6 +7,7 @@ import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { getChartData } from '../../utils/ChartUtils';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
 import { addHours } from 'date-fns';
+import MainCard from '../../ui-component/cards/MainCard';
 
 const SystemParams = () => {
     const [data, setData] = useState({});
@@ -25,7 +26,7 @@ const SystemParams = () => {
     return (
         <div>
             <ChartMainCard title="Системные параметры" />
-            <SubCard title="Заряд АКБ">
+            <MainCard title="Заряд АКБ" subheader="Данные получены из API Fieldclimate">
                 <Chart
                     titleChart="Заряд АКБ, mV"
                     chartRootName="chart1"
@@ -33,7 +34,7 @@ const SystemParams = () => {
                     intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                     intervalCount={1}
                 />
-            </SubCard>
+            </MainCard>
         </div>
     );
 };
