@@ -99,13 +99,31 @@ const Temperature = () => {
         <div>
             <ChartMainCard title="Температура" />
             <SubCard>
-                <Chart chartRootName="chart1" data={data} intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]} intervalCount={1} />
+                <Chart
+                    titleChart="Температура воздуха,°C"
+                    chartRootName="chart1"
+                    data={data}
+                    intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
+                    intervalCount={1}
+                />
             </SubCard>
             <SubCard title="Накопление активных температур">
-                <Chart chartRootName="chart2" data={dataInc} intervalTimeUnit="hour" intervalCount={1} />
+                <Chart
+                    titleChart="Накопление активных температур"
+                    chartRootName="chart2"
+                    data={dataInc}
+                    intervalTimeUnit="hour"
+                    intervalCount={1}
+                />
             </SubCard>
             <MainCard title="Исторические данные о температуре" subheader="Данные получены из API Robolife2">
-                <Chart chartRootName="chart3" data={dataHistory} intervalTimeUnit="day" intervalCount={1} />
+                <Chart
+                    titleChart="Температура (внешние данные), °C"
+                    chartRootName="chart3"
+                    data={dataHistory}
+                    intervalTimeUnit="day"
+                    intervalCount={1}
+                />
             </MainCard>
         </div>
     );

@@ -65,10 +65,16 @@ const Wind = () => {
         <div>
             <ChartMainCard title="Ветер" />
             <SubCard title="Скорость ветра">
-                <Chart chartRootName="chart1" data={data} intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]} intervalCount={1} />
+                <Chart
+                    titleChart="Скорость ветра, м/с"
+                    chartRootName="chart1"
+                    data={data}
+                    intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
+                    intervalCount={1}
+                />
             </SubCard>
             <MainCard title="Исторические данные о ветре (роза ветров)" subheader="Данные получены из API Robolife2">
-                <WindRose chartRootName="chart2" data={dataHistory} />
+                <WindRose titleChart="Роза ветров" chartRootName="chart2" data={dataHistory} />
             </MainCard>
         </div>
     );
