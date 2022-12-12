@@ -38,9 +38,8 @@ const ListItemWrapper = styled('div')(({ theme }) => ({
 
 // ==============================|| NOTIFICATION LIST ITEM ||============================== //
 
-const NotificationList = () => {
+const NotificationList = ({ notifications }) => {
     const theme = useTheme();
-    const [notifications, setNotifications] = useState([]);
 
     const chipSX = {
         height: 24,
@@ -58,20 +57,6 @@ const NotificationList = () => {
         color: theme.palette.warning.dark,
         backgroundColor: theme.palette.warning.light
     };
-
-    useEffect(() => {
-        axios
-            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + `?userId=${localStorage.getItem('id')}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-            })
-            .then((response) => {
-                setNotifications(response.data);
-                console.log(response.data);
-                // if (notifications.length) {
-                //     return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
-                // }
-            });
-    }, []);
 
     return (
         <List
@@ -137,36 +122,36 @@ const NotificationList = () => {
                     </div>
                 );
             })}
-            <ListItemWrapper>
-                <ListItem alignItems="center">
-                    <ListItemAvatar>
-                        <Avatar alt="Обджект Обджектович">ОО</Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Обджект Обджектович" />
-                    <ListItemSecondaryAction>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item xs={12}>
-                                <Typography style={{ marginBottom: '3.5em' }} variant="caption" display="block" gutterBottom>
-                                    {'11.11.2022 16:29'}
-                                </Typography>
-                            </Grid>
-                        </Grid>
-                    </ListItemSecondaryAction>
-                </ListItem>
-                <Grid container direction="column" className="list-container">
-                    <Grid item xs={12} sx={{ pb: 2 }}>
-                        <Typography variant="subtitle2">Изменил параметр "Осадки" от 16.10.2022 16:00</Typography>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Grid container>
-                            <Grid item>
-                                <Chip label="Изменение" sx={chipChangeSX} />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </ListItemWrapper>
-            <Divider />
+            {/*<ListItemWrapper>*/}
+            {/*    <ListItem alignItems="center">*/}
+            {/*        <ListItemAvatar>*/}
+            {/*            <Avatar alt="Обджект Обджектович">ОО</Avatar>*/}
+            {/*        </ListItemAvatar>*/}
+            {/*        <ListItemText primary="Обджект Обджектович" />*/}
+            {/*        <ListItemSecondaryAction>*/}
+            {/*            <Grid container justifyContent="flex-end">*/}
+            {/*                <Grid item xs={12}>*/}
+            {/*                    <Typography style={{ marginBottom: '3.5em' }} variant="caption" display="block" gutterBottom>*/}
+            {/*                        {'11.11.2022 16:29'}*/}
+            {/*                    </Typography>*/}
+            {/*                </Grid>*/}
+            {/*            </Grid>*/}
+            {/*        </ListItemSecondaryAction>*/}
+            {/*    </ListItem>*/}
+            {/*    <Grid container direction="column" className="list-container">*/}
+            {/*        <Grid item xs={12} sx={{ pb: 2 }}>*/}
+            {/*            <Typography variant="subtitle2">Изменил параметр "Осадки" от 16.10.2022 16:00</Typography>*/}
+            {/*        </Grid>*/}
+            {/*        <Grid item xs={12}>*/}
+            {/*            <Grid container>*/}
+            {/*                <Grid item>*/}
+            {/*                    <Chip label="Изменение" sx={chipChangeSX} />*/}
+            {/*                </Grid>*/}
+            {/*            </Grid>*/}
+            {/*        </Grid>*/}
+            {/*    </Grid>*/}
+            {/*</ListItemWrapper>*/}
+            {/*<Divider />*/}
         </List>
     );
 };

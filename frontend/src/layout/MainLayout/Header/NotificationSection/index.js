@@ -62,6 +62,7 @@ const NotificationSection = () => {
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
+    const [notifications, setNotifications] = useState([]);
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -85,6 +86,20 @@ const NotificationSection = () => {
         }
         prevOpen.current = open;
     }, [open]);
+
+    useEffect(() => {
+        axios
+            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + `?userId=${localStorage.getItem('id')}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
+            .then((response) => {
+                setNotifications(response.data);
+                console.log(response.data);
+                // if (notifications.length) {
+                //     return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
+                // }
+            });
+    }, []);
 
     const handleChange = (event) => {
         if (event?.target.value) setValue(event?.target.value);
@@ -166,7 +181,7 @@ const NotificationSection = () => {
                                                         <Typography variant="subtitle1">Уведомления</Typography>
                                                         <Chip
                                                             size="small"
-                                                            label="02"
+                                                            label={notifications.length}
                                                             sx={{
                                                                 color: theme.palette.background.default,
                                                                 bgcolor: theme.palette.warning.dark
@@ -195,7 +210,7 @@ const NotificationSection = () => {
                                                     overflowX: 'hidden'
                                                 }}
                                             >
-                                                <NotificationList />
+                                                <NotificationList notifications={notifications} />
                                             </PerfectScrollbar>
                                         </Grid>
                                     </Grid>
