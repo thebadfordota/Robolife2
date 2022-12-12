@@ -5,4 +5,4 @@ class MetricsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'components.metrics'
     label = 'metrics'
-    verbose_name = 'Погодные метрики'
+    verbose_name = 'Метрики погоды'

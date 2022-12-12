@@ -31,6 +31,8 @@ import NotificationList from './NotificationList';
 
 // assets
 import { IconBell } from '@tabler/icons';
+import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
+import axios from 'axios';
 
 // notification status options
 const status = [
@@ -86,6 +88,16 @@ const NotificationSection = () => {
 
     const handleChange = (event) => {
         if (event?.target.value) setValue(event?.target.value);
+    };
+
+    const handleClick = (event) => {
+        axios
+            .delete(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + localStorage.getItem('id') + '/', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
+            .then((response) => {
+                console.log(response);
+            });
     };
 
     return (
@@ -163,7 +175,13 @@ const NotificationSection = () => {
                                                     </Stack>
                                                 </Grid>
                                                 <Grid item>
-                                                    <Typography component={Link} to="#" variant="subtitle2" color="primary">
+                                                    <Typography
+                                                        onClick={handleClick}
+                                                        component={Link}
+                                                        to={'#'}
+                                                        variant="subtitle2"
+                                                        color="primary"
+                                                    >
                                                         Отметить все<br></br> как прочитанное
                                                     </Typography>
                                                 </Grid>
@@ -171,7 +189,11 @@ const NotificationSection = () => {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <PerfectScrollbar
-                                                style={{ height: '100%', maxHeight: 'calc(100vh - 205px)', overflowX: 'hidden' }}
+                                                style={{
+                                                    height: '100%',
+                                                    maxHeight: 'calc(100vh - 205px)',
+                                                    overflowX: 'hidden'
+                                                }}
                                             >
                                                 <NotificationList />
                                             </PerfectScrollbar>

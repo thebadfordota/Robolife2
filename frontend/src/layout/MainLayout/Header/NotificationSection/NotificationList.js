@@ -21,7 +21,7 @@ import {
 import { IconBrandTelegram, IconBuildingStore, IconMailbox, IconPhoto } from '@tabler/icons';
 import User1 from 'assets/images/users/user-round.svg';
 import { useEffect, useState } from 'react';
-import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
+import { PARAMS_CONVERT, ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
 import axios from 'axios';
 
 // styles
@@ -66,9 +66,10 @@ const NotificationList = () => {
             })
             .then((response) => {
                 setNotifications(response.data);
-                if (notifications.length) {
-                    return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
-                }
+                console.log(response.data);
+                // if (notifications.length) {
+                //     return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
+                // }
             });
     }, []);
 
@@ -94,9 +95,10 @@ const NotificationList = () => {
             }}
         >
             <Divider />
-            {notifications.map((value) => {
+            {notifications.map((value, index) => {
+                console.log(value);
                 return (
-                    <>
+                    <div key={index}>
                         <ListItemWrapper>
                             <ListItem alignItems="center">
                                 <ListItemAvatar>
@@ -117,7 +119,10 @@ const NotificationList = () => {
                             </ListItem>
                             <Grid container direction="column" className="list-container">
                                 <Grid item xs={12} sx={{ pb: 2 }}>
-                                    <Typography variant="subtitle2">Прокомментировал параметр "Температура" от 16.10.2022 16:00</Typography>
+                                    <Typography variant="subtitle2">
+                                        Прокомментировал параметр "{PARAMS_CONVERT[value.comment.weather_metric.name]}" от{' '}
+                                        {new Date(Date.parse(value.comment.weather_metric.date)).toLocaleDateString()}
+                                    </Typography>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Grid container>
@@ -129,7 +134,7 @@ const NotificationList = () => {
                             </Grid>
                         </ListItemWrapper>
                         <Divider />
-                    </>
+                    </div>
                 );
             })}
             <ListItemWrapper>
