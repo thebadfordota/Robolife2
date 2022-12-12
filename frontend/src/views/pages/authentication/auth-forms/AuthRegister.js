@@ -104,7 +104,7 @@ const FirebaseRegister = ({ ...others }) => {
                     last_name: Yup.string().max(255).required('Фамилия не введена')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/accounts/v1/register/', values).then((r) => {
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/accounts/v1/register/', values).then((r) => {
                         scriptedRef.current = r;
                         try {
                             if (scriptedRef.current) {

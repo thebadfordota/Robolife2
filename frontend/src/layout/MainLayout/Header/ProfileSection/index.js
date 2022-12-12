@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -31,10 +31,9 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
-import User1 from 'assets/images/users/user-round.svg';
 
 // assets
-import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSettings, IconUser, IconTool } from '@tabler/icons';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -60,6 +59,31 @@ const ProfileSection = () => {
             return;
         }
         setOpen(false);
+    };
+
+    const AdminPanelButton = (is_superuser) => {
+        if (is_superuser) {
+            return (
+                <ListItemButton
+                    sx={{ borderRadius: `${customization.borderRadius}px` }}
+                    selected={selectedIndex === 1}
+                    onClick={(event) => window.open(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.admin_panel_url)}
+                >
+                    <ListItemIcon>
+                        <IconTool stroke={1.5} size="1.3rem" />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={
+                            <Grid container spacing={1} justifyContent="space-between">
+                                <Grid item>
+                                    <Typography variant="body2">Панель администратора</Typography>
+                                </Grid>
+                            </Grid>
+                        }
+                    />
+                </ListItemButton>
+            );
+        }
     };
 
     const handleListItemClick = (event, index, route = '') => {
@@ -237,6 +261,8 @@ const ProfileSection = () => {
                                                         }
                                                     />
                                                 </ListItemButton>
+
+                                                <AdminPanelButton is_superuser={localStorage.getItem('is_sureruser')} />
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 4}
