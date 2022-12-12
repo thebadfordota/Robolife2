@@ -180,6 +180,7 @@ const NotificationSection = () => {
                                                     <Stack direction="row" spacing={2}>
                                                         <Typography variant="subtitle1">Уведомления</Typography>
                                                         <Chip
+                                                            className="chip-notifications"
                                                             size="small"
                                                             label={notifications.length}
                                                             sx={{
@@ -197,7 +198,7 @@ const NotificationSection = () => {
                                                         variant="subtitle2"
                                                         color="primary"
                                                     >
-                                                        Отметить все<br></br> как прочитанное
+                                                        Удалить все
                                                     </Typography>
                                                 </Grid>
                                             </Grid>
