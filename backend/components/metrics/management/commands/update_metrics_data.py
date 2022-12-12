@@ -5,6 +5,8 @@ from shared.exceptions import CommandError
 
 
 class Command(BaseCommand):
+    """Команда для обновления погодных метрик"""
+
     service_class = MetricsService
     help = 'Обновляет информацию для графиков из api open-meteo'
 

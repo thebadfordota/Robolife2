@@ -1,2 +1,2 @@
 from .weather_metrics_model_serializer import WeatherMetricsModelSerializer
-
+from .region_norm_model_serializer import RegionNormModelSerializer

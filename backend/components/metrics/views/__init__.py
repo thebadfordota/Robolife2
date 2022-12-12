@@ -1,2 +1,2 @@
 from .weather_metrics_model_viewset import WeatherMetricsModelViewSet
-from .avg_weather_metrics_model_viewset import WeatherAvgMetricsViewSet
+from .region_norm_model_viewset import RegionNormModelViewSet

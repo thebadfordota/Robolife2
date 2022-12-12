@@ -1,6 +1,6 @@
 from components.metrics.repository import MetricsRepository
 from config.constants import WEATHER_METRIC_NAME_CHOICES
-from shared.clients import OpenMeteoClient, OpenMeteoForecastClientV2
+from shared.clients import OpenMeteoForecastClientV2
 from shared.exceptions import (
     NotFoundValueError,
     CommandError,
@@ -10,7 +10,6 @@ from shared.exceptions import (
 class MetricsService:
     """Сервис для работы с погодными метриками"""
 
-    # client_class = OpenMeteoClient
     client_class = OpenMeteoForecastClientV2
     repository_class = MetricsRepository
 
@@ -18,7 +17,6 @@ class MetricsService:
         self.start_date = start_date
         self.end_date = end_date
         self.metric_choices = WEATHER_METRIC_NAME_CHOICES
-        # self.base_begin_date = BASE_BEGIN_DATE
 
         self.client_class = self.client_class()
         self.repository_class = self.repository_class()
