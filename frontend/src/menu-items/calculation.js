@@ -15,8 +15,8 @@ const pages = {
     type: 'group',
     children: [
         {
-            id: 'login3',
-            title: 'Доступная влага в почве',
+            id: 'soil_moisture',
+            title: 'Продуктивная влага в почве',
             type: 'item',
             url: '/calculation/soil_moisture',
             icon: icons.IconSeeding
