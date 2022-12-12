@@ -26,3 +26,5 @@ class WeatherMetricsModel(BaseModel):
 
     def __str__(self):
         return f'{self.pk} | {self.name} | {self.value} | {self.date}'
+
+
