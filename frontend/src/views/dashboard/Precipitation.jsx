@@ -15,6 +15,7 @@ import { addHours } from 'date-fns';
 import axios from 'axios';
 import MainCard from '../../ui-component/cards/MainCard';
 import ColumnChart from '../../ui-component/ColumnChart';
+import SaveIcon from '@mui/icons-material/Save';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -47,7 +48,7 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
                     onClick(rowData.id);
                 }}
             >
-                {rowData.status === 'EDIT' ? 'Сохранить' : 'Редактировать'}
+                {rowData.status === 'EDIT' ? <SaveIcon fontSize="small" /> : <EditIcon />}
             </Button>
         </Cell>
     );
@@ -164,6 +165,8 @@ const Precipitation = () => {
                         ) : (
                             <div>
                                 <IconButton
+                                    appearance="primary"
+                                    color="cyan"
                                     style={{ marginRight: '10px' }}
                                     icon={<CloseIcon />}
                                     onClick={() => {
@@ -174,6 +177,8 @@ const Precipitation = () => {
                                 </IconButton>
                                 <IconButton
                                     icon={<CheckIcon />}
+                                    appearance="primary"
+                                    color="green"
                                     onClick={() => {
                                         setEditMode(false);
                                         saveData(editData);
