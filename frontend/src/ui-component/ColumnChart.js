@@ -9,7 +9,7 @@ import { useLayoutEffect } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 import { useDispatch } from 'react-redux';
 
-const ColumnChart = ({ chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
+const ColumnChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
     const dispatch = useDispatch();
 
     useLayoutEffect(() => {
@@ -48,6 +48,15 @@ const ColumnChart = ({ chartRootName, data, intervalTimeUnit, intervalCount, com
             am5xy.ValueAxis.new(root, {
                 maxDeviation: 0.1,
                 renderer: am5xy.AxisRendererY.new(root, {})
+            })
+        );
+
+        yAxis.children.unshift(
+            am5.Label.new(root, {
+                rotation: -90,
+                text: titleChart,
+                y: am5.p50,
+                centerX: am5.p50
             })
         );
 

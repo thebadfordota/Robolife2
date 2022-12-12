@@ -3,8 +3,9 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import * as am5radar from '@amcharts/amcharts5/radar';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import * as am5 from '@amcharts/amcharts5';
+import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 
-const WindRose = ({ chartRootName, data }) => {
+const WindRose = ({ titleChart, chartRootName, data }) => {
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
         if (root._logo) {
@@ -53,6 +54,14 @@ const WindRose = ({ chartRootName, data }) => {
             })
         );
 
+        chart.children.unshift(
+            am5.Label.new(root, {
+                rotation: -90,
+                text: titleChart,
+                y: am5.p50,
+                centerX: am5.p50
+            })
+        );
         // Create series
         // https://www.amcharts.com/docs/v5/charts/radar-chart/#Adding_series
         function createSeries(name, field) {
@@ -84,6 +93,11 @@ const WindRose = ({ chartRootName, data }) => {
         }
 
         if (data.length) createSeries('Максимальная скорость ветра', 'windSpeed');
+
+        let exporting = am5plugins_exporting.Exporting.new(root, {
+            menu: am5plugins_exporting.ExportingMenu.new(root, {}),
+            dataSource: data
+        });
 
         // Animate chart and series in
         // https://www.amcharts.com/docs/v5/concepts/animations/#Initial_animation
