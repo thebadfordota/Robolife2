@@ -1,5 +1,3 @@
-
-
 from rest_framework.serializers import ModelSerializer
 
 from components.metrics.models import WeatherMetricsModel

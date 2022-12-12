@@ -18,4 +18,26 @@ const getChartData = (parameters = {}, dates = []) => {
     return res;
 };
 
-export { getChartData };
+const getWindRoseData = (speeds = [], directions = []) => {
+    let res = [];
+    for (let i = 1; i <= 360; i++) {
+        res.push({ direction: i, windSpeed: 0 });
+    }
+    speeds.forEach((value, index) => {
+        let foundIndex = res.findIndex((value) => value.direction === directions[index]);
+        if (foundIndex === -1) {
+            res.push({
+                windSpeed: value,
+                direction: directions[index]
+            });
+        } else {
+            if (res[foundIndex].windSpeed < value) {
+                res[foundIndex].windSpeed = value;
+            }
+        }
+    });
+    res.sort((a, b) => a.direction - b.direction);
+    return res;
+};
+
+export { getChartData, getWindRoseData };

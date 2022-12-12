@@ -58,7 +58,9 @@ INSTALLED_APPS = [
 
 COMPONENTS = [
     'components.metrics',
-    'components.accounts'
+    'components.accounts',
+    'components.comments',
+    'components.notifications',
 ]
 
 

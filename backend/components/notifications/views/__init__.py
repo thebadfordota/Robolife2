@@ -1,0 +1,1 @@
+from .user_notifications_model_view_set import UserNotificationsModelViewSet

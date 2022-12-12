@@ -31,6 +31,8 @@ import NotificationList from './NotificationList';
 
 // assets
 import { IconBell } from '@tabler/icons';
+import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
+import axios from 'axios';
 
 // notification status options
 const status = [
@@ -60,6 +62,7 @@ const NotificationSection = () => {
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState('');
+    const [notifications, setNotifications] = useState([]);
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
@@ -84,8 +87,32 @@ const NotificationSection = () => {
         prevOpen.current = open;
     }, [open]);
 
+    useEffect(() => {
+        axios
+            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + `?userId=${localStorage.getItem('id')}`, {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
+            .then((response) => {
+                setNotifications(response.data);
+                console.log(response.data);
+                // if (notifications.length) {
+                //     return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
+                // }
+            });
+    }, []);
+
     const handleChange = (event) => {
         if (event?.target.value) setValue(event?.target.value);
+    };
+
+    const handleClick = (event) => {
+        axios
+            .delete(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + localStorage.getItem('id') + '/', {
+                headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+            })
+            .then((response) => {
+                console.log(response);
+            });
     };
 
     return (
@@ -154,7 +181,7 @@ const NotificationSection = () => {
                                                         <Typography variant="subtitle1">Уведомления</Typography>
                                                         <Chip
                                                             size="small"
-                                                            label="02"
+                                                            label={notifications.length}
                                                             sx={{
                                                                 color: theme.palette.background.default,
                                                                 bgcolor: theme.palette.warning.dark
@@ -163,7 +190,13 @@ const NotificationSection = () => {
                                                     </Stack>
                                                 </Grid>
                                                 <Grid item>
-                                                    <Typography component={Link} to="#" variant="subtitle2" color="primary">
+                                                    <Typography
+                                                        onClick={handleClick}
+                                                        component={Link}
+                                                        to={'#'}
+                                                        variant="subtitle2"
+                                                        color="primary"
+                                                    >
                                                         Отметить все<br></br> как прочитанное
                                                     </Typography>
                                                 </Grid>
@@ -171,9 +204,13 @@ const NotificationSection = () => {
                                         </Grid>
                                         <Grid item xs={12}>
                                             <PerfectScrollbar
-                                                style={{ height: '100%', maxHeight: 'calc(100vh - 205px)', overflowX: 'hidden' }}
+                                                style={{
+                                                    height: '100%',
+                                                    maxHeight: 'calc(100vh - 205px)',
+                                                    overflowX: 'hidden'
+                                                }}
                                             >
-                                                <NotificationList />
+                                                <NotificationList notifications={notifications} />
                                             </PerfectScrollbar>
                                         </Grid>
                                     </Grid>

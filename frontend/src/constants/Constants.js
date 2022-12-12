@@ -9,7 +9,10 @@ const FIELD_CLIMATE_API = {
 };
 
 const ROBOLIFE2_BACKEND_API = {
-    base_url: 'http://localhost:8080'
+    base_url: 'http://localhost:8080/api',
+    weather_metrics_url: '/metrics/v1/weather_metrics/',
+    comments_url: '/comments/v1/comments/',
+    notification_url: '/notifications/v1/notification/'
 };
 
 const CHART_PARAMETERS_ENUM = {
@@ -25,7 +28,16 @@ const CHART_PARAMETERS_ENUM = {
     degreesDaysUsa: 'Градусо-дни (мин+макс)/2',
     battery: 'Заряд АКБ',
     solarRadiation: 'Солнечная радиация',
-    humidity: 'Влажность листа'
+    humidity: 'Влажность листа',
+
+    historyTemperatureMax: 'Максимальная температура',
+    historyTemperatureMin: 'Минимальная температура',
+    precipitationSum: 'Сумма осадков',
+    windRose: 'Роза ветров'
+};
+
+const PARAMS_CONVERT = {
+    'Precipitation Sum': 'Сумма осадков'
 };
 
 const DATA_FREQUENCY_CONVERT = {
@@ -34,4 +46,4 @@ const DATA_FREQUENCY_CONVERT = {
     monthly: 'month'
 };
 
-export { FIELD_CLIMATE_API, ROBOLIFE2_BACKEND_API, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT };
+export { FIELD_CLIMATE_API, ROBOLIFE2_BACKEND_API, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT, PARAMS_CONVERT };

@@ -16,7 +16,7 @@ class WeatherMetricsModel(BaseModel):
         choices=WEATHER_METRIC_NAME_CHOICES,
         verbose_name='Название метрики'
     )
-    value = FloatField(blank=True, verbose_name='Значение', null=True)
+    value = FloatField(blank=True, null=True, verbose_name='Значение')
     date = DateField(blank=True, null=True, verbose_name='Дата')
 
     class Meta:
@@ -25,7 +25,9 @@ class WeatherMetricsModel(BaseModel):
         ordering = ['-date']
 
     def __str__(self):
-        return f'{self.name} | {self.value} | {self.date}'
+        return f'{self.pk} | {self.name} | {self.value} | {self.date}'
+
+
 class WeatherAverageMetricsModel(BaseModel):
     """Модель нормы для региона"""
 
