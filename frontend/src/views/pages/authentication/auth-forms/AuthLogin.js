@@ -92,9 +92,10 @@ const FirebaseLogin = ({ ...others }) => {
                     password: Yup.string().max(255).required('Пароль не введен')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/accounts/v1/authorization/', values).then((r) => {
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/accounts/v1/authorization/', values).then((r) => {
                         localStorage.setItem('token', r.data.access);
                         localStorage.setItem('id', r.data.id);
+                        localStorage.setItem('is_superuser', r.data.is_superuser);
                         localStorage.setItem('username', r.data.username);
                         localStorage.setItem('email', r.data.email);
                         localStorage.setItem('firstName', r.data.first_name);
