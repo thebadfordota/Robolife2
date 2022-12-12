@@ -10,26 +10,60 @@ const Profile = () => {
             <MainCard title="Профиль" className={styles.profileCard}>
                 <Grid container>
                     <Grid item>
-                        <Avatar className={styles.avatar}>ИИ</Avatar>
+                        <Avatar className={styles.avatar}>
+                            {(localStorage.getItem('firstName')
+                                ? localStorage.getItem('firstName')[0]
+                                : localStorage.getItem('username')[0]) +
+                                (localStorage.getItem('lastName') ? localStorage.getItem('lastName')[0] : '')}
+                        </Avatar>
                     </Grid>
                     <Grid item>
                         <h5>Личные данные</h5>
                         <TextField
                             style={{ cursor: 'pointer' }}
                             className={styles.textField}
-                            required
                             id="last-name"
                             label="Фамилия"
-                            value={'Иванов'}
+                            value={localStorage.getItem('lastName')}
                             disabled
                         />
-                        <TextField disabled className={styles.textField} required id="first-name" label="Имя" value={'Иван'} />
-                        <TextField disabled className={styles.textField} required id="patronymic" label="Отчество" value={'Иванович'} />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            id="first-name"
+                            label="Имя"
+                            value={localStorage.getItem('firstName')}
+                        />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            id="patronymic"
+                            label="Отчество"
+                            value={localStorage.getItem('patronymic') !== '' ? localStorage.getItem('patronymic') : '(не указано)'}
+                        />
 
                         <h5 className={styles.h5}>Данные авторизации</h5>
-                        <TextField disabled className={styles.textField} required id="login" label="Логин" value={'ivanov'} />
-                        <TextField disabled className={styles.textField} id="email" label="Email" value={'ivan_ivanov@mock.data.ru'} />
-                        <TextField disabled className={styles.textField} id="phone" label="Номер телефона" value={'+79000000000'} />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            id="login"
+                            label="Логин"
+                            value={localStorage.getItem('username')}
+                        />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            id="email"
+                            label="Email"
+                            value={localStorage.getItem('email') !== '' ? localStorage.getItem('email') : '(не указан)'}
+                        />
+                        <TextField
+                            disabled
+                            className={styles.textField}
+                            id="phone"
+                            label="Номер телефона"
+                            value={localStorage.getItem('phone') !== 'null' ? localStorage.getItem('phone') : '(не указан)'}
+                        />
                     </Grid>
                 </Grid>
             </MainCard>

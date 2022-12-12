@@ -1,7 +1,8 @@
 from django.apps import AppConfig
 
 
-class ChartsConfig(AppConfig):
+class MetricsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'components.metrics'
     label = 'metrics'
+    verbose_name = 'Метрики погоды'

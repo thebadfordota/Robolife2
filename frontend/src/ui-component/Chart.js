@@ -1,6 +1,3 @@
-// material-ui
-
-// project imports
 import * as am5 from '@amcharts/amcharts5';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
@@ -10,10 +7,16 @@ import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 
 import { useLayoutEffect } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
+import { useDispatch } from 'react-redux';
 
-const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
+const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
+    const dispatch = useDispatch();
+
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
+        if (root._logo) {
+            root._logo.dispose();
+        }
 
         root.setThemes([am5themes_Animated.new(root)]);
         root.numberFormatter.set('intlLocales', 'ru-RU');
@@ -79,15 +82,39 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
                 templateField: 'strokeSettings'
             });
 
+            let bulletTemplate = am5.Template.new(root, {});
+
+            if (comments) {
+                bulletTemplate.events.on('click', function (ev) {
+                    const ModalWindowData = {
+                        status: true,
+                        date: ev.target.dataItem.dataContext.date,
+                        value: ev.target.dataItem.dataContext[field],
+                        id: ev.target.dataItem.dataContext.id,
+                        typeParam: name
+                    };
+                    if (ev.target.dataItem.dataContext.date) {
+                        dispatch({
+                            type: 'SET_STATE_MODAL',
+                            ...ModalWindowData
+                        });
+                    }
+                });
+            }
+
             series.bullets.push(function () {
                 return am5.Bullet.new(root, {
                     locationY: 0,
-                    sprite: am5.Circle.new(root, {
-                        radius: 6,
-                        stroke: root.interfaceColors.get('background'),
-                        strokeWidth: 0,
-                        fill: series.get('fill')
-                    })
+                    sprite: am5.Circle.new(
+                        root,
+                        {
+                            radius: 6,
+                            stroke: root.interfaceColors.get('background'),
+                            strokeWidth: 0,
+                            fill: series.get('fill')
+                        },
+                        bulletTemplate
+                    )
                 });
             });
 
@@ -123,7 +150,7 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
 
         if (data.length) {
             Object.keys(data[0]).forEach((key) => {
-                if (key !== 'date') createSeries(CHART_PARAMETERS_ENUM[key], key);
+                if (key !== 'date' && key !== 'id') createSeries(CHART_PARAMETERS_ENUM[key], key);
             });
         }
 
@@ -137,38 +164,6 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
             })
         );
         cursor.lineY.set('visible', false);
-
-        // let scrollbarX = am5xy.XYChartScrollbar.new(root, {
-        //     orientation: 'horizontal',
-        //     height: 50
-        // });
-        //
-        // chart.set('scrollbarX', scrollbarX);
-        //
-        // let sbxAxis = scrollbarX.chart.xAxes.push(
-        //     am5xy.DateAxis.new(root, {
-        //         baseInterval: { timeUnit: 'hour', count: 1 },
-        //         renderer: am5xy.AxisRendererX.new(root, {
-        //             opposite: false,
-        //             strokeOpacity: 0
-        //         })
-        //     })
-        // );
-        //
-        // let sbyAxis = scrollbarX.chart.yAxes.push(
-        //     am5xy.ValueAxis.new(root, {
-        //         renderer: am5xy.AxisRendererY.new(root, {})
-        //     })
-        // );
-        //
-        // let sbseries = scrollbarX.chart.series.push(
-        //     am5xy.LineSeries.new(root, {
-        //         xAxis: sbxAxis,
-        //         yAxis: sbyAxis,
-        //         valueYField: 'countPrecipitation',
-        //         valueXField: 'date'
-        //     })
-        // );
 
         let legend = chart.children.push(
             am5.Legend.new(root, {
@@ -185,8 +180,6 @@ const Chart = ({ chartRootName, data, intervalTimeUnit, intervalCount }) => {
             e.target.dataItem.dataContext.unhover();
         });
         legend.data.setAll(chart.series.values);
-
-        // sbseries.data.setAll(data);
 
         let exporting = am5plugins_exporting.Exporting.new(root, {
             menu: am5plugins_exporting.ExportingMenu.new(root, {}),

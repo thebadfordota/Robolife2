@@ -4,18 +4,13 @@ from components.accounts.models import UserModel
 
 
 class UserModelSerializer(ModelSerializer):
-    """Сериализатор для метрик погоды"""
+    """Сериализатор для списка комментариев пользователя"""
 
     class Meta:
         model = UserModel
         fields = [
             'id',
-            'is_superuser',
-            'username',
-            'password',
-            'email',
-            'is_staff',
             'first_name',
             'last_name',
-            'patronymic',
+            'username'
         ]

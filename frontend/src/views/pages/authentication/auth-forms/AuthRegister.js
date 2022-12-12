@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -33,10 +33,14 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import { ROBOLIFE2_BACKEND_API } from '../../../../constants/Constants';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
 const FirebaseRegister = ({ ...others }) => {
+    const navigate = useNavigate();
+
     const theme = useTheme();
     const scriptedRef = useScriptRef();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -85,56 +89,140 @@ const FirebaseRegister = ({ ...others }) => {
                 initialValues={{
                     email: '',
                     password: '',
+                    username: '',
+                    first_name: '',
+                    last_name: '',
+                    phone: '',
+                    patronymic: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    email: Yup.string().email('Email адрес неверный').max(255).required('Email не введен'),
-                    password: Yup.string().max(255).required('Пароль не введен')
+                    email: Yup.string().email('Email адрес неверный').max(255),
+                    password: Yup.string().max(255).required('Пароль не введен'),
+                    username: Yup.string().max(255).required('Логин не введен'),
+                    first_name: Yup.string().max(255).required('Имя не введено'),
+                    last_name: Yup.string().max(255).required('Фамилия не введена')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        if (scriptedRef.current) {
-                            setStatus({ success: true });
-                            setSubmitting(false);
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/accounts/v1/register/', values).then((r) => {
+                        scriptedRef.current = r;
+                        try {
+                            if (scriptedRef.current) {
+                                setStatus({ success: true });
+                                setSubmitting(false);
+                                navigate('/login', { state: { username: values.username, password: values.password } });
+                            }
+                        } catch (err) {
+                            console.error(err);
+                            if (scriptedRef.current) {
+                                setStatus({ success: false });
+                                setErrors({ submit: err.message });
+                                setSubmitting(false);
+                            }
                         }
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
-                            setStatus({ success: false });
-                            setErrors({ submit: err.message });
-                            setSubmitting(false);
-                        }
-                    }
+                    });
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                <FormControl
                                     fullWidth
-                                    label="Имя"
-                                    margin="normal"
-                                    name="fname"
-                                    type="text"
-                                    defaultValue=""
+                                    error={Boolean(touched.first_name && errors.first_name)}
                                     sx={{ ...theme.typography.customInput }}
-                                />
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-firstname-register">Имя</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-firstname-register"
+                                        type="text"
+                                        value={values.first_name}
+                                        name="first_name"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.first_name && errors.first_name && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.first_name}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
+                                <FormControl
                                     fullWidth
-                                    label="Фамилия"
-                                    margin="normal"
-                                    name="lname"
-                                    type="text"
-                                    defaultValue=""
+                                    error={Boolean(touched.last_name && errors.last_name)}
                                     sx={{ ...theme.typography.customInput }}
-                                />
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-lastname-register">Фамилия</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-lastname-register"
+                                        type="text"
+                                        value={values.last_name}
+                                        name="last_name"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.last_name && errors.last_name && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.last_name}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                            </Grid>
+                        </Grid>
+                        <Grid container spacing={matchDownSM ? 0 : 2}>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl
+                                    fullWidth
+                                    error={Boolean(touched.patronymic && errors.patronymic)}
+                                    sx={{ ...theme.typography.customInput }}
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-patronymic-register">Отчество</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-patronymic-register"
+                                        type="text"
+                                        value={values.patronymic}
+                                        name="patronymic"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.patronymic && errors.patronymic && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.patronymic}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl
+                                    fullWidth
+                                    error={Boolean(touched.phone && errors.phone)}
+                                    sx={{ ...theme.typography.customInput }}
+                                >
+                                    <InputLabel htmlFor="outlined-adornment-phone-register">Номер телефона</InputLabel>
+                                    <OutlinedInput
+                                        id="outlined-adornment-phone-register"
+                                        type="phone"
+                                        value={values.phone}
+                                        name="phone"
+                                        onBlur={handleBlur}
+                                        onChange={handleChange}
+                                        inputProps={{}}
+                                    />
+                                    {touched.phone && errors.phone && (
+                                        <FormHelperText error id="standard-weight-helper-text--register">
+                                            {errors.phone}
+                                        </FormHelperText>
+                                    )}
+                                </FormControl>
                             </Grid>
                         </Grid>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-register">Email / Логин</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-register">Email</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-register"
                                 type="email"
@@ -147,6 +235,28 @@ const FirebaseRegister = ({ ...others }) => {
                             {touched.email && errors.email && (
                                 <FormHelperText error id="standard-weight-helper-text--register">
                                     {errors.email}
+                                </FormHelperText>
+                            )}
+                        </FormControl>
+
+                        <FormControl
+                            fullWidth
+                            error={Boolean(touched.username && errors.username)}
+                            sx={{ ...theme.typography.customInput }}
+                        >
+                            <InputLabel htmlFor="outlined-adornment-username-register">Логин</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-username-register"
+                                value={values.username}
+                                type="text"
+                                name="username"
+                                onBlur={handleBlur}
+                                onChange={handleChange}
+                                inputProps={{}}
+                            />
+                            {touched.username && errors.username && (
+                                <FormHelperText error id="standard-weight-helper-text--register">
+                                    {errors.username}
                                 </FormHelperText>
                             )}
                         </FormControl>
@@ -189,7 +299,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 </FormHelperText>
                             )}
                         </FormControl>
-
                         {strength !== 0 && (
                             <FormControl fullWidth>
                                 <Box sx={{ mb: 2 }}>
@@ -209,7 +318,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 </Box>
                             </FormControl>
                         )}
-
                         <Grid container alignItems="center" justifyContent="space-between">
                             <Grid item>
                                 <FormControlLabel
@@ -237,7 +345,6 @@ const FirebaseRegister = ({ ...others }) => {
                                 <FormHelperText error>{errors.submit}</FormHelperText>
                             </Box>
                         )}
-
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton>
                                 <Button

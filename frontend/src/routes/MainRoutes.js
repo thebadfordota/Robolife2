@@ -4,10 +4,7 @@ import { lazy } from 'react';
 // eslint-disable-next-line no-unused-vars
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-import SystemParams from '../views/dashboard/SystemParams';
-import { Navigate } from 'react-router';
 import RequiredAuth from '../utils/RequiredAuth';
-
 // dashboard routing
 const WelcomePage = Loadable(lazy(() => import('views/welcome-page/WelcomePage')));
 
@@ -15,13 +12,15 @@ const TemperaturePage = Loadable(lazy(() => import('views/dashboard/Temperature'
 
 const PrecipitationPage = Loadable(lazy(() => import('views/dashboard/Precipitation')));
 
-const WindSpeedPage = Loadable(lazy(() => import('views/dashboard/WindSpeed')));
+const WindPage = Loadable(lazy(() => import('views/dashboard/Wind')));
 
 const SystemParamsPage = Loadable(lazy(() => import('views/dashboard/SystemParams')));
 
 const HumidityPage = Loadable(lazy(() => import('views/dashboard/Humidity')));
 
 const SolarRadiationPage = Loadable(lazy(() => import('views/dashboard/SolarRadiation')));
+
+const SoilMoisturePage = Loadable(lazy(() => import('views/calculation-pages/soil-moisture-page/SoilMoisture')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -70,10 +69,10 @@ const MainRoutes = {
             path: 'dashboard',
             children: [
                 {
-                    path: 'wind_speed',
+                    path: 'wind',
                     element: (
                         <RequiredAuth>
-                            <WindSpeedPage />
+                            <WindPage />
                         </RequiredAuth>
                     )
                 }
@@ -113,6 +112,19 @@ const MainRoutes = {
                     element: (
                         <RequiredAuth>
                             <SolarRadiationPage />
+                        </RequiredAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'calculation',
+            children: [
+                {
+                    path: 'soil_moisture',
+                    element: (
+                        <RequiredAuth>
+                            <SoilMoisturePage />
                         </RequiredAuth>
                     )
                 }

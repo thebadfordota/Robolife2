@@ -1,0 +1,2 @@
+from .user_notifications_model_serializer import UserNotificationsModelSerializer
+

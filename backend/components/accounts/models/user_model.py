@@ -8,6 +8,7 @@ class UserModel(AbstractUser):
     first_name = CharField("Имя", max_length=150)
     last_name = CharField("Фамилия", max_length=150)
     patronymic = CharField("Отчество", max_length=150, blank=True)
+    phone = CharField("Номер телефона", max_length=20, blank=True, null=True)
 
     class Meta(AbstractUser.Meta):
         verbose_name = "Пользователь"
