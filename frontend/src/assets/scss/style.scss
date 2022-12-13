@@ -154,3 +154,18 @@ input[disabled] {
     margin-left: 10px !important;
     margin-right: 25px !important;
 }
+
+@media (max-width: 901px) {
+    .css-xtnw68-MuiFormControl-root{
+        width: 200px!important;
+    }
+    .css-13tqxrv {
+        display: block !important;
+    }
+}
+
+@media (max-width: 450px) {
+        .css-xtnw68-MuiFormControl-root{
+        max-width: 120px!important;
+    }
+}
