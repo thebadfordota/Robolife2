@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Chart from '../../ui-component/Chart';
+import LineChart from '../../ui-component/LineChart';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
-import { getChartData } from '../../utils/ChartUtils';
+import { generateNormal, getChartData } from '../../utils/ChartUtils';
 import { useSelector } from 'react-redux';
 import SubCard from '../../ui-component/cards/SubCard';
 import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
@@ -74,20 +74,31 @@ const Temperature = () => {
                 }
             )
             .then((response) => {
-                console.log(response.data);
                 setDataHistory(
                     getChartData(
-                        Object.values(response.data).length
+                        Object.values(response.data.metric).length
                             ? {
-                                  historyTemperatureMax: Object.values(response.data)
+                                  historyTemperatureMax: Object.values(response.data.metric)
                                       .filter((value) => value.name === 'Max Temperature')
                                       .map((value) => Number(value.value)),
-                                  historyTemperatureMin: Object.values(response.data)
+                                  historyTemperatureMin: Object.values(response.data.metric)
                                       .filter((value) => value.name === 'Min Temperature')
-                                      .map((value) => Number(value.value))
+                                      .map((value) => Number(value.value)),
+                                  historyTemperatureMaxNormal: generateNormal(
+                                      Object.values(response.data.region_norm).filter((value) => value.name === 'Max Temperature'),
+                                      Object.values(response.data.metric)
+                                          .filter((value, index) => index % 2 === 0)
+                                          .map((value) => value.date)
+                                  ),
+                                  historyTemperatureMinNormal: generateNormal(
+                                      Object.values(response.data.region_norm).filter((value) => value.name === 'Min Temperature'),
+                                      Object.values(response.data.metric)
+                                          .filter((value, index) => index % 2 === 0)
+                                          .map((value) => value.date)
+                                  )
                               }
                             : {},
-                        Object.values(response.data)
+                        Object.values(response.data.metric)
                             .filter((value, index) => index % 2 === 0)
                             .map((value) => value.date)
                     )
@@ -99,7 +110,7 @@ const Temperature = () => {
         <div>
             <ChartMainCard title="Температура" />
             <SubCard>
-                <Chart
+                <LineChart
                     titleChart="Температура воздуха,°C"
                     chartRootName="chart1"
                     data={data}
@@ -108,7 +119,7 @@ const Temperature = () => {
                 />
             </SubCard>
             <SubCard title="Накопление активных температур">
-                <Chart
+                <LineChart
                     titleChart="Накопление активных температур"
                     chartRootName="chart2"
                     data={dataInc}
@@ -117,7 +128,7 @@ const Temperature = () => {
                 />
             </SubCard>
             <MainCard title="Исторические данные о температуре" subheader="Данные получены из API Robolife2">
-                <Chart
+                <LineChart
                     titleChart="Температура (внешние данные), °C"
                     chartRootName="chart3"
                     data={dataHistory}

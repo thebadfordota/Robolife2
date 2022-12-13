@@ -9,7 +9,7 @@ import { useLayoutEffect } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 import { useDispatch } from 'react-redux';
 
-const Chart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
+const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
     const dispatch = useDispatch();
 
     useLayoutEffect(() => {
@@ -95,18 +95,20 @@ const Chart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCoun
 
             if (comments) {
                 bulletTemplate.events.on('click', function (ev) {
-                    const ModalWindowData = {
-                        status: true,
-                        date: ev.target.dataItem.dataContext.date,
-                        value: ev.target.dataItem.dataContext[field],
-                        id: ev.target.dataItem.dataContext.id,
-                        typeParam: name
-                    };
-                    if (ev.target.dataItem.dataContext.date) {
-                        dispatch({
-                            type: 'SET_STATE_MODAL',
-                            ...ModalWindowData
-                        });
+                    if (!field.includes('Normal')) {
+                        const ModalWindowData = {
+                            status: true,
+                            date: ev.target.dataItem.dataContext.date,
+                            value: ev.target.dataItem.dataContext[field],
+                            id: ev.target.dataItem.dataContext.id,
+                            typeParam: name
+                        };
+                        if (ev.target.dataItem.dataContext.date) {
+                            dispatch({
+                                type: 'SET_STATE_MODAL',
+                                ...ModalWindowData
+                            });
+                        }
                     }
                 });
             }
@@ -131,7 +133,7 @@ const Chart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCoun
 
             let sbxAxis = scrollbarX.chart.xAxes.push(
                 am5xy.DateAxis.new(root, {
-                    baseInterval: { timeUnit: 'hour', count: 1 },
+                    baseInterval: { timeUnit: intervalTimeUnit, count: intervalCount },
                     renderer: am5xy.AxisRendererX.new(root, {
                         opposite: false,
                         strokeOpacity: 0
@@ -172,6 +174,7 @@ const Chart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCoun
                 xAxis: xAxis
             })
         );
+
         cursor.lineY.set('visible', false);
 
         let legend = chart.children.push(
@@ -203,4 +206,4 @@ const Chart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCoun
     return <div id={chartRootName} style={{ width: '100%', height: '500px' }}></div>;
 };
 
-export default Chart;
+export default LineChart;

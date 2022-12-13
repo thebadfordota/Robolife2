@@ -45,16 +45,6 @@ class WeatherMetricsModelViewSet(ModelViewSet):
 
         region_norm = RegionNormModel.objects.all().order_by("date")
 
-        if 'startDate' in request.query_params and 'endDate' in request.query_params:
-            start_date = request.query_params.get('startDate').split('-')
-            start_date[0] = '2010'
-            start_date = "-".join(start_date)
-
-            end_date = request.query_params.get('endDate').split('-')
-            end_date[0] = '2010'
-            end_date = "-".join(end_date)
-            region_norm = region_norm.filter(date__range=(start_date, end_date))
-
         if 'maxTemperature' in request.query_params and 'minTemperature' in request.query_params:
             region_norm = region_norm.filter(Q(name='Max Temperature') | Q(name='Min Temperature'))
         elif 'maxTemperature' in request.query_params:

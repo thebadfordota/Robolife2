@@ -103,27 +103,11 @@ const ColumnChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interv
                 });
             }
 
-            // series.columns.push(function () {
-            //     return am5.columns.new(root, {
-            //         locationY: 0,
-            //         sprite: am5.Rectangle.new(
-            //             root,
-            //             {
-            //                 radius: 6,
-            //                 stroke: root.interfaceColors.get('background'),
-            //                 strokeWidth: 0,
-            //                 fill: series.get('fill')
-            //             },
-            //             bulletTemplate
-            //         )
-            //     });
-            // });
-
             series.data.setAll(data);
 
             let sbxAxis = scrollbarX.chart.xAxes.push(
                 am5xy.DateAxis.new(root, {
-                    baseInterval: { timeUnit: 'hour', count: 1 },
+                    baseInterval: { timeUnit: intervalTimeUnit, count: intervalCount },
                     renderer: am5xy.AxisRendererX.new(root, {
                         opposite: false,
                         strokeOpacity: 0

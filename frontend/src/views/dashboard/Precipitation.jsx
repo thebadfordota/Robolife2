@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Chart from '../../ui-component/Chart';
+import LineChart from '../../ui-component/LineChart';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
-import { getChartData } from '../../utils/ChartUtils';
+import { generateNormal, getChartData } from '../../utils/ChartUtils';
 import SubCard from '../../ui-component/cards/SubCard';
 import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 import { useSelector } from 'react-redux';
@@ -140,13 +140,16 @@ const Precipitation = () => {
             .then((response) => {
                 setDataHistory(
                     getChartData(
-                        Object.values(response.data).length
+                        Object.values(response.data.metric).length
                             ? {
-                                  precipitationSum: Object.values(response.data).map((value) => Number(value.value)),
-                                  id: Object.values(response.data).map((value) => value.id)
+                                  precipitationSum: Object.values(response.data.metric).map((value) => Number(value.value)),
+                                  precipitationSumNormal: generateNormal(
+                                      Object.values(response.data.region_norm),
+                                      Object.values(response.data.metric).map((value) => value.date)
+                                  )
                               }
                             : {},
-                        Object.values(response.data).map((value) => value.date)
+                        Object.values(response.data.metric).map((value) => value.date)
                     )
                 );
             });
@@ -191,7 +194,7 @@ const Precipitation = () => {
                     </Grid>
                 </Grid>
                 {!editMode ? (
-                    <ColumnChart
+                    <LineChart
                         titleChart="Осадки, mm"
                         chartRootName="chart1"
                         data={data}
@@ -219,7 +222,7 @@ const Precipitation = () => {
             </SubCard>
 
             <SubCard title="Нарастающее количество осадков">
-                <Chart
+                <LineChart
                     titleChart="Нарастающее количество осадков, mm"
                     chartRootName="chart2"
                     data={dataInc}
@@ -228,7 +231,7 @@ const Precipitation = () => {
                 />
             </SubCard>
             <MainCard title="Исторические данные об осадках" subheader="Данные получены из API Robolife2">
-                <ColumnChart
+                <LineChart
                     titleChart="Осадки (внешние данные), mm"
                     chartRootName="chart3"
                     data={dataHistory}

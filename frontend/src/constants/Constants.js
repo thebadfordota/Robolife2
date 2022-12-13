@@ -33,7 +33,10 @@ const CHART_PARAMETERS_ENUM = {
 
     historyTemperatureMax: 'Максимальная температура',
     historyTemperatureMin: 'Минимальная температура',
+    historyTemperatureMaxNormal: 'Норма максимальной температуры',
+    historyTemperatureMinNormal: 'Норма минимальной температуры',
     precipitationSum: 'Сумма осадков',
+    precipitationSumNormal: 'Норма суммы осадков',
     windRose: 'Роза ветров'
 };
 
