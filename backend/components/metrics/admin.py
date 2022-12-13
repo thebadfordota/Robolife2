@@ -23,7 +23,7 @@ class WeatherMetricsModelAdmin(admin.ModelAdmin):
 
 
 @admin.register(SoilMoistureModel)
-class WeatherMetricsModelAdmin(admin.ModelAdmin):
+class SoilMoistureModelAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'name',
