@@ -11,6 +11,7 @@ const FIELD_CLIMATE_API = {
 const ROBOLIFE2_BACKEND_API = {
     base_url: 'http://localhost:8080',
     weather_metrics_url: '/api/metrics/v1/weather_metrics/',
+    soil_moisture_url: '/api/metrics/v1/soil_moisture/',
     comments_url: '/api/comments/v1/comments/',
     notification_url: '/api/notifications/v1/notification/',
     admin_panel_url: '/admin'
@@ -37,7 +38,10 @@ const CHART_PARAMETERS_ENUM = {
     historyTemperatureMinNormal: 'Норма минимальной температуры',
     precipitationSum: 'Сумма осадков',
     precipitationSumNormal: 'Норма суммы осадков',
-    windRose: 'Роза ветров'
+    windRose: 'Роза ветров',
+    soilMoisture10cm: 'Влажность почвы(h=10сm)',
+    soilMoisture20cm: 'Влажность почвы(h=20сm)',
+    soilMoisture100cm: 'Влажность почвы(h=100сm)'
 };
 
 const PARAMS_CONVERT = {

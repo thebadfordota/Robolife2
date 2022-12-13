@@ -18,6 +18,10 @@ class OpenMeteoForecastClientV2:
     endpoint_max_wind_speed = '&daily=windspeed_10m_max'
     endpoint_dominant_wind_direction = '&daily=winddirection_10m_dominant'
 
+    endpoint_soil_moisture_10cm_level = '&hourly=soil_moisture_3_9cm'
+    endpoint_soil_moisture_20cm_level = '&hourly=soil_moisture_9_27cm'
+    endpoint_soil_moisture_100cm_level = '&hourly=soil_moisture_27_81cm'
+
     def __init__(self):
         self.session = Session()
         self.headers = {
@@ -108,14 +112,71 @@ class OpenMeteoForecastClientV2:
             metric_response_name='winddirection_10m_dominant'
         )
 
-    def get_response(self, url: str, error_message: str, metric_response_name: str) -> tuple[list[float], list[str]]:
+    def get_response(self,
+                     url: str,
+                     error_message: str,
+                     metric_response_name: str,
+                     response_type: str = 'daily') -> tuple[list[float], list[str]]:
         """Выполнить запрос к api"""
 
         response = self.session.get(url=url, headers=self.headers).json()
         validate_response(
-            error_message,
-            metric_response_name,
-            response
+            error_message=error_message,
+            metric_response_name=metric_response_name,
+            response=response,
+            response_type=response_type
         )
-        data = response.get('daily')
+        data = response.get(response_type)
         return data.get(metric_response_name), data.get('time')
+
+    def get_soil_moisture_10cm_level_by_date_interval(self,
+                                                      start_date: str,
+                                                      end_date: str) -> tuple[list[float], list[str]]:
+        url = ''.join((
+            self.base_url,
+            self.coordinates_params,
+            self.endpoint_soil_moisture_10cm_level,
+            self.time_format_params,
+            self.time_interval_params.format(start_date, end_date)
+        ))
+        return self.get_response(
+            url=url,
+            error_message='Не удалось получить информацию о влажности почвы 10 см',
+            metric_response_name='soil_moisture_3_9cm',
+            response_type='hourly'
+        )
+
+    def get_soil_moisture_20cm_level_by_date_interval(self,
+                                                      start_date: str,
+                                                      end_date: str) -> tuple[list[float], list[str]]:
+        url = ''.join((
+            self.base_url,
+            self.coordinates_params,
+            self.endpoint_soil_moisture_20cm_level,
+            self.time_format_params,
+            self.time_interval_params.format(start_date, end_date)
+        ))
+        return self.get_response(
+            url=url,
+            error_message='Не удалось получить информацию о влажности почвы 20 см',
+            metric_response_name='soil_moisture_9_27cm',
+            response_type='hourly'
+        )
+
+    def get_soil_moisture_100cm_level_by_date_interval(self,
+                                                      start_date: str,
+                                                      end_date: str) -> tuple[list[float], list[str]]:
+        url = ''.join((
+            self.base_url,
+            self.coordinates_params,
+            self.endpoint_soil_moisture_100cm_level,
+            self.time_format_params,
+            self.time_interval_params.format(start_date, end_date)
+        ))
+        return self.get_response(
+            url=url,
+            error_message='Не удалось получить информацию о влажности почвы 20 см',
+            metric_response_name='soil_moisture_27_81cm',
+            response_type='hourly'
+        )
+

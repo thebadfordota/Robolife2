@@ -1,8 +1,8 @@
 // assets
-import { IconDashboard, IconTemperature, IconCloudRain, IconWind, IconDevices, IconDroplet, IconSun } from '@tabler/icons';
+import { IconDashboard, IconTemperature, IconCloudRain, IconWind, IconDevices, IconDroplet, IconSun, IconSeeding } from '@tabler/icons';
 
 // constant
-const icons = { IconDashboard, IconTemperature, IconCloudRain, IconWind, IconDevices, IconDroplet, IconSun };
+const icons = { IconSeeding, IconDashboard, IconTemperature, IconCloudRain, IconWind, IconDevices, IconDroplet, IconSun };
 
 // ==============================|| DASHBOARD MENU ITEMS ||============================== //
 
@@ -52,6 +52,13 @@ const dashboard = {
             type: 'item',
             url: '/dashboard/solar_radiation',
             icon: icons.IconSun
+        },
+        {
+            id: 'soil_moisture_dashboard',
+            title: 'Влажность почвы',
+            type: 'item',
+            url: '/dashboard/soil_moisture',
+            icon: icons.IconSeeding
         }
     ]
 };
