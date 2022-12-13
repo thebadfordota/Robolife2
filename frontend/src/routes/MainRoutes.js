@@ -20,7 +20,9 @@ const HumidityPage = Loadable(lazy(() => import('views/dashboard/Humidity')));
 
 const SolarRadiationPage = Loadable(lazy(() => import('views/dashboard/SolarRadiation')));
 
-const SoilMoisturePage = Loadable(lazy(() => import('views/calculation-pages/soil-moisture-page/SoilMoisture')));
+const SoilMoisturePage = Loadable(lazy(() => import('views/dashboard/SoilMoisture')));
+
+const SoilMoistureCalculationPage = Loadable(lazy(() => import('views/calculation-pages/soil-moisture-page/SoilMoisture')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -118,13 +120,26 @@ const MainRoutes = {
             ]
         },
         {
-            path: 'calculation',
+            path: 'dashboard',
             children: [
                 {
                     path: 'soil_moisture',
                     element: (
                         <RequiredAuth>
                             <SoilMoisturePage />
+                        </RequiredAuth>
+                    )
+                }
+            ]
+        },
+        {
+            path: 'calculation',
+            children: [
+                {
+                    path: 'soil_moisture',
+                    element: (
+                        <RequiredAuth>
+                            <SoilMoistureCalculationPage />
                         </RequiredAuth>
                     )
                 }
