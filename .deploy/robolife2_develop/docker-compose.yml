@@ -111,6 +111,21 @@ services:
         aliases:
           - redis_db
 
+  react:
+    container_name: react
+    image: node:16.13.2-slim
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../frontend:/frontend
+    command: >
+      bash -c "
+      cd /frontend
+      && npm ci
+      && npm i -g serve
+      && npm run build
+      && serve -s build "
+
 volumes:
   robolife2_pg_volume:
   robolife2_django_server_static:

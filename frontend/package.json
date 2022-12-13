@@ -37,6 +37,7 @@
         "react-scripts": "^5.0.1",
         "redux": "^4.2.0",
         "rsuite": "^5.22.2",
+        "serve": "^14.1.2",
         "yup": "^0.32.11"
     },
     "scripts": {

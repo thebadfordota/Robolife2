@@ -18,25 +18,34 @@ const getChartData = (parameters = {}, dates = []) => {
     return res;
 };
 
-const getWindRoseData = (speeds = [], speedsNormal = [], directions = []) => {
+const getWindRoseData = (speeds = [], speedsNormal = [], directions = [], directionsNormal = []) => {
     let res = [];
     for (let i = 1; i <= 360; i++) {
         res.push({ direction: i, windSpeed: 0, windSpeedNormal: 0 });
     }
     speeds.forEach((value, index) => {
-        let foundIndex = res.findIndex((value) => value.direction === directions[index]);
-        if (foundIndex === -1) {
+        let speedIndex = res.findIndex((value) => value.direction === directions[index]);
+        if (speedIndex === -1) {
             res.push({
-                windSpeedNormal: speedsNormal[index],
                 windSpeed: value,
                 direction: directions[index]
             });
         } else {
-            if (res[foundIndex].windSpeed < value) {
-                res[foundIndex].windSpeed = value;
+            if (res[speedIndex].windSpeed < value) {
+                res[speedIndex].windSpeed = value;
             }
-            if (res[foundIndex].windSpeedNormal < speedsNormal[index]) {
-                res[foundIndex].windSpeedNormal = speedsNormal[index];
+        }
+    });
+    speedsNormal.forEach((value, index) => {
+        let speedNormalIndex = res.findIndex((value) => value.direction === directionsNormal[index]);
+        if (speedNormalIndex === -1) {
+            res.push({
+                windSpeedNormal: value,
+                direction: directionsNormal[index]
+            });
+        } else {
+            if (res[speedNormalIndex].windSpeedNormal < speedsNormal[index]) {
+                res[speedNormalIndex].windSpeedNormal = speedsNormal[index];
             }
         }
     });
