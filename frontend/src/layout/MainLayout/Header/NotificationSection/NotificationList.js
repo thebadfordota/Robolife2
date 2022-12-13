@@ -43,20 +43,20 @@ const NotificationList = ({ notifications }) => {
     const theme = useTheme();
     const dispatch = useDispatch();
 
-    const OpenModal = (event) => {
-        console.log(event);
-        // const ModalWindowData = {
-        //     status: true,
-        //     date: value.comment.weather_metric.date,
-        //     value: value.comment.weather_metric.value,
-        //     id: value.comment.weather_metric.id,
-        //     typeParam: PARAMS_CONVERT[value.comment.weather_metric.name]
-        // };
-        //
-        // dispatch({
-        //     type: 'SET_STATE_MODAL',
-        //     ...ModalWindowData
-        // });
+    const OpenModal = (value) => {
+        // console.log(event);
+        const ModalWindowData = {
+            status: true,
+            date: value.comment.weather_metric.date,
+            value: value.comment.weather_metric.value,
+            id: value.comment.weather_metric.id,
+            typeParam: PARAMS_CONVERT[value.comment.weather_metric.name]
+        };
+
+        dispatch({
+            type: 'SET_STATE_MODAL',
+            ...ModalWindowData
+        });
     };
 
     const chipSX = {
@@ -101,7 +101,7 @@ const NotificationList = ({ notifications }) => {
             {notifications.map((value, index) => {
                 return (
                     <div key={index}>
-                        <ListItemWrapper>
+                        <ListItemWrapper onClick={() => OpenModal(value)}>
                             <ListItem alignItems="center">
                                 <ListItemAvatar>
                                     <Avatar
