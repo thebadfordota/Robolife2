@@ -46,21 +46,26 @@ const Wind = () => {
                 }
             )
             .then((response) => {
+                console.log(response.data);
                 setDataHistory(
-                    getWindRoseData(
-                        Object.values(response.data.metric).length
-                            ? Object.values(response.data.metric)
+                    Object.values(response.data.metric).length
+                        ? getWindRoseData(
+                              Object.values(response.data.metric)
                                   .filter((value) => value.name === 'Max Wind Speed')
-                                  .map((value) => Number(value.value))
-                            : [],
-                        generateNormal(
-                            Object.values(response.data.region_norm).filter((value) => value.name === 'Max Wind Speed'),
-                            Object.values(response.data.metric).map((value) => value.date)
-                        ),
-                        Object.values(response.data.metric)
-                            .filter((value) => value.name === 'Dominant Wind Direction')
-                            .map((value) => Number(value.value))
-                    )
+                                  .map((value) => Number(value.value)),
+                              generateNormal(
+                                  Object.values(response.data.region_norm).filter((value) => value.name === 'Max Wind Speed'),
+                                  Object.values(response.data.metric).map((value) => value.date)
+                              ).filter((value, index) => index % 2 === 0),
+                              Object.values(response.data.metric)
+                                  .filter((value) => value.name === 'Dominant Wind Direction')
+                                  .map((value) => Number(value.value)),
+                              generateNormal(
+                                  Object.values(response.data.region_norm).filter((value) => value.name === 'Dominant Wind Direction'),
+                                  Object.values(response.data.metric).map((value) => value.date)
+                              ).filter((value, index) => index % 2 === 0)
+                          )
+                        : []
                 );
             });
     }, [date[0], date[1]]);
