@@ -14,7 +14,7 @@ class WeatherMetricsModelViewSet(ModelViewSet):
 
     queryset = WeatherMetricsModel.objects.all()
     serializer_class = WeatherMetricsModelSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     pagination_class = None
 
     def list(self, request, *args, **kwargs):
