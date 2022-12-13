@@ -66,7 +66,7 @@ const ProfileSection = () => {
             return (
                 <ListItemButton
                     sx={{ borderRadius: `${customization.borderRadius}px` }}
-                    selected={selectedIndex === 1}
+                    // selected={selectedIndex === 1}
                     onClick={(event) => window.open(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.admin_panel_url)}
                 >
                     <ListItemIcon>
