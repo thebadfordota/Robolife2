@@ -146,7 +146,8 @@ const Precipitation = () => {
                                   precipitationSumNormal: generateNormal(
                                       Object.values(response.data.region_norm),
                                       Object.values(response.data.metric).map((value) => value.date)
-                                  )
+                                  ),
+                                  id: Object.values(response.data.metric).map((value) => value.id)
                               }
                             : {},
                         Object.values(response.data.metric).map((value) => value.date)

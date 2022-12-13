@@ -44,7 +44,6 @@ const NotificationList = ({ notifications }) => {
     const dispatch = useDispatch();
 
     const OpenModal = (value) => {
-        // console.log(event);
         const ModalWindowData = {
             status: true,
             date: value.comment.weather_metric.date,

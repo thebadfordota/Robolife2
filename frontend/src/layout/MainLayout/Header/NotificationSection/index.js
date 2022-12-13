@@ -106,7 +106,7 @@ const NotificationSection = () => {
             .delete(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + localStorage.getItem('id') + '/', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
-            .then();
+            .then((response) => setNotifications([]));
     };
 
     return (
