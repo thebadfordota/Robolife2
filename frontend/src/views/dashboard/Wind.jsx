@@ -68,7 +68,7 @@ const Wind = () => {
     return (
         <div>
             <ChartMainCard title="Ветер" />
-            <SubCard title="Скорость ветра">
+            <MainCard title="Скорость ветра" subheader="Данные получены из API Fieldclimate">
                 <LineChart
                     titleChart="Скорость ветра, м/с"
                     chartRootName="chart1"
@@ -76,7 +76,7 @@ const Wind = () => {
                     intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                     intervalCount={1}
                 />
-            </SubCard>
+            </MainCard>
             <MainCard title="Исторические данные о ветре (роза ветров)" subheader="Данные получены из API Robolife2">
                 <WindRose titleChart="Роза ветров" chartRootName="chart2" data={dataHistory} />
             </MainCard>

@@ -109,7 +109,7 @@ const Temperature = () => {
     return (
         <div>
             <ChartMainCard title="Температура" />
-            <SubCard>
+            <MainCard title="Температура воздуха" subheader="Данные получены из API Fieldclimate">
                 <LineChart
                     titleChart="Температура воздуха,°C"
                     chartRootName="chart1"
@@ -117,8 +117,8 @@ const Temperature = () => {
                     intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                     intervalCount={1}
                 />
-            </SubCard>
-            <SubCard title="Накопление активных температур">
+            </MainCard>
+            <MainCard title="Накопление активных температур" subheader="Данные получены из API Fieldclimate">
                 <LineChart
                     titleChart="Накопление активных температур"
                     chartRootName="chart2"
@@ -126,7 +126,7 @@ const Temperature = () => {
                     intervalTimeUnit="hour"
                     intervalCount={1}
                 />
-            </SubCard>
+            </MainCard>
             <MainCard title="Исторические данные о температуре" subheader="Данные получены из API Robolife2">
                 <LineChart
                     titleChart="Температура (внешние данные), °C"

@@ -7,6 +7,7 @@ import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { getChartData } from '../../utils/ChartUtils';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
 import { addHours } from 'date-fns';
+import MainCard from '../../ui-component/cards/MainCard';
 
 const SolarRadiation = () => {
     const [data, setData] = useState({});
@@ -25,7 +26,7 @@ const SolarRadiation = () => {
     return (
         <div>
             <ChartMainCard title="Солнечная радиация" />
-            <SubCard title="Солнечная радиация">
+            <MainCard title="Солнечная радиация" subheader="Данные получены из API Fieldclimate">
                 <LineChart
                     titleChart="Солнечная рвдиация, w/m2"
                     chartRootName="chart1"
@@ -33,7 +34,7 @@ const SolarRadiation = () => {
                     intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                     intervalCount={1}
                 />
-            </SubCard>
+            </MainCard>
         </div>
     );
 };

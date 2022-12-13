@@ -61,8 +61,8 @@ const ProfileSection = () => {
         setOpen(false);
     };
 
-    const AdminPanelButton = (is_superuser) => {
-        if (is_superuser) {
+    const AdminPanelButton = () => {
+        if (localStorage.getItem('is_superuser') === 'true') {
             return (
                 <ListItemButton
                     sx={{ borderRadius: `${customization.borderRadius}px` }}
@@ -189,33 +189,6 @@ const ProfileSection = () => {
                                     </Box>
                                     <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                                         <Box sx={{ p: 0 }}>
-                                            <Card
-                                                sx={{
-                                                    bgcolor: theme.palette.primary.light,
-                                                    my: 0
-                                                }}
-                                            >
-                                                <CardContent>
-                                                    <Grid container spacing={3} direction="column">
-                                                        <Grid item>
-                                                            <Grid item container alignItems="center" justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="subtitle1">Включить уведомления</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        color="primary"
-                                                                        checked={sdm}
-                                                                        onChange={(e) => setSdm(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                    </Grid>
-                                                </CardContent>
-                                            </Card>
                                             <Divider />
                                             <List
                                                 component="nav"
@@ -262,7 +235,7 @@ const ProfileSection = () => {
                                                     />
                                                 </ListItemButton>
 
-                                                <AdminPanelButton is_superuser={localStorage.getItem('is_sureruser')} />
+                                                <AdminPanelButton />
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 4}
