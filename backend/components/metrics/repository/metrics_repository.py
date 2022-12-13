@@ -28,7 +28,7 @@ class MetricsRepository:
         if not last_record:
             return self.base_begin_date
 
-        return convert_from_date_to_string(last_record.date + timedelta(days=1))
+        return convert_from_date_to_string(last_record.date + timedelta(hours=1))
 
     @staticmethod
     def get_newest_datetime() -> str:

@@ -19,9 +19,14 @@ class SoilMoistureService:
         self.client_class = self.client_class()
         self.repository_class = self.repository_class()
 
-
     def update_metrics(self) -> NoReturn:
         """Обновить метрики влажности почвы"""
-        ...
+        self.update_soil_moisture_10cm_level_data()
 
+    def update_soil_moisture_10cm_level_data(self) -> NoReturn:
+        metric_name = self.metric_choices[0][0]
+        start_date, end_date = self.get_time_interval(metric_name)
+
+    def get_time_interval(self, metric_name: str) -> tuple[str, str]:
+        start_date = self.repository_class.get_start_date(metric_name)
 
