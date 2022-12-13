@@ -22,13 +22,19 @@ const WindRose = ({ titleChart, chartRootName, data }) => {
             am5radar.RadarChart.new(root, {
                 panX: false,
                 panY: false,
-                wheelX: 'panX'
+                wheelX: 'panX',
+                wheelY: 'zoomX'
             })
         );
 
         // Add cursor
         // https://www.amcharts.com/docs/v5/charts/radar-chart/#Cursor
-        let cursor = chart.set('cursor', am5radar.RadarCursor.new(root, {}));
+        let cursor = chart.set(
+            'cursor',
+            am5radar.RadarCursor.new(root, {
+                behavior: 'zoomX'
+            })
+        );
 
         cursor.lineY.set('visible', false);
 
@@ -37,7 +43,7 @@ const WindRose = ({ titleChart, chartRootName, data }) => {
         let xAxis = chart.xAxes.push(
             am5xy.ValueAxis.new(root, {
                 maxDeviation: 0.1,
-                groupData: false,
+                groupData: true,
                 min: 1,
                 max: 360,
                 strictMinMax: true,
@@ -92,7 +98,26 @@ const WindRose = ({ titleChart, chartRootName, data }) => {
             series.appear(1000);
         }
 
-        if (data.length) createSeries('Максимальная скорость ветра', 'windSpeed');
+        if (data.length) {
+            createSeries('Максимальная скорость ветра', 'windSpeed');
+            createSeries('Норма максимальной скорости ветра', 'windSpeedNormal');
+        }
+
+        let legend = chart.children.push(
+            am5.Legend.new(root, {
+                centerX: am5.p50,
+                x: am5.p50
+            })
+        );
+        legend.itemContainers.template.states.create('hover', {});
+
+        legend.itemContainers.template.events.on('pointerover', function (e) {
+            e.target.dataItem.dataContext.hover();
+        });
+        legend.itemContainers.template.events.on('pointerout', function (e) {
+            e.target.dataItem.dataContext.unhover();
+        });
+        legend.data.setAll(chart.series.values);
 
         let exporting = am5plugins_exporting.Exporting.new(root, {
             menu: am5plugins_exporting.ExportingMenu.new(root, {}),

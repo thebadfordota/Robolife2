@@ -94,10 +94,6 @@ const NotificationSection = () => {
             })
             .then((response) => {
                 setNotifications(response.data);
-                console.log(response.data);
-                // if (notifications.length) {
-                //     return <Typography variant="subtitle2">Уведомления не найдены</Typography>;
-                // }
             });
     }, []);
 
@@ -105,14 +101,12 @@ const NotificationSection = () => {
         if (event?.target.value) setValue(event?.target.value);
     };
 
-    const handleClick = (event) => {
+    const handleClick = () => {
         axios
             .delete(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + localStorage.getItem('id') + '/', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
-            .then((response) => {
-                console.log(response);
-            });
+            .then();
     };
 
     return (

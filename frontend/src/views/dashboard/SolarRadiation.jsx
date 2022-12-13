@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import SubCard from '../../ui-component/cards/SubCard';
-import Chart from '../../ui-component/Chart';
+import LineChart from '../../ui-component/LineChart';
 import { DATA_FREQUENCY_CONVERT } from '../../constants/Constants';
 import { useSelector } from 'react-redux';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
@@ -27,7 +27,7 @@ const SolarRadiation = () => {
         <div>
             <ChartMainCard title="Солнечная радиация" />
             <MainCard title="Солнечная радиация" subheader="Данные получены из API Fieldclimate">
-                <Chart
+                <LineChart
                     titleChart="Солнечная рвдиация, w/m2"
                     chartRootName="chart1"
                     data={data}
