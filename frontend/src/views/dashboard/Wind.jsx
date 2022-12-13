@@ -46,7 +46,6 @@ const Wind = () => {
                 }
             )
             .then((response) => {
-                console.log(response.data);
                 setDataHistory(
                     Object.values(response.data.metric).length
                         ? getWindRoseData(

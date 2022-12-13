@@ -23,7 +23,6 @@ const getWindRoseData = (speeds = [], speedsNormal = [], directions = [], direct
     for (let i = 1; i <= 360; i++) {
         res.push({ direction: i, windSpeed: 0, windSpeedNormal: 0 });
     }
-    console.log(speeds, speedsNormal, directions, directionsNormal);
     speeds.forEach((value, index) => {
         let speedIndex = res.findIndex((value) => value.direction === directions[index]);
         if (speedIndex === -1) {
