@@ -16,13 +16,16 @@ services:
       - robolife2_pg_volume:/var/lib/postgresql/data
 
   nginx_proxy_server:
+    build:
+      context: ../../
+      dockerfile: ./frontend/Dockerfile
     container_name: nginx_proxy_server
-    image: nginx:latest
+    #    image: nginx:latest
     depends_on:
       - django_server
     restart: on-failure
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       robolife2_network:
         aliases:
@@ -111,20 +114,19 @@ services:
         aliases:
           - redis_db
 
-  react:
-    container_name: react
-    image: node:16.13.2-slim
-    ports:
-      - "3000:3000"
-    volumes:
-      - ../../frontend:/frontend
-    command: >
-      bash -c "
-      cd /frontend
-      && npm ci
-      && npm i -g serve
-      && npm run build
-      && serve -s build "
+#  react:
+#    container_name: react
+#    image: node:16.13.2-slim
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ../../frontend:/frontend
+#    command: >
+#      bash -c "
+#      cd /frontend
+#      && npm ci
+#      && npm i -g serve
+#      && npm run build "
 
 volumes:
   robolife2_pg_volume:
