@@ -7,6 +7,8 @@ from pathlib import Path
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from celery.schedules import crontab
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Get environment settings
@@ -27,12 +29,14 @@ ALLOWED_HOSTS = ['*']
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:8080',
     'http://localhost:3000',
+    'https://robolife2.online',
 ]
 
 # CORS Policy
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'https://robolife2.online',
 )
 
 ADMINS = (
@@ -233,6 +237,13 @@ SIMPLE_JWT = {
 CELERY_BROKER_URL = env('CELERY_BROKER_URL')
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_BEAT_SCHEDULE = {
+    'update_metrics': {
+        'task': 'components.metrics.tasks.update_metrics_data',
+        'schedule': crontab(minute=0, hour=1),
+    },
+}
 
 # Open-meteo integration config
 OPEN_METEO_BASE_URL = env('OPEN_METEO_BASE_URL')
