@@ -1,4 +1,4 @@
-# Backend Robolife2
+# Руководство для локальной разработки Backend-a Robolife2
 
 ### Платформа
 
@@ -20,7 +20,9 @@
 - python3 manage.py createsuperuser
 
 ### Заполнить базу данных начальными значениями
-- python manage.py loaddata data.json
+- python manage.py loaddata metrics.json
+- python manage.py loaddata region_norm.json
+- python manage.py update_metrics_data
 
 ### Создание компонента
 

@@ -1,4 +1,4 @@
-### Frontend Robolife2
+### Руководство для локальной разработки Frontend-a Robolife2
 
 ### Платформа
 
