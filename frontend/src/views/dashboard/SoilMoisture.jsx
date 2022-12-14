@@ -44,7 +44,7 @@ const SoilMoisture = () => {
     return (
         <div>
             <ChartMainCard title="Влажность почвы" />
-            <MainCard title="Влажность почвы" subheader="Данные получены из API Fieldclimate">
+            <MainCard title="Влажность почвы" subheader="Данные получены из API Robolife2">
                 <LineChart
                     titleChart="Влажность почвы, m3/m3"
                     chartRootName="chart1"
