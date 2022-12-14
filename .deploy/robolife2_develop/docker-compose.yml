@@ -63,7 +63,7 @@ services:
             User = get_user_model();
             User.objects.filter(username=\"admin\").exists() or User.objects.create_superuser(username=\"admin\", password=\"1\")"
       && python manage.py collectstatic --noinput
-      && gunicorn --bind 127.0.0.1:8000 config.wsgi:application --reload'
+      && gunicorn --bind 0.0.0.0:8000 config.wsgi:application --reload'
 
   celery_worker:
     container_name: celery_worker
