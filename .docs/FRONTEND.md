@@ -11,9 +11,9 @@
 
 ### Локальный запуск
 #### Настройка
-- Необходимо установить node.js v16.13.2.
+- Необходимо установить NodeJS v16.13.2. NodeJS можно скачать с [официального сайта](https://nodejs.org/ru/download/).
 - В директории frontend необходимо применить команду ```npm ci```.
-- Необходимо настроить файл Constants.js в директории frontend/str/constants/. `base_url` в `ROBOLIFE2_BACKEND_API` должен ссылаться на основу пути backend'а (по умолчанию http://localhost:8000).
+- Необходимо настроить файл Constants.js в директории frontend/src/constants/. `base_url` в `ROBOLIFE2_BACKEND_API` должен ссылаться на основу пути backend'а (по умолчанию http://localhost:8000).
 - Проверьте настройки backend в файле BACKEND.md.
 
 #### Запуск
@@ -25,7 +25,7 @@ npm run start
 
 ### Запуск через docker
 #### Настройка
-- Необходимо настроить файл Constants.js в директории frontend/str/constants/. `base_url` в `ROBOLIFE2_BACKEND_API` должен ссылаться на основу пути backend'а (по умолчанию http://localhost/api).
+- Необходимо настроить файл Constants.js в директории frontend/src/constants/. `base_url` в `ROBOLIFE2_BACKEND_API` должен ссылаться на основу пути backend'а (по умолчанию http://localhost/api).
 - Проверьте настройки backend в файле BACKEND.md.
 
 #### Запуск
