@@ -15,25 +15,25 @@ services:
     volumes:
       - robolife2_pg_volume:/var/lib/postgresql/data
 
-#  nginx_proxy_server:
-#    build:
-#      context: ../../
-#      dockerfile: ./frontend/Dockerfile
-#    container_name: nginx_proxy_server
-#    #    image: nginx:latest
-#    depends_on:
-#      - django_server
-#    restart: on-failure
-#    ports:
-#      - "80:80"
-#    networks:
-#      robolife2_network:
-#        aliases:
-#          - nginx_proxy_server
-#    volumes:
-#      - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
-#      - robolife2_django_server_static:/django_static
-#      - robolife2_django_server_media:/django_media
+  nginx_proxy_server:
+    build:
+      context: ../../
+      dockerfile: ./frontend/Dockerfile
+    container_name: nginx_proxy_server
+    #    image: nginx:latest
+    depends_on:
+      - django_server
+    restart: on-failure
+    ports:
+      - "80:80"
+    networks:
+      robolife2_network:
+        aliases:
+          - nginx_proxy_server
+    volumes:
+      - ./compose_files/nginx.conf:/etc/nginx/nginx.conf
+      - robolife2_django_server_static:/django_static
+      - robolife2_django_server_media:/django_media
 
   django_server:
     container_name: django_server
@@ -64,7 +64,7 @@ services:
             User = get_user_model();
             User.objects.filter(username=\"admin\").exists() or User.objects.create_superuser(username=\"admin\", password=\"1\")"
       && python manage.py collectstatic --noinput
-      && gunicorn --bind 0.0.0.0:8000 config.wsgi:application --reload'
+      && gunicorn --bind 127.0.0.1:8000 config.wsgi:application --reload'
 
   celery_worker:
     container_name: celery_worker
