@@ -9,7 +9,7 @@ const FIELD_CLIMATE_API = {
 };
 
 const ROBOLIFE2_BACKEND_API = {
-    base_url: 'http://localhost/api',
+    base_url: 'http://localhost/api', // При локальном запуске - http://localhost:8000/, docker - http://localhost/api
     weather_metrics_url: '/api/metrics/v1/weather_metrics/',
     soil_moisture_url: '/api/metrics/v1/soil_moisture/',
     comments_url: '/api/comments/v1/comments/',
