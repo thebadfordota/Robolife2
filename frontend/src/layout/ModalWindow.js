@@ -8,8 +8,8 @@ import { ROBOLIFE2_BACKEND_API } from '../constants/Constants';
 
 const ModalWindow = () => {
     const [comments, setComments] = useState([]);
-    const station = useSelector((state) => state.station);
     const titleModalWindow = 'API Robolife2';
+    const [input, setInput] = useState('');
 
     const modalParam = useSelector((state) => state.modalComments);
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ const ModalWindow = () => {
             .post(
                 ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url,
                 {
-                    message: event.target.form[0].value,
+                    message: input,
                     user: localStorage.getItem('id'),
                     weather_metric: modalParam.id
                 },
@@ -41,6 +41,7 @@ const ModalWindow = () => {
                 }
             )
             .then((response) => {
+                setInput('');
                 axios
                     .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url + `?metricId=${modalParam.id}`, {
                         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -82,7 +83,7 @@ const ModalWindow = () => {
                 <form>
                     <FlexboxGrid>
                         <FlexboxGrid.Item colspan={18}>
-                            <Input as="textarea" rows={3} placeholder="Комментарий" />
+                            <Input as="textarea" rows={3} placeholder="Комментарий" onChange={(e) => setInput(e)} value={input} />
                         </FlexboxGrid.Item>
                         <FlexboxGrid.Item colspan={5}>
                             <Button type="submit" style={{ padding: 10 }} onClick={handleSubmit} appearance="primary">

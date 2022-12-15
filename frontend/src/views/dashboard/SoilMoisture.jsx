@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import LineChart from '../../ui-component/LineChart';
-import fieldClimateAPI from '../../clients/FieldClimateClient';
-import { generateNormal, getChartData } from '../../utils/ChartUtils';
+import { getChartData } from '../../utils/ChartUtils';
 import { useSelector } from 'react-redux';
-import SubCard from '../../ui-component/cards/SubCard';
-import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
+import { ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
-import { addHours } from 'date-fns';
 import MainCard from '../../ui-component/cards/MainCard';
 import axios from 'axios';
 
 const SoilMoisture = () => {
     const [dataHistory, setDataHistory] = useState([]);
     const date = useSelector((state) => [state.chartSettings.dateFrom, state.chartSettings.dateTo]);
-    const freq = useSelector((state) => state.chartSettings.freq);
 
     useEffect(() => {
         axios
@@ -49,7 +45,7 @@ const SoilMoisture = () => {
                     titleChart="Влажность почвы, m3/m3"
                     chartRootName="chart1"
                     data={dataHistory}
-                    intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
+                    intervalTimeUnit="hour"
                     intervalCount={1}
                 />
             </MainCard>
