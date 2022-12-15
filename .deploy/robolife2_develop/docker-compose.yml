@@ -70,6 +70,7 @@ services:
     build:
       context: ../..
       dockerfile: ./backend/.build/Dockerfile
+    restart: unless-stopped
     command: celery -A config worker -E -l INFO
     depends_on:
       - django_server
@@ -86,6 +87,7 @@ services:
     build:
       context: ../..
       dockerfile: ./backend/.build/Dockerfile
+    restart: unless-stopped
     command: celery -A config beat -l INFO
     depends_on:
       - django_server
