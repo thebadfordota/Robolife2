@@ -1,2 +1,2 @@
-from .weather_metrics_model_viewset import WeatherMetricsListModelViewSet
-from .soil_moisture_model_viewset import SoilMoistureListModelViewSet
+from .weather_metrics_query_model_viewset import WeatherMetricsQueryModelViewSet
+from .soil_moisture_query_model_viewset import SoilMoistureQueryModelViewSet

@@ -11,12 +11,13 @@ from components.metrics.mixins import (
 from components.metrics.models import WeatherMetricsModel, RegionNormModel
 from components.metrics.serializers import WeatherMetricsListSerializer
 from components.metrics.serializers import WeatherMetricsModelSerializer
+from shared.api.views import BaseQueryModelViewSet
+from shared.exceptions import MethodIsForbiddenError
 
 
-class WeatherMetricsListModelViewSet(GenericViewSet,
-                                     ListModelMixin,
-                                     WeatherMetricsFilterMixin,
-                                     MetricsDateRangeFilter):
+class WeatherMetricsQueryModelViewSet(BaseQueryModelViewSet,
+                                      WeatherMetricsFilterMixin,
+                                      MetricsDateRangeFilter):
     """ViewSet для получения списка погодных метрик"""
 
     queryset = WeatherMetricsModel.objects.all().order_by('date')
@@ -42,3 +43,6 @@ class WeatherMetricsListModelViewSet(GenericViewSet,
             }
         )
         return Response(serializer.data, status=HTTP_200_OK)
+
+    def retrieve(self, request, *args, **kwargs):
+        raise MethodIsForbiddenError()

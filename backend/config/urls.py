@@ -10,12 +10,11 @@ from django.urls import (
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView, TokenVerifyView,
-)
 
 from config.settings import MEDIA_URL, MEDIA_ROOT
+
+admin.site.site_title = 'Админ-панель Robolife2'
+admin.site.site_header = 'Админ-панель Robolife2'
 
 schema_view = get_schema_view(
     openapi.Info(
