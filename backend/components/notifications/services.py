@@ -18,10 +18,3 @@ class UserNotificationService:
         users = self.repository_class.get_all_users_without_author(user_comment.user)
         self.repository_class.create_user_notifications(users, user_comment)
 
-
-
-
-
-
-
-

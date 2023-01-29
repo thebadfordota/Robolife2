@@ -3,11 +3,10 @@ from typing import NoReturn
 from shared.exceptions import NotFoundValueError
 
 
-def validate_response(
-        error_message: str,
-        metric_response_name: str,
-        response: dict,
-        response_type: str) -> NoReturn:
+def validate_response(error_message: str,
+                      metric_response_name: str,
+                      response: dict,
+                      response_type: str) -> NoReturn:
     """Валидация запроса """
 
     if not response or not response.get(response_type):

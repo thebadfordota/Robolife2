@@ -24,24 +24,6 @@ class SoilMoistureModelViewSet(ModelViewSet):
                 request.query_params.get('startDate'),
                 request.query_params.get('endDate')
             ))
-
-
-        # if 'maxTemperature' in request.query_params and 'minTemperature' in request.query_params:
-        #     data = data.filter(Q(name='Max Temperature') | Q(name='Min Temperature'))
-        # elif 'maxTemperature' in request.query_params:
-        #     data = data.filter(name='Max Temperature')
-        # elif 'minTemperature' in request.query_params:
-        #     data = data.filter(name='Min Temperature')
-        #
-        # elif 'maxWindSpeed' in request.query_params and 'dominantWindDirection' in request.query_params:
-        #     data = data.filter(Q(name='Max Wind Speed') | Q(name='Dominant Wind Direction'))
-        # elif 'maxWindSpeed' in request.query_params:
-        #     data = data.filter(name='Max Wind Speed')
-        # elif 'dominantWindDirection' in request.query_params:
-        #     data = data.filter(name='Dominant Wind Direction')
-        #
-        # elif 'precipitationSum' in request.query_params:
-        #     data = data.filter(name='Precipitation Sum')
         context = {
             'soil_moisture_10cm': data.filter(name='10 cm'),
             'soil_moisture_20cm': data.filter(name='20 cm'),

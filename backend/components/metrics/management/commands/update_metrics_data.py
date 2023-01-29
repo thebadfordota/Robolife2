@@ -15,7 +15,7 @@ class Command(BaseCommand):
         super(Command, self).__init__(*args, **kwargs)
         self._metrics_service_class = self._metrics_service_class()
         self._soil_moisture_service_class = self._soil_moisture_service_class()
-        self.is_success_command = True
+        self._is_success_command = True
 
     def handle(self, *args, **kwargs):
         self.stdout.write(self.style.SUCCESS('Инициализировано обновление информации из api open-meteo'))
@@ -24,9 +24,9 @@ class Command(BaseCommand):
             self._soil_moisture_service_class.update_metrics()
         except CommandError as e:
             self.stdout.write(self.style.ERROR(e))
-            self.is_success_command = False
+            self._is_success_command = False
 
-        if not self.is_success_command:
+        if not self._is_success_command:
             return
 
         self.stdout.write(self.style.SUCCESS('Обновление информации из api open-meteo успешно завершено'))

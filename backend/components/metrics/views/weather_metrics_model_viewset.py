@@ -62,13 +62,10 @@ class WeatherMetricsModelViewSet(ModelViewSet):
         elif 'precipitationSum' in request.query_params:
             region_norm = region_norm.filter(name='Precipitation Sum')
 
-        print(region_norm)
         serializer = WeatherMetricsListModelSerializer(
             {
                 'metric': metric,
                 'region_norm': region_norm
             },
-            # many=True
         )
-        # serializer.is_valid()
         return Response(serializer.data, status=HTTP_200_OK)

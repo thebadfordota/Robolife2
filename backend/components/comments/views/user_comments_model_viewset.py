@@ -24,6 +24,7 @@ class UserCommentsModelViewSet(GenericViewSet, CreateModelMixin, ListModelMixin)
     permission_classes = [IsAuthenticated]
     pagination_class = None
 
+
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         if 'metricId' in request.query_params:

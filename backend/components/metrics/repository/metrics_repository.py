@@ -7,6 +7,8 @@ from shared.utills import convert_from_date_to_string
 
 
 class MetricsRepository:
+    """Репозиторий для работы с погодными метриками"""
+
     model_class = WeatherMetricsModel
 
     def __init__(self):
