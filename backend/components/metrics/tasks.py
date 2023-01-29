@@ -10,7 +10,6 @@ from shared.exceptions import CommandError
 @shared_task
 def update_metrics_data():
     """Задача celery для обновления погодных метрик"""
-    print('task work!')
     try:
         MetricsService().update_metrics()
         SoilMoistureService().update_metrics()

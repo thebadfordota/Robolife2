@@ -2,3 +2,4 @@ from .weather_metrics_model_serializer import WeatherMetricsModelSerializer
 from .region_norm_model_serializer import RegionNormModelSerializer
 from .soil_moisture_model_serializer import SoilMoistureModelSerializer
 from .soil_moisture_list_model_serializer import SoilMoistureListModelSerializer
+from .weather_metrics_list_serializer import WeatherMetricsListSerializer

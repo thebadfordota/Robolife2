@@ -32,14 +32,10 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/accounts/v1/', include('components.accounts.urls')),
-    path('api/metrics/v1/', include('components.metrics.urls')),
-    path('api/comments/v1/', include('components.comments.urls')),
-    path('api/notifications/v1/', include('components.notifications.urls')),
-    # jwt token auth urls
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
+    path('api/accounts/', include('components.accounts.urls')),
+    path('api/metrics/', include('components.metrics.urls')),
+    path('api/comments/', include('components.comments.urls')),
+    path('api/notifications/', include('components.notifications.urls')),
     # swagger urls
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
