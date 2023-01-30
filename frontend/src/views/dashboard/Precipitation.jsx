@@ -10,6 +10,8 @@ import { Button, IconButton, Table } from 'rsuite';
 import EditIcon from '@rsuite/icons/Edit';
 import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
+import LineChartIcon from '@rsuite/icons/LineChart';
+import TableIcon from '@rsuite/icons/Table';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
 import { addHours } from 'date-fns';
 import axios from 'axios';
@@ -57,6 +59,7 @@ const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
 const Precipitation = () => {
     const [data, setData] = useState([]);
     const [editMode, setEditMode] = useState(false);
+    const [tableMode, setTableMode] = useState(false);
     const [editData, setEditData] = useState({});
     const [dataInc, setDataInc] = useState([]);
     const [dataHistory, setDataHistory] = useState([]);
@@ -192,9 +195,18 @@ const Precipitation = () => {
                                 </IconButton>
                             </div>
                         )}
+                        {!editMode ? (
+                            !tableMode ? (
+                                <IconButton icon={<TableIcon />} onClick={() => setTableMode(true)} />
+                            ) : (
+                                <IconButton icon={<LineChartIcon />} onClick={() => setTableMode(false)} />
+                            )
+                        ) : (
+                            <div />
+                        )}
                     </Grid>
                 </Grid>
-                {!editMode ? (
+                {!editMode && !tableMode ? (
                     <LineChart
                         titleChart="Осадки, mm"
                         chartRootName="chart1"
@@ -202,7 +214,7 @@ const Precipitation = () => {
                         intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                         intervalCount={1}
                     />
-                ) : (
+                ) : editMode ? (
                     <Table height={420} data={editData}>
                         <Column width={200}>
                             <HeaderCell>Дата и время</HeaderCell>
@@ -217,6 +229,18 @@ const Precipitation = () => {
                         <Column flexGrow={1}>
                             <HeaderCell>...</HeaderCell>
                             <ActionCell dataKey="id" onClick={handleEditState} />
+                        </Column>
+                    </Table>
+                ) : (
+                    <Table height={420} data={editData}>
+                        <Column width={200}>
+                            <HeaderCell>Дата и время</HeaderCell>
+                            <Cell dataKey="dateTime" />
+                        </Column>
+
+                        <Column width={200}>
+                            <HeaderCell>Осадки (мм)</HeaderCell>
+                            <EditableCell dataKey="precipitation" onChange={handleChange} />
                         </Column>
                     </Table>
                 )}
