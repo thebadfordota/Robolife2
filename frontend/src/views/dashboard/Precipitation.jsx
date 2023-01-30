@@ -163,7 +163,7 @@ const Precipitation = () => {
         <div>
             <ChartMainCard title="Осадки" />
             <MainCard title="Количество осадков" subheader="Данные получены из API Fieldclimate">
-                <Grid container style={{ justifyContent: 'right' }}>
+                <Grid container spacing={2} justifyContent="flex-end">
                     <Grid item>
                         {!editMode ? (
                             <IconButton icon={<EditIcon />} onClick={() => setEditMode(true)}>
@@ -195,6 +195,8 @@ const Precipitation = () => {
                                 </IconButton>
                             </div>
                         )}
+                    </Grid>
+                    <Grid item>
                         {!editMode ? (
                             !tableMode ? (
                                 <IconButton icon={<TableIcon />} onClick={() => setTableMode(true)} />
