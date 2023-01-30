@@ -1,3 +1,3 @@
 from .open_meteo_client import OpenMeteoClient
 from .open_meteo_forecast_client_v2 import OpenMeteoForecastClientV2
-
+from .open_meteo_forecast_client_v3 import OpenMeteoForecastClientV3
