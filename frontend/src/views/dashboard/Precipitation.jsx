@@ -6,7 +6,7 @@ import SubCard from '../../ui-component/cards/SubCard';
 import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 import { useSelector } from 'react-redux';
 import { Grid } from '@mui/material';
-import { Button, IconButton, Table } from 'rsuite';
+import { Button, ButtonGroup, IconButton, Table } from 'rsuite';
 import EditIcon from '@rsuite/icons/Edit';
 import CheckIcon from '@rsuite/icons/Check';
 import CloseIcon from '@rsuite/icons/Close';
@@ -20,6 +20,10 @@ import ColumnChart from '../../ui-component/ColumnChart';
 import SaveIcon from '@mui/icons-material/Save';
 
 const { Column, HeaderCell, Cell } = Table;
+
+const buttonColor = {
+    color: 'blue'
+};
 
 const EditableCell = ({ rowData, dataKey, onChange, ...props }) => {
     const editing = rowData.status === 'EDIT';
@@ -198,11 +202,18 @@ const Precipitation = () => {
                     </Grid>
                     <Grid item>
                         {!editMode ? (
-                            !tableMode ? (
-                                <IconButton icon={<TableIcon />} onClick={() => setTableMode(true)} />
-                            ) : (
-                                <IconButton icon={<LineChartIcon />} onClick={() => setTableMode(false)} />
-                            )
+                            <ButtonGroup>
+                                <IconButton
+                                    style={tableMode ? buttonColor : null}
+                                    icon={<TableIcon />}
+                                    onClick={() => setTableMode(true)}
+                                />
+                                <IconButton
+                                    style={!tableMode ? buttonColor : null}
+                                    icon={<LineChartIcon />}
+                                    onClick={() => setTableMode(false)}
+                                />
+                            </ButtonGroup>
                         ) : (
                             <div />
                         )}
