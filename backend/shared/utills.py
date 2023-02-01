@@ -2,7 +2,6 @@ from datetime import datetime
 
 from config.constants import (
     BASE_DATE_TIME_FORMAT,
-    BASE_OPEN_METEO_DATE_TIME_FORMAT,
     BASE_DATE_FORMAT,
 )
 

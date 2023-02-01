@@ -12,4 +12,4 @@ class BaseCommandModelViewSet(GenericViewSet,
                               ABC):
     """Базовый ModelViewSet для всех запросов, изменяющих данные"""
 
-    http_method_names: Final[list[str]] = ['post', 'put', 'patch', 'delete']
+    http_method_names: Final = ['post', 'put', 'patch', 'delete']

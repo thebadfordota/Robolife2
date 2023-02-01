@@ -11,4 +11,4 @@ class BaseQueryModelViewSet(GenericViewSet,
                             ABC):
     """Базовый ModelViewSet для всех запросов, получающих данные"""
 
-    http_method_names: Final[list[str]] = ['get', 'head', 'options']
+    http_method_names: Final = ['get', 'head', 'options']

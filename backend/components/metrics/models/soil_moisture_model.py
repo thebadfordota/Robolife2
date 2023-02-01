@@ -1,6 +1,7 @@
 from django.db.models import (
     FloatField,
-    CharField, DateTimeField,
+    CharField,
+    DateTimeField,
 )
 
 from config.constants import SOIL_MOISTURE_GROUND_LEVEL_CHOICES
