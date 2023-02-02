@@ -8,8 +8,6 @@ import { useTheme } from '@mui/material/styles';
 import {
     Avatar,
     Box,
-    Card,
-    CardContent,
     Chip,
     ClickAwayListener,
     Divider,
@@ -21,7 +19,6 @@ import {
     Paper,
     Popper,
     Stack,
-    Switch,
     Typography
 } from '@mui/material';
 
@@ -42,7 +39,6 @@ const ProfileSection = () => {
     const customization = useSelector((state) => state.customization);
     const navigate = useNavigate();
 
-    const [sdm, setSdm] = useState(true);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
     /**
@@ -67,7 +63,7 @@ const ProfileSection = () => {
                 <ListItemButton
                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                     // selected={selectedIndex === 1}
-                    onClick={(event) => window.open(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.admin_panel_url)}
+                    onClick={() => window.open(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.admin_panel_url)}
                 >
                     <ListItemIcon>
                         <IconTool stroke={1.5} size="1.3rem" />
@@ -206,16 +202,6 @@ const ProfileSection = () => {
                                                     }
                                                 }}
                                             >
-                                                {/*<ListItemButton*/}
-                                                {/*    sx={{ borderRadius: `${customization.borderRadius}px` }}*/}
-                                                {/*    selected={selectedIndex === 0}*/}
-                                                {/*    onClick={(event) => handleListItemClick(event, 0, '/user/settings')}*/}
-                                                {/*>*/}
-                                                {/*    <ListItemIcon>*/}
-                                                {/*        <IconSettings stroke={1.5} size="1.3rem" />*/}
-                                                {/*    </ListItemIcon>*/}
-                                                {/*    <ListItemText primary={<Typography variant="body2">Настройки аккаунта</Typography>} />*/}
-                                                {/*</ListItemButton>*/}
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 1}

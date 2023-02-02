@@ -169,6 +169,7 @@ const Precipitation = () => {
                     }
                 ]}
                 freq="daily"
+                comments={true}
             />
         </div>
     );

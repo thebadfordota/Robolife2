@@ -26,7 +26,8 @@ const MainCardChartAndTable = ({
     freq,
     columnNames,
     chartTitle,
-    chartRootName
+    chartRootName,
+    comments
 }) => {
     const [editMode, setEditMode] = useState(false);
     const [tableMode, setTableMode] = useState(false);
@@ -90,6 +91,7 @@ const MainCardChartAndTable = ({
                     data={chartData}
                     intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                     intervalCount={1}
+                    comments={comments}
                 />
             ) : (
                 <DataTable tableData={tableData} setTableData={setTableData} editMode={editMode} columnNames={columnNames} />
