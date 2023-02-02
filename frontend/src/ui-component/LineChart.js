@@ -5,13 +5,15 @@ import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
 
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 import { useDispatch } from 'react-redux';
 import am5locales_ru_RU from '@amcharts/amcharts5/locales/ru_RU';
+import { rgba2hex } from '@amcharts/amcharts5/.internal/core/util/Color';
 
 const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false, range = false }) => {
     const dispatch = useDispatch();
+    const [cornNormalPrec, setCornNormalPrec] = useState(true);
 
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
@@ -97,7 +99,29 @@ const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interval
         }
 
         if (range) {
-            createRange(range.min, range.max, am5.color(0xa8e4a0));
+            // Add custom button
+            var button = chart.plotContainer.children.push(
+                am5.Button.new(root, {
+                    dx: 10,
+                    dy: 10,
+                    layer: 40,
+                    icon: am5.Graphics.new(root, {
+                        fill: am5.color(0xffffff),
+                        svgPath:
+                            'M11,5 L9,5 L9,9 L5,9 L5,11 L9,11 L9,15 L11,15 L11,11 L15,11 L15,9 L11,9 L11,5 L11,5 Z M10,0 C4.5,0 0,4.5 0,10 C0,15.5 4.5,20 10,20 C15.5,20 20,15.5 20,10 C20,4.5 15.5,0 10,0 L10,0 Z M10,18 C5.6,18 2,14.4 2,10 C2,5.6 5.6,2 10,2 C14.4,2 18,5.6 18,10 C18,14.4 14.4,18 10,18 L10,18 Z'
+                    })
+                })
+            );
+
+            button.events.on('click', function (ev) {
+                setCornNormalPrec(!cornNormalPrec);
+            });
+
+            if (cornNormalPrec) {
+                createRange(range.min, range.max, am5.color(0xa8e4a0));
+            } else {
+                yAxis.axisRanges.removeValue(range.min, range.max);
+            }
         }
 
         // Create series
@@ -232,7 +256,7 @@ const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interval
         return () => {
             root.dispose();
         };
-    }, [data]);
+    }, [data, cornNormalPrec]);
 
     return <div id={chartRootName} style={{ width: '100%', height: '500px' }}></div>;
 };
