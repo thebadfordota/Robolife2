@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import LineChart from '../../ui-component/LineChart';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { generateNormal, getChartData } from '../../utils/ChartUtils';
 import { useSelector } from 'react-redux';
-import SubCard from '../../ui-component/cards/SubCard';
-import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
+import { ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
 import { addHours } from 'date-fns';
-import MainCard from '../../ui-component/cards/MainCard';
 import axios from 'axios';
+import MainCardChartAndTable from '../../ui-component/cards/MainCardChartAndTable';
 
 const Temperature = () => {
-    const [data, setData] = useState([]);
-    const [dataInc, setDataInc] = useState([]);
-    const [dataHistory, setDataHistory] = useState([]);
+    const [chartData, setChartData] = useState([]);
+    const [tableData, setTableData] = useState([]);
+    const [chartDataInc, setChartDataInc] = useState([]);
+    const [tableDataInc, setTableDataInc] = useState([]);
+    const [chartDataHistory, setChartDataHistory] = useState([]);
+    const [tableDataHistory, setTableDataHistory] = useState([]);
     const date = useSelector((state) => [state.chartSettings.dateFrom, state.chartSettings.dateTo]);
     const freq = useSelector((state) => state.chartSettings.freq);
     const station = useSelector((state) => state.station);
@@ -22,7 +23,7 @@ const Temperature = () => {
         fieldClimateAPI
             .getForecast(station.id, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000), freq)
             .then((response) => {
-                setData(
+                setChartData(
                     getChartData(
                         response.data.length
                             ? {
@@ -34,6 +35,17 @@ const Temperature = () => {
                         response.dates
                     )
                 );
+                let tableData = [];
+                response.dates.forEach((value, index) => {
+                    tableData.push({
+                        id: index,
+                        dateTime: Date.parse(value),
+                        averageTemperature: response.data[5].values.avg[index],
+                        minTemperature: response.data[5].values.min[index],
+                        maxTemperature: response.data[5].values.max[index]
+                    });
+                });
+                setTableData(tableData);
             });
         fieldClimateAPI
             .getCalculationTemperature(
@@ -46,18 +58,29 @@ const Temperature = () => {
                 24
             )
             .then((response) => {
-                setDataInc(
+                setChartDataInc(
                     getChartData(
                         Object.values(response.chart).length
                             ? {
-                                  degreesHours: Object.values(response.chart).map((value) => Number(value.degree_hours)),
-                                  degreesDays: Object.values(response.chart).map((value) => Number(value.degree_days)),
-                                  degreesDaysUsa: Object.values(response.chart).map((value) => Number(value.degree_days_usa))
+                                  degreesHours: Object.values(response.chart).map(({ degree_hours }) => Number(degree_hours)),
+                                  degreesDays: Object.values(response.chart).map(({ degree_days }) => Number(degree_days)),
+                                  degreesDaysUsa: Object.values(response.chart).map(({ degree_days_usa }) => Number(degree_days_usa))
                               }
                             : {},
                         Object.keys(response.chart)
                     )
                 );
+                let tableData = [];
+                Object.keys(response.chart).forEach((value, index) => {
+                    tableData.push({
+                        id: index,
+                        dateTime: Date.parse(value),
+                        degreesHours: Object.values(response.chart).map(({ degree_hours }) => Number(degree_hours))[index],
+                        degreesDays: Object.values(response.chart).map(({ degree_days }) => Number(degree_days))[index],
+                        degreesDaysUsa: Object.values(response.chart).map(({ degree_days_usa }) => Number(degree_days_usa))[index]
+                    });
+                });
+                setTableDataInc(tableData);
             });
     }, [date[0], date[1], freq, station.id]);
 
@@ -73,69 +96,114 @@ const Temperature = () => {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }
             )
-            .then((response) => {
-                setDataHistory(
+            .then(({ data }) => {
+                let maxNormal = generateNormal(
+                    Object.values(data.region_norm).filter((value) => value.name === 'Max Temperature'),
+                    Object.values(data.metric)
+                        .filter((value, index) => index % 2 === 0)
+                        .map((value) => value.date)
+                );
+                let minNormal = generateNormal(
+                    Object.values(data.region_norm).filter((value) => value.name === 'Min Temperature'),
+                    Object.values(data.metric)
+                        .filter((value, index) => index % 2 === 0)
+                        .map((value) => value.date)
+                );
+                setChartDataHistory(
                     getChartData(
-                        Object.values(response.data.metric).length
+                        Object.values(data.metric).length
                             ? {
-                                  historyTemperatureMax: Object.values(response.data.metric)
+                                  historyTemperatureMax: Object.values(data.metric)
                                       .filter((value) => value.name === 'Max Temperature')
                                       .map((value) => Number(value.value)),
-                                  historyTemperatureMin: Object.values(response.data.metric)
+                                  historyTemperatureMin: Object.values(data.metric)
                                       .filter((value) => value.name === 'Min Temperature')
                                       .map((value) => Number(value.value)),
-                                  historyTemperatureMaxNormal: generateNormal(
-                                      Object.values(response.data.region_norm).filter((value) => value.name === 'Max Temperature'),
-                                      Object.values(response.data.metric)
-                                          .filter((value, index) => index % 2 === 0)
-                                          .map((value) => value.date)
-                                  ),
-                                  historyTemperatureMinNormal: generateNormal(
-                                      Object.values(response.data.region_norm).filter((value) => value.name === 'Min Temperature'),
-                                      Object.values(response.data.metric)
-                                          .filter((value, index) => index % 2 === 0)
-                                          .map((value) => value.date)
-                                  )
+                                  historyTemperatureMaxNormal: maxNormal,
+                                  historyTemperatureMinNormal: minNormal
                               }
                             : {},
-                        Object.values(response.data.metric)
+                        Object.values(data.metric)
                             .filter((value, index) => index % 2 === 0)
                             .map((value) => value.date)
                     )
                 );
+                let tableData = [];
+                Object.values(data.metric)
+                    .filter((value, index) => index % 2 === 0)
+                    .forEach((value, index) => {
+                        tableData.push({
+                            id: index,
+                            dateTime: Date.parse(value.date),
+                            historyTemperatureMax: Object.values(data.metric)
+                                .filter((value) => value.name === 'Max Temperature')
+                                .map((value) => Number(value.value))[index],
+                            historyTemperatureMin: Object.values(data.metric)
+                                .filter((value) => value.name === 'Min Temperature')
+                                .map((value) => Number(value.value))[index],
+                            historyTemperatureMaxNormal: maxNormal[index],
+                            historyTemperatureMinNormal: minNormal[index]
+                        });
+                    });
+                setTableDataHistory(tableData);
             });
     }, [date[0], date[1]]);
 
     return (
         <div>
             <ChartMainCard title="Температура" />
-            <MainCard title="Температура воздуха" subheader="Данные получены из API Fieldclimate">
-                <LineChart
-                    titleChart="Температура воздуха,°C"
-                    chartRootName="chart1"
-                    data={data}
-                    intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
-                    intervalCount={1}
-                />
-            </MainCard>
-            <MainCard title="Накопление активных температур" subheader="Данные получены из API Fieldclimate">
-                <LineChart
-                    titleChart="Накопление активных температур"
-                    chartRootName="chart2"
-                    data={dataInc}
-                    intervalTimeUnit="hour"
-                    intervalCount={1}
-                />
-            </MainCard>
-            <MainCard title="Исторические данные о температуре" subheader="Данные получены из API Robolife2">
-                <LineChart
-                    titleChart="Температура (внешние данные), °C"
-                    chartRootName="chart3"
-                    data={dataHistory}
-                    intervalTimeUnit="day"
-                    intervalCount={1}
-                />
-            </MainCard>
+            <MainCardChartAndTable
+                title="Температура воздуха"
+                subheader="Данные получены из API Fieldclimate"
+                tableData={tableData}
+                setTableData={setTableData}
+                chartData={chartData}
+                freq={freq}
+                chartTitle="Температура воздуха,°C"
+                chartRootName="chart1"
+                columnNames={[
+                    {
+                        key: 'averageTemperature',
+                        name: 'Средняя температура воздуха'
+                    },
+                    { key: 'minTemperature', name: 'Минимальная температура воздуха' },
+                    { key: 'maxTemperature', name: 'Максимальная температура воздуха' }
+                ]}
+            />
+            <MainCardChartAndTable
+                title="Накопление активных температур"
+                subheader="Данные получены из API Fieldclimate"
+                tableData={tableDataInc}
+                setTableData={setTableDataInc}
+                chartData={chartDataInc}
+                freq="hourly"
+                chartTitle="Накопление активных температур"
+                chartRootName="chart2"
+                columnNames={[
+                    {
+                        key: 'degreesHours',
+                        name: 'Градусо-часы'
+                    },
+                    { key: 'degreesDays', name: 'Градусо-дни' },
+                    { key: 'degreesDaysUsa', name: 'Градусо-дни (мин+макс)/2' }
+                ]}
+            />
+            <MainCardChartAndTable
+                title="Исторические данные о температуре"
+                subheader="Данные получены из API Robolife2"
+                tableData={tableDataHistory}
+                setTableData={setTableDataHistory}
+                chartData={chartDataHistory}
+                freq="daily"
+                chartTitle="Температура (внешние данные), °C"
+                chartRootName="chart3"
+                columnNames={[
+                    { key: 'historyTemperatureMax', name: 'Максимальная температура воздуха' },
+                    { key: 'historyTemperatureMin', name: 'Минимальная температура воздуха' },
+                    { key: 'historyTemperatureMaxNormal', name: 'Норма максимальной температуры' },
+                    { key: 'historyTemperatureMinNormal', name: 'Норма минимальной температуры' }
+                ]}
+            />
         </div>
     );
 };

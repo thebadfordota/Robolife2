@@ -8,12 +8,14 @@ import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 import { useLayoutEffect } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 import { useDispatch } from 'react-redux';
+import am5locales_ru_RU from '@amcharts/amcharts5/locales/ru_RU';
 
 const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
     const dispatch = useDispatch();
 
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
+        root.locale = am5locales_ru_RU;
         if (root._logo) {
             root._logo.dispose();
         }
