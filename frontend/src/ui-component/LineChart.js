@@ -10,7 +10,7 @@ import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 import { useDispatch } from 'react-redux';
 import am5locales_ru_RU from '@amcharts/amcharts5/locales/ru_RU';
 
-const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
+const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false, range = false }) => {
     const dispatch = useDispatch();
 
     useLayoutEffect(() => {
@@ -70,6 +70,35 @@ const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interval
         });
 
         chart.set('scrollbarX', scrollbarX);
+
+        // Create axis ranges
+        function createRange(startValue, endValue, color) {
+            var rangeDataItem = yAxis.makeDataItem({
+                value: startValue,
+                endValue: endValue
+            });
+
+            var range = yAxis.createAxisRange(rangeDataItem);
+
+            range.get('axisFill').setAll({
+                fill: color,
+                fillOpacity: 0.2,
+                visible: true
+            });
+
+            range.get('label').setAll({
+                fill: am5.color(0xffffff),
+                text: startValue + '-' + endValue,
+                location: 1,
+                background: am5.RoundedRectangle.new(root, {
+                    fill: color
+                })
+            });
+        }
+
+        if (range) {
+            createRange(range.min, range.max, am5.color(0xa8e4a0));
+        }
 
         // Create series
         function createSeries(name, field) {
