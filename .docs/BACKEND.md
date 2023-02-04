@@ -22,7 +22,7 @@
 ### Заполнить базу данных начальными значениями
 - python manage.py loaddata metrics.json
 - python manage.py loaddata region_norm.json
-- python manage.py update_metrics_data
+- python manage.py update_metrics
 
 ### Создание компонента
 

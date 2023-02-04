@@ -19,7 +19,7 @@ docker-compose -f .deploy/robolife2_develop/docker-compose.yml  up -d --build
 3) После нужно заполнить базу данных начальными значениями. Необходимо перейти в директорию backend и ввести следующие команды:
 - python manage.py loaddata metrics.json
 - python manage.py loaddata region_norm.json
-- python manage.py update_metrics_data
+- python manage.py update_metrics
 
 4) После успешной установки нужно обратиться по следующей ссылке, чтобы открыть приложение: http://localhost:3000  
 

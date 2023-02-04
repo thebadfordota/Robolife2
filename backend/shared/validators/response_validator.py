@@ -3,6 +3,7 @@ from typing import NoReturn
 from shared.exceptions import NotFoundValueError
 
 
+# todo: удалить потом
 def validate_response(error_message: str,
                       metric_response_name: str,
                       response: dict,

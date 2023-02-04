@@ -6,7 +6,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from components.metrics.mixins import (
     WeatherMetricsFilterMixin,
-    MetricsDateRangeFilter,
+    MetricsDateRangeFilterMixin,
 )
 from components.metrics.models import WeatherMetricsModel, RegionNormModel
 from components.metrics.serializers import WeatherMetricsListSerializer
@@ -17,7 +17,7 @@ from shared.exceptions import MethodIsForbiddenError
 
 class WeatherMetricsQueryModelViewSet(BaseQueryModelViewSet,
                                       WeatherMetricsFilterMixin,
-                                      MetricsDateRangeFilter):
+                                      MetricsDateRangeFilterMixin):
     """ViewSet для получения списка погодных метрик"""
 
     queryset = WeatherMetricsModel.objects.all().order_by('date')

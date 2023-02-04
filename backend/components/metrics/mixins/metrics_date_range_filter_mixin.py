@@ -1,7 +1,7 @@
 from django.db.models import QuerySet
 
 
-class MetricsDateRangeFilter:
+class MetricsDateRangeFilterMixin:
     """Mixin для фильтрации погодных метрик по временному промежутку"""
 
     @classmethod

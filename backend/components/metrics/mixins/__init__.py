@@ -1,2 +1,2 @@
 from .weather_metrics_filter_mixin import WeatherMetricsFilterMixin
-from .metrics_date_range_filter_mixin import MetricsDateRangeFilter
+from .metrics_date_range_filter_mixin import MetricsDateRangeFilterMixin

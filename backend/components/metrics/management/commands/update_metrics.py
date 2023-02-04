@@ -1,13 +1,13 @@
 from django.core.management.base import BaseCommand
 
-from components.metrics.services import MetricsService, SoilMoistureService
+from components.metrics.services import MetricsService, SoilMoistureService, MetricsUpdateService
 from shared.exceptions import CommandError
 
 
 class Command(BaseCommand):
     """Команда для обновления погодных метрик"""
 
-    _metrics_service_class = MetricsService
+    _metrics_service_class = MetricsUpdateService
     _soil_moisture_service_class = SoilMoistureService
     help = 'Обновляет информацию для графиков из api open-meteo'
 
@@ -20,8 +20,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write(self.style.SUCCESS('Инициализировано обновление информации из api open-meteo'))
         try:
-            self._metrics_service_class.update_metrics()
-            self._soil_moisture_service_class.update_metrics()
+            # self._metrics_service_class.update_metrics()
+            self._metrics_service_class.startup_updating()
+            # self._soil_moisture_service_class.update_metrics()
         except CommandError as e:
             self.stdout.write(self.style.ERROR(e))
             self._is_success_command = False

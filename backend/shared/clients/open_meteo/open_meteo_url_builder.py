@@ -2,7 +2,7 @@ from string import Template as StrTemplate
 
 from config.settings import OPEN_METEO_BASE_URL
 from shared.clients.base_url_builder import BaseUrlBuilder
-from shared.clients.open_meteo.constans import WEATHER_METRIC_API_RESPONSE_NAME
+from shared.clients.open_meteo.shared.constans import WEATHER_METRIC_API_RESPONSE_NAME
 from shared.interfaces import OpenMeteoRequestModel
 
 

@@ -1,5 +1,4 @@
 # Formats
-from components.metrics.enums import WeatherMetricsEnum
 
 BASE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 BASE_DATE_FORMAT = '%Y-%m-%d'

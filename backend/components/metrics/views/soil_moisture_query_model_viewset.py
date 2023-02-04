@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from components.metrics.mixins import MetricsDateRangeFilter
+from components.metrics.mixins import MetricsDateRangeFilterMixin
 from components.metrics.models import SoilMoistureModel
 from components.metrics.serializers import (
     SoilMoistureModelSerializer,
@@ -12,7 +12,7 @@ from shared.exceptions import MethodIsForbiddenError
 
 
 class SoilMoistureQueryModelViewSet(BaseQueryModelViewSet,
-                                    MetricsDateRangeFilter):
+                                    MetricsDateRangeFilterMixin):
     """ViewSet для получения списка метрик влажности почвы"""
 
     queryset = SoilMoistureModel.objects.all().order_by('date_and_time')

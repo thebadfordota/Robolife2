@@ -3,7 +3,7 @@ from datetime import datetime
 
 from celery import shared_task
 
-from components.metrics.services import MetricsService, SoilMoistureService
+from components.metrics.services import MetricsUpdateService, SoilMoistureService
 from shared.exceptions import CommandError
 
 
@@ -11,7 +11,7 @@ from shared.exceptions import CommandError
 def update_metrics_data():
     """Задача celery для обновления погодных метрик"""
     try:
-        MetricsService().update_metrics()
+        MetricsUpdateService().startup_updating()
         SoilMoistureService().update_metrics()
     except CommandError as error:
         return json.dumps(str(error))

@@ -6,6 +6,7 @@ from components.metrics.models import (
 )
 
 
+# Todo: сделать поиск на русском языке
 @admin.register(WeatherMetricsModel)
 class WeatherMetricsModelAdmin(admin.ModelAdmin):
     list_display = (
