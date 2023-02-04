@@ -1,6 +1,6 @@
 from django.db.models import CharField, FloatField, DateField
 
-from config.constants import WEATHER_METRIC_NAME_CHOICES
+from shared.constants import WEATHER_METRIC_NAME_CHOICES
 from shared.models import BaseModel
 
 

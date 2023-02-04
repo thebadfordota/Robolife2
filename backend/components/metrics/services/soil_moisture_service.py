@@ -1,7 +1,7 @@
 from typing import NoReturn
 
 from components.metrics.repository import SoilMoistureRepository
-from config.constants import SOIL_MOISTURE_GROUND_LEVEL_CHOICES
+from shared.constants import SOIL_MOISTURE_GROUND_LEVEL_CHOICES
 from shared.clients import OpenMeteoForecastClientV2
 from shared.exceptions import NotFoundValueError, CommandError
 

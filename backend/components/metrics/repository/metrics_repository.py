@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from components.metrics.models import WeatherMetricsModel
-from config.constants import BASE_BEGIN_DATE
+from shared.constants import BASE_BEGIN_DATE
 from shared.utills import convert_from_date_to_string
 
 

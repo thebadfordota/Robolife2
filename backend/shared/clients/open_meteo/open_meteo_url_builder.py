@@ -2,8 +2,10 @@ from string import Template as StrTemplate
 
 from config.settings import OPEN_METEO_BASE_URL
 from shared.clients.base_url_builder import BaseUrlBuilder
-from shared.clients.open_meteo.shared.constans import WEATHER_METRIC_API_RESPONSE_NAME
-from shared.interfaces import OpenMeteoRequestModel
+from shared.clients.open_meteo.shared.constans import (
+    WEATHER_METRIC_API_RESPONSE_NAME,
+)
+from shared.clients.open_meteo.shared.interfaces import OpenMeteoRequestModel
 
 
 class OpenMeteoUrlBuilder(BaseUrlBuilder):
@@ -18,22 +20,26 @@ class OpenMeteoUrlBuilder(BaseUrlBuilder):
     def _init_url_template(self) -> None:
         """Инициализировать шаблон url-адреса"""
 
-        url = '$base_url$coordinates&daily=$metric_name$time_format$time_interval'
+        url = '$base_url$coordinates&$time_type=$metric_name$time_format$time_interval'
         self.template = StrTemplate(url)
 
     def get_url(self, request_params: OpenMeteoRequestModel) -> str:
         """Получить url для запроса"""
 
-        return self.template.substitute(
+        metric_name = WEATHER_METRIC_API_RESPONSE_NAME[request_params.metric_name]
+        time_interval = self._get_time_interval(
+            request_params.start_date,
+            request_params.end_date
+        )
+        url = self.template.substitute(
             base_url=self.base_url,
             coordinates=self.coordinates_params,
-            metric_name=WEATHER_METRIC_API_RESPONSE_NAME[request_params.metric_name],
+            time_type=request_params.time_type.value,
+            metric_name=metric_name,
             time_format=self.time_format_params,
-            time_interval=self._get_time_interval(
-                request_params.start_date,
-                request_params.end_date
-            )
+            time_interval=time_interval
         )
+        return url
 
     @staticmethod
     def _get_coordinates_params(latitude: float, longitude: float) -> str:

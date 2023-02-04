@@ -4,7 +4,7 @@ from django.db.models import (
     DateTimeField,
 )
 
-from config.constants import SOIL_MOISTURE_GROUND_LEVEL_CHOICES
+from shared.constants import SOIL_MOISTURE_GROUND_LEVEL_CHOICES
 from shared.models import BaseModel
 
 

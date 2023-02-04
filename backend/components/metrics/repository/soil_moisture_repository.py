@@ -2,7 +2,7 @@ from datetime import timedelta, datetime
 from typing import NoReturn
 
 from components.metrics.models import SoilMoistureModel
-from config.constants import BASE_BEGIN_DATE_TIME
+from shared.constants import BASE_BEGIN_DATE_TIME
 from shared.utills import convert_from_datetime_to_string
 
 

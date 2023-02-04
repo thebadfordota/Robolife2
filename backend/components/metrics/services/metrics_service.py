@@ -1,5 +1,5 @@
 from components.metrics.repository import MetricsRepository
-from config.constants import WEATHER_METRIC_NAME_CHOICES
+from shared.constants import WEATHER_METRIC_NAME_CHOICES
 from shared.clients import OpenMeteoForecastClientV2
 from shared.exceptions import (
     NotFoundValueError,

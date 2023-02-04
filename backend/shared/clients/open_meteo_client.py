@@ -1,8 +1,5 @@
-from datetime import datetime
-
 from requests import Session
 
-from config.constants import BASE_DATE_TIME_FORMAT
 from config.settings import (
     OPEN_METEO_BASE_URL,
 )
