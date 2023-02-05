@@ -3,8 +3,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
 
-from components.metrics.models import WeatherMetricsModel, RegionNormModel
-from components.metrics.serializers import WeatherMetricsListSerializer, SoilMoistureListModelSerializer
+from components.metrics.models import (
+    WeatherMetricsModel,
+    RegionNormModel,
+)
+from components.metrics.serializers import (
+    WeatherMetricsListSerializer,
+    SoilMoistureListModelSerializer,
+)
 from components.metrics.serializers import WeatherMetricsModelSerializer
 from components.metrics.services import MetricsService
 from shared.api.views import BaseQueryModelViewSet

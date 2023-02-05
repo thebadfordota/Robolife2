@@ -1,6 +1,5 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.status import HTTP_204_NO_CONTENT
 
 from components.accounts.models import UserModel
 from components.notifications.models import UserNotificationsModel
