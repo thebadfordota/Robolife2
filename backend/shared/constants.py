@@ -1,0 +1,7 @@
+# Formats
+BASE_DATE_TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+BASE_DATE_FORMAT = '%Y-%m-%d'
+
+# Dates
+BASE_BEGIN_DATE = '2022-09-01'
+BASE_BEGIN_DATE_TIME = '2022-09-01 01:00:00'

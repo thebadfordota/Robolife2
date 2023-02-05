@@ -1,3 +1,2 @@
 from .weather_metrics_model import WeatherMetricsModel
 from .region_norm_model import RegionNormModel
-from .soil_moisture_model import SoilMoistureModel

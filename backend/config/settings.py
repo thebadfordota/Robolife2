@@ -244,6 +244,3 @@ CELERY_BEAT_SCHEDULE = {
         'schedule': crontab(minute=0, hour=1),
     },
 }
-
-# Open-meteo integration config
-OPEN_METEO_BASE_URL = env('OPEN_METEO_BASE_URL')

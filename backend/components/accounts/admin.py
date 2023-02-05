@@ -2,9 +2,6 @@ from django.contrib import admin
 
 from .models import UserModel
 
-admin.site.site_title = 'Админ-панель Robolife2'
-admin.site.site_header = 'Админ-панель Robolife2'
-
 
 @admin.register(UserModel)
 class UserModelAdmin(admin.ModelAdmin):

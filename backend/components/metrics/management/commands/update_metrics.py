@@ -1,32 +1,29 @@
 from django.core.management.base import BaseCommand
 
-from components.metrics.services import MetricsService, SoilMoistureService
+from components.metrics.services import MetricsUpdateService
 from shared.exceptions import CommandError
 
 
 class Command(BaseCommand):
     """Команда для обновления погодных метрик"""
 
-    _metrics_service_class = MetricsService
-    _soil_moisture_service_class = SoilMoistureService
+    __metrics_service_class = MetricsUpdateService
     help = 'Обновляет информацию для графиков из api open-meteo'
 
     def __init__(self, *args, **kwargs):
         super(Command, self).__init__(*args, **kwargs)
-        self._metrics_service_class = self._metrics_service_class()
-        self._soil_moisture_service_class = self._soil_moisture_service_class()
+        self.__metrics_service_class = self.__metrics_service_class()
         self.is_success_command = True
 
     def handle(self, *args, **kwargs):
         self.stdout.write(self.style.SUCCESS('Инициализировано обновление информации из api open-meteo'))
         try:
-            self._metrics_service_class.update_metrics()
-            self._soil_moisture_service_class.update_metrics()
+            self.__metrics_service_class.startup_updating()
         except CommandError as e:
             self.stdout.write(self.style.ERROR(e))
             self.is_success_command = False
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Получена неожиданная ошибка: {e}'))
 
-        if not self.is_success_command:
-            return
-
-        self.stdout.write(self.style.SUCCESS('Обновление информации из api open-meteo успешно завершено'))
+        if self.is_success_command:
+            self.stdout.write(self.style.SUCCESS('Обновление информации из api open-meteo успешно завершено'))
