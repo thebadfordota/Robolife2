@@ -2,20 +2,23 @@ from datetime import datetime, timedelta
 
 from components.metrics.enums import WeatherMetricsEnum
 from components.metrics.repository import MetricsRepository
-from shared.clients.open_meteo import OpenMeteoClientV3
+from shared.clients.open_meteo import OpenMeteoClient
 from shared.clients.open_meteo.shared.enums import TimeTypeEnum
 from shared.clients.open_meteo.shared.interfaces import (
     OpenMeteoRequestModel,
     OpenMeteoMetricResponseModel,
 )
 from shared.exceptions import NotFoundValueError, CommandError
-from shared.utills import convert_from_date_to_string, convert_from_string_to_date
+from shared.utills import (
+    convert_from_date_to_string,
+    convert_from_string_to_date,
+)
 
 
 class MetricsUpdateService:
     """Сервис для обновления погодных метрик"""
 
-    __client_class = OpenMeteoClientV3
+    __client_class = OpenMeteoClient
     __repository_class = MetricsRepository
 
     def __init__(self):

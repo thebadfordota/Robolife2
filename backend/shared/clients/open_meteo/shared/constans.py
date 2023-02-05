@@ -11,4 +11,6 @@ WEATHER_METRIC_API_RESPONSE_NAME = {
     WeatherMetricsEnum.SOIL_MOISTURE_100_SM.value: 'soil_moisture_27_81cm',
 }
 
+OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1/'
+
 METRIC_TIME_KEY_NAME = 'time'

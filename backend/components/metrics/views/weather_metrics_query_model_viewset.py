@@ -1,37 +1,39 @@
-from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK
-from rest_framework.viewsets import GenericViewSet
 
-from components.metrics.mixins import (
-    WeatherMetricsFilterMixin,
-    MetricsDateRangeFilterMixin,
-)
 from components.metrics.models import WeatherMetricsModel, RegionNormModel
 from components.metrics.serializers import WeatherMetricsListSerializer
 from components.metrics.serializers import WeatherMetricsModelSerializer
+from components.metrics.services import MetricsService
 from shared.api.views import BaseQueryModelViewSet
 from shared.exceptions import MethodIsForbiddenError
 
 
-class WeatherMetricsQueryModelViewSet(BaseQueryModelViewSet,
-                                      WeatherMetricsFilterMixin,
-                                      MetricsDateRangeFilterMixin):
+class WeatherMetricsQueryModelViewSet(BaseQueryModelViewSet):
     """ViewSet для получения списка погодных метрик"""
 
     queryset = WeatherMetricsModel.objects.all().order_by('date')
     serializer_class = WeatherMetricsModelSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
+    service_class = MetricsService
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.service_class = self.service_class()
 
     def list(self, request, *args, **kwargs):
         query_params = request.query_params.dict()
-
-        metrics = self.filter_metrics_by_date_range(self.queryset, query_params)
-        metrics = self.filter_weather_metrics_by_query_params(metrics, query_params)
-
-        region_norm = self.filter_weather_metrics_by_query_params(
+        metrics = self.service_class.filter_metrics_by_date_range(
+            self.queryset,
+            query_params
+        )
+        metrics = self.service_class.filter_weather_metrics_by_query_params(
+            metrics,
+            query_params
+        )
+        region_norm = self.service_class.filter_weather_metrics_by_query_params(
             RegionNormModel.objects.all().order_by("date"),
             query_params
         )

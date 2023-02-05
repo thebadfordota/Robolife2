@@ -11,7 +11,7 @@ from shared.clients.open_meteo.shared.interfaces import (
 from shared.exceptions import NotFoundValueError
 
 
-class OpenMeteoClientV3(BaseApiClient):
+class OpenMeteoClient(BaseApiClient):
     """Клиент для обращения к api open-meteo"""
 
     url_builder = OpenMeteoUrlBuilder

@@ -1,6 +1,6 @@
 from django.db.models import CharField, FloatField, DateField
 
-from shared.constants import WEATHER_METRIC_NAME_CHOICES
+from components.metrics.enums import WeatherMetricsEnum
 from shared.models import BaseModel
 
 
@@ -9,7 +9,7 @@ class RegionNormModel(BaseModel):
 
     name = CharField(
         max_length=25,
-        choices=WEATHER_METRIC_NAME_CHOICES,
+        choices=WeatherMetricsEnum.choices,
         verbose_name='Название метрики'
     )
     value = FloatField(blank=True, verbose_name='Значение', null=True)
