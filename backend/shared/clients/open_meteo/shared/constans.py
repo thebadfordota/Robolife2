@@ -1,5 +1,7 @@
 from components.metrics.enums import WeatherMetricsEnum
 
+OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1/'
+
 WEATHER_METRIC_API_RESPONSE_NAME = {
     WeatherMetricsEnum.MAX_TEMPERATURE.value: 'temperature_2m_max',
     WeatherMetricsEnum.MIN_TEMPERATURE.value: 'temperature_2m_min',
@@ -10,7 +12,5 @@ WEATHER_METRIC_API_RESPONSE_NAME = {
     WeatherMetricsEnum.SOIL_MOISTURE_20_SM.value: 'soil_moisture_9_27cm',
     WeatherMetricsEnum.SOIL_MOISTURE_100_SM.value: 'soil_moisture_27_81cm',
 }
-
-OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1/'
 
 METRIC_TIME_KEY_NAME = 'time'

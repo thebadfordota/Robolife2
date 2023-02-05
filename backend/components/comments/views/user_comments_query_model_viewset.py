@@ -19,12 +19,10 @@ class UserCommentsQueryModelViewSet(BaseQueryModelViewSet):
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
-        # Todo: перенести id из query параметров
         if 'metricId' in request.query_params:
             metric_id = int(request.query_params.get('metricId'))
             metric_model = WeatherMetricsModel.objects.get(id=metric_id)
             queryset = self.queryset.filter(weather_metric=metric_model)
 
-        serializer = self.get_serializer(data=queryset, many=True)
-        serializer.is_valid()
+        serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
