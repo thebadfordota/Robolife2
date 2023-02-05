@@ -1,2 +1,1 @@
 from .weather_metrics_query_model_viewset import WeatherMetricsQueryModelViewSet
-from .soil_moisture_query_model_viewset import SoilMoistureQueryModelViewSet
