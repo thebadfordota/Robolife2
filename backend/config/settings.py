@@ -66,6 +66,7 @@ COMPONENTS = [
     'components.accounts',
     'components.comments',
     'components.notifications',
+    'components.agriculture',
 ]
 
 

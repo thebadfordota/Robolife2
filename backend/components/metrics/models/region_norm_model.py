@@ -8,7 +8,7 @@ class RegionNormModel(BaseModel):
     """Модель нормы для региона"""
 
     name = CharField(
-        max_length=25,
+        max_length=128,
         choices=WeatherMetricsEnum.choices,
         verbose_name='Название метрики'
     )

@@ -9,7 +9,7 @@ class UserNotificationsModelAdmin(admin.ModelAdmin):
         'id',
         'comment',
         'user',
-        'created'
+        'created',
     )
     list_display_links = ('id', 'comment')
     search_fields = (
