@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { generateNormal, getChartData } from '../../utils/ChartUtils';
 import { useSelector } from 'react-redux';
@@ -57,27 +57,27 @@ const Temperature = () => {
                 10,
                 24
             )
-            .then((response) => {
+            .then(({ chart }) => {
                 setChartDataInc(
                     getChartData(
-                        Object.values(response.chart).length
+                        Object.values(chart).length
                             ? {
-                                  degreesHours: Object.values(response.chart).map(({ degree_hours }) => Number(degree_hours)),
-                                  degreesDays: Object.values(response.chart).map(({ degree_days }) => Number(degree_days)),
-                                  degreesDaysUsa: Object.values(response.chart).map(({ degree_days_usa }) => Number(degree_days_usa))
+                                  degreesHours: Object.values(chart).map(({ degree_hours }) => Number(degree_hours)),
+                                  degreesDays: Object.values(chart).map(({ degree_days }) => Number(degree_days)),
+                                  degreesDaysUsa: Object.values(chart).map(({ degree_days_usa }) => Number(degree_days_usa))
                               }
                             : {},
-                        Object.keys(response.chart)
+                        Object.keys(chart)
                     )
                 );
                 let tableData = [];
-                Object.keys(response.chart).forEach((value, index) => {
+                Object.keys(chart).forEach((value, index) => {
                     tableData.push({
                         id: index,
                         dateTime: Date.parse(value),
-                        degreesHours: Object.values(response.chart).map(({ degree_hours }) => Number(degree_hours))[index],
-                        degreesDays: Object.values(response.chart).map(({ degree_days }) => Number(degree_days))[index],
-                        degreesDaysUsa: Object.values(response.chart).map(({ degree_days_usa }) => Number(degree_days_usa))[index]
+                        degreesHours: Object.values(chart).map(({ degree_hours }) => Number(degree_hours))[index],
+                        degreesDays: Object.values(chart).map(({ degree_days }) => Number(degree_days))[index],
+                        degreesDaysUsa: Object.values(chart).map(({ degree_days_usa }) => Number(degree_days_usa))[index]
                     });
                 });
                 setTableDataInc(tableData);
@@ -98,49 +98,43 @@ const Temperature = () => {
             )
             .then(({ data }) => {
                 let maxNormal = generateNormal(
-                    Object.values(data.region_norm).filter((value) => value.name === 'Max Temperature'),
-                    Object.values(data.metric)
-                        .filter((value, index) => index % 2 === 0)
-                        .map((value) => value.date)
+                    data.region_norm.filter(({ name }) => name === 'Max Temperature'),
+                    data.metrics.filter(({ name }) => name === 'Max Temperature').map(({ date }) => date)
                 );
                 let minNormal = generateNormal(
-                    Object.values(data.region_norm).filter((value) => value.name === 'Min Temperature'),
-                    Object.values(data.metric)
-                        .filter((value, index) => index % 2 === 0)
-                        .map((value) => value.date)
+                    data.region_norm.filter(({ name }) => name === 'Min Temperature'),
+                    data.metrics.filter(({ name }) => name === 'Min Temperature').map(({ date }) => date)
                 );
                 setChartDataHistory(
                     getChartData(
-                        Object.values(data.metric).length
+                        data.metrics.length
                             ? {
-                                  historyTemperatureMax: Object.values(data.metric)
-                                      .filter((value) => value.name === 'Max Temperature')
-                                      .map((value) => Number(value.value)),
-                                  historyTemperatureMin: Object.values(data.metric)
-                                      .filter((value) => value.name === 'Min Temperature')
-                                      .map((value) => Number(value.value)),
+                                  historyTemperatureMax: data.metrics
+                                      .filter(({ name }) => name === 'Max Temperature')
+                                      .map(({ value }) => Number(value)),
+                                  historyTemperatureMin: data.metrics
+                                      .filter(({ name }) => name === 'Min Temperature')
+                                      .map(({ value }) => Number(value)),
                                   historyTemperatureMaxNormal: maxNormal,
                                   historyTemperatureMinNormal: minNormal
                               }
                             : {},
-                        Object.values(data.metric)
-                            .filter((value, index) => index % 2 === 0)
-                            .map((value) => value.date)
+                        data.metrics.filter(({ name }) => name === 'Max Temperature').map(({ date }) => date)
                     )
                 );
                 let tableData = [];
-                Object.values(data.metric)
-                    .filter((value, index) => index % 2 === 0)
+                data.metrics
+                    .filter(({ name }) => name === 'Max Temperature')
                     .forEach((value, index) => {
                         tableData.push({
                             id: index,
                             dateTime: Date.parse(value.date),
-                            historyTemperatureMax: Object.values(data.metric)
-                                .filter((value) => value.name === 'Max Temperature')
-                                .map((value) => Number(value.value))[index],
-                            historyTemperatureMin: Object.values(data.metric)
+                            historyTemperatureMax: data.metrics
+                                .filter(({ name }) => name === 'Max Temperature')
+                                .map(({ value }) => Number(value))[index],
+                            historyTemperatureMin: data.metrics
                                 .filter((value) => value.name === 'Min Temperature')
-                                .map((value) => Number(value.value))[index],
+                                .map(({ value }) => Number(value))[index],
                             historyTemperatureMaxNormal: maxNormal[index],
                             historyTemperatureMinNormal: minNormal[index]
                         });

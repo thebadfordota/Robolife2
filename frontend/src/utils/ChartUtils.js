@@ -53,7 +53,7 @@ const getWindRoseData = (speeds = [], speedsNormal = [], directions = [], direct
     return res;
 };
 
-const generateNormal = (normal, dates) => {
+const generateNormal = (normal = [], dates = []) => {
     let res = [];
     dates.forEach((value) => {
         res.push(

@@ -96,29 +96,29 @@ const Precipitation = () => {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }
             )
-            .then((response) => {
+            .then(({ data }) => {
                 let normal = generateNormal(
-                    Object.values(response.data.region_norm),
-                    Object.values(response.data.metric).map((value) => value.date)
+                    data.region_norm,
+                    data.metrics.map(({ date }) => date)
                 );
                 setChartDataHistory(
                     getChartData(
-                        Object.values(response.data.metric).length
+                        data.metrics.length
                             ? {
-                                  precipitationSum: Object.values(response.data.metric).map((value) => Number(value.value)),
+                                  precipitationSum: data.metrics.map(({ value }) => Number(value)),
                                   precipitationSumNormal: normal,
-                                  id: Object.values(response.data.metric).map((value) => value.id)
+                                  id: data.metrics.map(({ id }) => id)
                               }
                             : {},
-                        Object.values(response.data.metric).map((value) => value.date)
+                        data.metrics.map(({ date }) => date)
                     )
                 );
                 let tableData = [];
-                Object.values(response.data.metric).forEach((value, index) => {
+                data.metrics.forEach((value, index) => {
                     tableData.push({
                         id: index,
                         dateTime: Date.parse(value.date),
-                        precipitationSum: Object.values(response.data.metric).map((value) => Number(value.value))[index],
+                        precipitationSum: data.metrics.map(({ value }) => Number(value))[index],
                         precipitationSumNormal: normal[index]
                     });
                 });

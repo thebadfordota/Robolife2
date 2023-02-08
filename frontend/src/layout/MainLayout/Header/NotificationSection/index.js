@@ -6,9 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import {
     Avatar,
     Box,
-    Button,
     ButtonBase,
-    CardActions,
     Chip,
     ClickAwayListener,
     Divider,
@@ -16,7 +14,6 @@ import {
     Paper,
     Popper,
     Stack,
-    TextField,
     Typography,
     useMediaQuery
 } from '@mui/material';
@@ -89,11 +86,11 @@ const NotificationSection = () => {
 
     useEffect(() => {
         axios
-            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + `?userId=${localStorage.getItem('id')}`, {
+            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + `q/?userId=${localStorage.getItem('id')}`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
-            .then((response) => {
-                setNotifications(response.data);
+            .then(({ data }) => {
+                setNotifications(data);
             });
     }, []);
 
@@ -103,10 +100,10 @@ const NotificationSection = () => {
 
     const handleClick = () => {
         axios
-            .delete(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + localStorage.getItem('id') + '/', {
+            .delete(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.notification_url + 'c/' + localStorage.getItem('id') + '/', {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             })
-            .then((response) => setNotifications([]));
+            .then(() => setNotifications([]));
     };
 
     return (

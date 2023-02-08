@@ -21,27 +21,27 @@ const SoilMoisture = () => {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }
             )
-            .then((response) => {
+            .then(({ data }) => {
                 setChartDataHistory(
                     getChartData(
-                        Object.values(response.data.soil_moisture_10cm).length
+                        data.soil_moisture_10cm.length
                             ? {
-                                  soilMoisture10cm: Object.values(response.data.soil_moisture_10cm).map(({ value }) => Number(value)),
-                                  soilMoisture20cm: Object.values(response.data.soil_moisture_20cm).map(({ value }) => Number(value)),
-                                  soilMoisture100cm: Object.values(response.data.soil_moisture_100cm).map(({ value }) => Number(value))
+                                  soilMoisture10cm: data.soil_moisture_10cm.map(({ value }) => Number(value)),
+                                  soilMoisture20cm: data.soil_moisture_20cm.map(({ value }) => Number(value)),
+                                  soilMoisture100cm: data.soil_moisture_100cm.map(({ value }) => Number(value))
                               }
                             : {},
-                        Object.values(response.data.soil_moisture_10cm).map(({ date_and_time }) => date_and_time)
+                        Object.values(data.soil_moisture_10cm).map(({ date }) => date)
                     )
                 );
                 let tableData = [];
-                Object.values(response.data.soil_moisture_10cm).forEach((value, index) => {
+                data.soil_moisture_10cm.forEach((value, index) => {
                     tableData.push({
                         id: index,
-                        dateTime: Date.parse(value.date_and_time),
-                        soil_moisture_10cm: Object.values(response.data.soil_moisture_10cm).map(({ value }) => Number(value))[index],
-                        soil_moisture_20cm: Object.values(response.data.soil_moisture_20cm).map(({ value }) => Number(value))[index],
-                        soil_moisture_100cm: Object.values(response.data.soil_moisture_100cm).map(({ value }) => Number(value))[index]
+                        dateTime: Date.parse(value.date),
+                        soil_moisture_10cm: data.soil_moisture_10cm.map(({ value }) => Number(value))[index],
+                        soil_moisture_20cm: data.soil_moisture_20cm.map(({ value }) => Number(value))[index],
+                        soil_moisture_100cm: data.soil_moisture_100cm.map(({ value }) => Number(value))[index]
                     });
                 });
                 setTableDataHistory(tableData);
@@ -70,7 +70,7 @@ const SoilMoisture = () => {
                 ]}
                 chartTitle="Влажность почвы, m3/m3"
                 chartRootName="chart1"
-                freq="hourly"
+                freq="daily"
             />
         </div>
     );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // assets
-import { Button, Modal, Placeholder, Input, FlexboxGrid } from 'rsuite';
+import { Button, Modal, Input, FlexboxGrid } from 'rsuite';
 import RecipeReviewCard from './Comment';
 import axios from 'axios';
 import { ROBOLIFE2_BACKEND_API } from '../constants/Constants';
@@ -17,11 +17,11 @@ const ModalWindow = () => {
     useEffect(() => {
         if (modalParam.id) {
             axios
-                .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url + `?metricId=${modalParam.id}`, {
+                .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url + `q/?metricId=${modalParam.id}`, {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 })
-                .then((response) => {
-                    setComments(response.data);
+                .then(({ data }) => {
+                    setComments(data);
                 });
         }
     }, [modalParam.id]);
@@ -30,7 +30,7 @@ const ModalWindow = () => {
         event.preventDefault();
         axios
             .post(
-                ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url,
+                ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url + 'c/',
                 {
                     message: input,
                     user: localStorage.getItem('id'),
@@ -40,14 +40,14 @@ const ModalWindow = () => {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }
             )
-            .then((response) => {
+            .then(() => {
                 setInput('');
                 axios
-                    .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url + `?metricId=${modalParam.id}`, {
+                    .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.comments_url + `q/?metricId=${modalParam.id}`, {
                         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                     })
-                    .then((response) => {
-                        setComments(response.data);
+                    .then(({ data }) => {
+                        setComments(data);
                     });
             });
     };

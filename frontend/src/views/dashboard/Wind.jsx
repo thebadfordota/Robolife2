@@ -55,23 +55,19 @@ const Wind = () => {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }
             )
-            .then((response) => {
+            .then(({ data }) => {
                 setChartDataHistory(
-                    Object.values(response.data.metric).length
+                    data.metrics.length
                         ? getWindRoseData(
-                              Object.values(response.data.metric)
-                                  .filter((value) => value.name === 'Max Wind Speed')
-                                  .map((value) => Number(value.value)),
+                              data.metrics.filter(({ name }) => name === 'Max Wind Speed').map(({ value }) => Number(value)),
                               generateNormal(
-                                  Object.values(response.data.region_norm).filter((value) => value.name === 'Max Wind Speed'),
-                                  Object.values(response.data.metric).map((value) => value.date)
+                                  data.region_norm.filter(({ name }) => name === 'Max Wind Speed'),
+                                  data.metrics.map(({ date }) => date)
                               ).filter((value, index) => index % 2 === 0),
-                              Object.values(response.data.metric)
-                                  .filter((value) => value.name === 'Dominant Wind Direction')
-                                  .map((value) => Number(value.value)),
+                              data.metrics.filter(({ name }) => name === 'Dominant Wind Direction').map(({ value }) => Number(value)),
                               generateNormal(
-                                  Object.values(response.data.region_norm).filter((value) => value.name === 'Dominant Wind Direction'),
-                                  Object.values(response.data.metric).map((value) => value.date)
+                                  data.region_norm.filter(({ name }) => name === 'Dominant Wind Direction'),
+                                  data.metrics.map(({ date }) => date)
                               ).filter((value, index) => index % 2 === 0)
                           )
                         : []
