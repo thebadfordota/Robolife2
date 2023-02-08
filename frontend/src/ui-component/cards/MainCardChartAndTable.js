@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
-import { ButtonGroup, IconButton } from 'rsuite';
+import { ButtonGroup, IconButton, SelectPicker } from 'rsuite';
 import EditIcon from '@rsuite/icons/Edit';
 import CloseIcon from '@rsuite/icons/Close';
 import CheckIcon from '@rsuite/icons/Check';
 import TableIcon from '@rsuite/icons/Table';
+import GearIcon from '@rsuite/icons/Gear';
 import LineChartIcon from '@rsuite/icons/LineChart';
 import LineChart from '../LineChart';
 import { DATA_FREQUENCY_CONVERT } from '../../constants/Constants';
@@ -28,14 +29,26 @@ const MainCardChartAndTable = ({
     chartTitle,
     chartRootName,
     comments,
-    range
+    cultureList
 }) => {
     const [editMode, setEditMode] = useState(false);
     const [tableMode, setTableMode] = useState(false);
+    const [culture, setCulture] = useState(null);
 
     return (
         <MainCard title={title} subheader={subheader}>
             <Grid container spacing={2} justifyContent="flex-end">
+                {cultureList ? (
+                    <Grid item>
+                        <SelectPicker
+                            locale={{ searchPlaceholder: 'Поиск', placeholder: 'Выберите культуру' }}
+                            value={culture}
+                            onChange={setCulture}
+                            data={cultureList.map((val) => ({ label: val.label, value: val.name }))}
+                            style={{ width: 224 }}
+                        />
+                    </Grid>
+                ) : null}
                 {editable ? (
                     <Grid item>
                         {!editMode ? (
@@ -93,7 +106,7 @@ const MainCardChartAndTable = ({
                     intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
                     intervalCount={1}
                     comments={comments}
-                    range={range}
+                    range={cultureList?.find((value) => value.name === culture)}
                 />
             ) : (
                 <DataTable tableData={tableData} setTableData={setTableData} editMode={editMode} columnNames={columnNames} />

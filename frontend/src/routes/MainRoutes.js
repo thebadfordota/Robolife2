@@ -151,7 +151,7 @@ const MainRoutes = {
             path: 'culture',
             children: [
                 {
-                    path: 'corn',
+                    path: '',
                     element: (
                         <RequiredAuth>
                             <CornPage />

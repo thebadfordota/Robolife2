@@ -12,6 +12,13 @@ import MainCard from '../../ui-component/cards/MainCard';
 import LineChart from '../../ui-component/LineChart';
 
 const CornPage = () => {
+    const cultureList = [
+        { name: 'corn', label: 'Кукуруза', min: 100, max: 200 },
+        { name: 'beet', label: 'Сахарная свекла', min: 200, max: 300 },
+        { name: 'sunflower', label: 'Подсолнечник', min: 300, max: 400 },
+        { name: 'soy', label: 'Соя', min: 400, max: 500 },
+        { name: 'wheat', label: 'Пшеница', min: 500, max: 600 }
+    ];
     const [chartData, setChartData] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [chartDataInc, setChartDataInc] = useState([]);
@@ -62,7 +69,7 @@ const CornPage = () => {
 
     return (
         <div>
-            <ChartMainCard title="Кукуруза" />
+            <ChartMainCard title="Культуры" settings />
             <MainCardChartAndTable
                 title="Нарастающее количество осадков"
                 subheader="Данные получены из API Fieldclimate"
@@ -73,7 +80,7 @@ const CornPage = () => {
                 freq="hourly"
                 chartData={chartDataInc}
                 columnNames={[{ key: 'increasePrecipitation', name: 'Нарастающее количество осадков' }]}
-                range={{ min: 450, max: 600 }}
+                cultureList={cultureList}
             />
 
             <MainCard>

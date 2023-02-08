@@ -15,10 +15,10 @@ const culturePages = {
     type: 'group',
     children: [
         {
-            id: 'corn',
-            title: 'Кукуруза',
+            id: 'culture',
+            title: 'Культуры',
             type: 'item',
-            url: '/culture/corn',
+            url: '/culture',
             icon: icons.GiCorn
         }
     ]
