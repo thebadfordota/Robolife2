@@ -16,4 +16,4 @@ class WeatherMetricsModelAdmin(admin.ModelAdmin):
         'user',
         'weather_metric'
     )
-    list_filter = ('created',)
+    list_filter = ['created']
