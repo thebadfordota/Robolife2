@@ -5,12 +5,14 @@ import EditIcon from '@rsuite/icons/Edit';
 import CloseIcon from '@rsuite/icons/Close';
 import CheckIcon from '@rsuite/icons/Check';
 import TableIcon from '@rsuite/icons/Table';
-import GearIcon from '@rsuite/icons/Gear';
+import CalendarIcon from '@rsuite/icons/Calendar';
 import LineChartIcon from '@rsuite/icons/LineChart';
 import LineChart from '../LineChart';
 import { DATA_FREQUENCY_CONVERT } from '../../constants/Constants';
 import DataTable from '../DataTable';
 import MainCard from './MainCard';
+import { useDispatch } from 'react-redux';
+import { endOfDay, startOfDay } from 'date-fns';
 
 const buttonColor = {
     color: 'blue'
@@ -35,19 +37,37 @@ const MainCardChartAndTable = ({
     const [tableMode, setTableMode] = useState(false);
     const [culture, setCulture] = useState(null);
 
+    const dispatch = useDispatch();
+
+    const handleVegetationPeriod = () => {
+        if (culture)
+            dispatch({
+                type: 'SET_DATE',
+                date: [
+                    startOfDay(new Date(cultureList?.find((value) => value.name === culture).vegetation_season_start)),
+                    endOfDay(new Date(cultureList?.find((value) => value.name === culture).vegetation_season_end))
+                ]
+            });
+    };
+
     return (
         <MainCard title={title} subheader={subheader}>
             <Grid container spacing={2} justifyContent="flex-end">
                 {cultureList ? (
-                    <Grid item>
-                        <SelectPicker
-                            locale={{ searchPlaceholder: 'Поиск', placeholder: 'Выберите культуру' }}
-                            value={culture}
-                            onChange={setCulture}
-                            data={cultureList.map((val) => ({ label: val.label, value: val.name }))}
-                            style={{ width: 224 }}
-                        />
-                    </Grid>
+                    <>
+                        <Grid item>
+                            <SelectPicker
+                                locale={{ searchPlaceholder: 'Поиск', placeholder: 'Выберите культуру' }}
+                                value={culture}
+                                onChange={setCulture}
+                                data={cultureList.map((val) => ({ label: val.name, value: val.name }))}
+                                style={{ width: 224 }}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <IconButton icon={<CalendarIcon />} onClick={handleVegetationPeriod} />
+                        </Grid>
+                    </>
                 ) : null}
                 {editable ? (
                     <Grid item>

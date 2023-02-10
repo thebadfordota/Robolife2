@@ -6,6 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material';
 import { IconButton } from 'rsuite';
 import GearIcon from '@rsuite/icons/Gear';
+import { Link } from 'react-router-dom';
 // constant
 const headerSX = {
     '& .MuiCardHeader-action': { mr: 0 }
@@ -34,6 +35,7 @@ const MainCard = forwardRef(
         ref
     ) => {
         const theme = useTheme();
+
         return (
             <Card
                 ref={ref}
@@ -59,7 +61,9 @@ const MainCard = forwardRef(
                         </Grid>
                         {settings ? (
                             <Grid item marginRight={'20px'}>
-                                <IconButton icon={<GearIcon />} />
+                                <Link to={{ pathname: 'settings' }}>
+                                    <IconButton icon={<GearIcon />} />
+                                </Link>
                             </Grid>
                         ) : null}
                     </Grid>

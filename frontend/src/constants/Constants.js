@@ -13,9 +13,10 @@ const ROBOLIFE2_BACKEND_API = {
     weather_metrics_url: '/api/metrics/q/',
     soil_moisture_url: '/api/metrics/q/soil-moisture/',
     comments_url: '/api/comments/',
-    notification_url: '/api/notifications/notification/',
+    notification_url: '/api/notifications/',
     authorization_url: '/api/accounts/authorization/',
     registration_url: '/api/accounts/register/',
+    agriculture_url: '/api/agriculture/',
     admin_panel_url: '/admin'
 };
 

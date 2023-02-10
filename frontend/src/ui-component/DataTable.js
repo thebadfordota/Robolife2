@@ -12,7 +12,7 @@ const EditableCell = ({ rowData, dataKey, onChange, ...props }) => {
             {editing ? (
                 <input
                     className="rs-input"
-                    style={{ position: 'absolute', left: 0, top: '5px' }}
+                    style={{ position: 'absolute', left: 0, top: '5px', width: '90%' }}
                     defaultValue={rowData[dataKey]}
                     onChange={(event) => {
                         onChange && onChange(rowData.id, dataKey, event.target.value);

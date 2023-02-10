@@ -1,32 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { addHours, format } from 'date-fns';
+import { addHours } from 'date-fns';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
-import { generateNormal, getChartData } from '../../utils/ChartUtils';
+import { getChartData } from '../../utils/ChartUtils';
 import axios from 'axios';
-import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
+import { ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
 import MainCardChartAndTable from '../../ui-component/cards/MainCardChartAndTable';
 import ColumnChart from '../../ui-component/ColumnChart';
 import MainCard from '../../ui-component/cards/MainCard';
-import LineChart from '../../ui-component/LineChart';
 
 const CornPage = () => {
-    const cultureList = [
-        { name: 'corn', label: 'Кукуруза', min: 100, max: 200 },
-        { name: 'beet', label: 'Сахарная свекла', min: 200, max: 300 },
-        { name: 'sunflower', label: 'Подсолнечник', min: 300, max: 400 },
-        { name: 'soy', label: 'Соя', min: 400, max: 500 },
-        { name: 'wheat', label: 'Пшеница', min: 500, max: 600 }
-    ];
+    const [cultureList, setCultureList] = useState([]);
     const [chartData, setChartData] = useState([]);
-    const [tableData, setTableData] = useState([]);
     const [chartDataInc, setChartDataInc] = useState([]);
     const [tableDataInc, setTableDataInc] = useState([]);
-    const [chartDataHistory, setChartDataHistory] = useState([]);
-    const [tableDataHistory, setTableDataHistory] = useState([]);
     const date = useSelector((state) => [state.chartSettings.dateFrom, state.chartSettings.dateTo]);
-    const freq = useSelector((state) => state.chartSettings.freq);
     const station = useSelector((state) => state.station);
 
     useEffect(() => {
@@ -34,15 +23,6 @@ const CornPage = () => {
             .getForecast(station.id, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000), 'monthly')
             .then((response) => {
                 setChartData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
-                let tableData = [];
-                response.dates.forEach((value, index) => {
-                    tableData.push({
-                        id: index,
-                        dateTime: Number(Date.parse(value)),
-                        precipitation: response.data[1].values.sum[index]
-                    });
-                });
-                setTableData(tableData);
             });
         fieldClimateAPI
             .getCalculationRain(station.id, 5, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000))
@@ -64,6 +44,13 @@ const CornPage = () => {
                     });
                 });
                 setTableDataInc(tableData);
+            });
+        axios
+            .get(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.agriculture_url + 'q/', {
+                headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+            })
+            .then(({ data }) => {
+                setCultureList(data);
             });
     }, [date[0], date[1], station.id]);
 

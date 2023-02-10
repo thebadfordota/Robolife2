@@ -4,7 +4,7 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
-import { useLayoutEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 import { useDispatch } from 'react-redux';
 import am5locales_ru_RU from '@amcharts/amcharts5/locales/ru_RU';
@@ -71,17 +71,38 @@ const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interval
         chart.set('scrollbarX', scrollbarX);
 
         // Create axis ranges
-        function createRange(startValue, endValue, color) {
-            var rangeDataItem = yAxis.makeDataItem({
+        const createRange = (startValue, endValue, color) => {
+            const rangeDataItem = yAxis.makeDataItem({
                 value: startValue,
                 endValue: endValue
             });
+            const rangeDataItemUnder = yAxis.makeDataItem({
+                endValue: startValue
+            });
+            const rangeDataItemOver = yAxis.makeDataItem({
+                value: endValue,
+                endValue: 100000
+            });
 
-            var range = yAxis.createAxisRange(rangeDataItem);
+            const range = yAxis.createAxisRange(rangeDataItem);
+            const rangeUnder = yAxis.createAxisRange(rangeDataItemUnder);
+            const rangeOver = yAxis.createAxisRange(rangeDataItemOver);
 
             range.get('axisFill').setAll({
                 fill: color,
-                fillOpacity: 0.2,
+                fillOpacity: 0.3,
+                visible: true
+            });
+
+            rangeUnder.get('axisFill').setAll({
+                fill: am5.color(0xff0000),
+                fillOpacity: 0.05,
+                visible: true
+            });
+
+            rangeOver.get('axisFill').setAll({
+                fill: am5.color(0xff0000),
+                fillOpacity: 0.05,
                 visible: true
             });
 
@@ -90,13 +111,13 @@ const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interval
                 text: startValue + '-' + endValue,
                 location: 1,
                 background: am5.RoundedRectangle.new(root, {
-                    fill: color
+                    fill: am5.color(0x78e470)
                 })
             });
-        }
+        };
 
         if (range) {
-            createRange(range.min, range.max, am5.color(0xa8e4a0));
+            createRange(range.min_permissible_precipitation_level, range.max_permissible_precipitation_level, am5.color(0xa8e4a0));
         }
 
         // Create series
