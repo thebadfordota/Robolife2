@@ -4,11 +4,11 @@ from rest_framework.response import Response
 from components.accounts.models import UserModel
 from components.notifications.models import UserNotificationsModel
 from components.notifications.serializers import UserNotificationsModelSerializer
-from shared.api.views import BaseQueryModelViewSet
+from shared.api.views import QueryModelViewSet
 from shared.exceptions import IncorrectParametersError
 
 
-class UserNotificationsQueryModelViewSet(BaseQueryModelViewSet):
+class UserNotificationsQueryModelViewSet(QueryModelViewSet):
     """QueryModelViewSet для работы с уведомлениями пользователя"""
 
     queryset = UserNotificationsModel.objects.all()
