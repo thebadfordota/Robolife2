@@ -19,7 +19,7 @@ class UserCommentsModel(BaseModel):
     class Meta:
         verbose_name_plural = 'Комментарии'
         verbose_name = 'Комментарий'
-        ordering = ['-created', '-updated']
+        ordering = ['-created']
 
     def __str__(self):
         return f'{self.pk} | {self.user} | {self.weather_metric}'

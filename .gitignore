@@ -155,3 +155,5 @@ fabric.properties
 # Deploy
 .deploy/robolife2_develop/data/*
 .deploy/robolife2_develop/redis.conf
+.deploy/robolife2_production/data/*
+.deploy/robolife2_production/redis.conf

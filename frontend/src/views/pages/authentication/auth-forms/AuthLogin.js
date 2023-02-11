@@ -92,18 +92,18 @@ const FirebaseLogin = ({ ...others }) => {
                     password: Yup.string().max(255).required('Пароль не введен')
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-                    axios.post(ROBOLIFE2_BACKEND_API.base_url + '/api/accounts/v1/authorization/', values).then((r) => {
+                    axios.post(ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.authorization_url, values).then(({ data }) => {
                         localStorage.clear();
-                        localStorage.setItem('token', r.data.access);
-                        localStorage.setItem('id', r.data.id);
-                        localStorage.setItem('is_superuser', r.data.is_superuser);
-                        localStorage.setItem('username', r.data.username);
-                        localStorage.setItem('email', r.data.email);
-                        localStorage.setItem('firstName', r.data.first_name);
-                        localStorage.setItem('lastName', r.data.last_name);
-                        localStorage.setItem('patronymic', r.data.patronymic);
-                        localStorage.setItem('phone', r.data.phone);
-                        scriptedRef.current = r.data.access;
+                        localStorage.setItem('token', data.access);
+                        localStorage.setItem('id', data.id);
+                        localStorage.setItem('is_superuser', data.is_superuser);
+                        localStorage.setItem('username', data.username);
+                        localStorage.setItem('email', data.email);
+                        localStorage.setItem('firstName', data.first_name);
+                        localStorage.setItem('lastName', data.last_name);
+                        localStorage.setItem('patronymic', data.patronymic);
+                        localStorage.setItem('phone', data.phone);
+                        scriptedRef.current = data.access;
                         try {
                             if (scriptedRef.current) {
                                 setStatus({ success: true });

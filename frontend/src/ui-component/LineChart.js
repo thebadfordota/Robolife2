@@ -4,16 +4,17 @@ import am5themes_Animated from '@amcharts/amcharts5/themes/Animated';
 import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
 
 // ==============================|| DEFAULT DASHBOARD ||============================== //
-
 import { useLayoutEffect } from 'react';
 import { CHART_PARAMETERS_ENUM } from '../constants/Constants';
 import { useDispatch } from 'react-redux';
+import am5locales_ru_RU from '@amcharts/amcharts5/locales/ru_RU';
 
-const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false }) => {
+const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, intervalCount, comments = false, range = false }) => {
     const dispatch = useDispatch();
 
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
+        root.locale = am5locales_ru_RU;
         if (root._logo) {
             root._logo.dispose();
         }
@@ -68,6 +69,56 @@ const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interval
         });
 
         chart.set('scrollbarX', scrollbarX);
+
+        // Create axis ranges
+        const createRange = (startValue, endValue, color) => {
+            const rangeDataItem = yAxis.makeDataItem({
+                value: startValue,
+                endValue: endValue
+            });
+            const rangeDataItemUnder = yAxis.makeDataItem({
+                endValue: startValue
+            });
+            const rangeDataItemOver = yAxis.makeDataItem({
+                value: endValue,
+                endValue: 100000
+            });
+
+            const range = yAxis.createAxisRange(rangeDataItem);
+            const rangeUnder = yAxis.createAxisRange(rangeDataItemUnder);
+            const rangeOver = yAxis.createAxisRange(rangeDataItemOver);
+
+            range.get('axisFill').setAll({
+                fill: color,
+                fillOpacity: 0.3,
+                visible: true
+            });
+
+            rangeUnder.get('axisFill').setAll({
+                fill: am5.color(0xff0000),
+                fillOpacity: 0.05,
+                visible: true
+            });
+
+            rangeOver.get('axisFill').setAll({
+                fill: am5.color(0xff0000),
+                fillOpacity: 0.05,
+                visible: true
+            });
+
+            range.get('label').setAll({
+                fill: am5.color(0xffffff),
+                text: startValue + '-' + endValue,
+                location: 1,
+                background: am5.RoundedRectangle.new(root, {
+                    fill: am5.color(0x78e470)
+                })
+            });
+        };
+
+        if (range) {
+            createRange(range.min_permissible_precipitation_level, range.max_permissible_precipitation_level, am5.color(0xa8e4a0));
+        }
 
         // Create series
         function createSeries(name, field) {
@@ -201,7 +252,7 @@ const LineChart = ({ titleChart, chartRootName, data, intervalTimeUnit, interval
         return () => {
             root.dispose();
         };
-    }, [data]);
+    }, [data, range]);
 
     return <div id={chartRootName} style={{ width: '100%', height: '500px' }}></div>;
 };

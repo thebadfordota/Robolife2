@@ -9,19 +9,22 @@ const FIELD_CLIMATE_API = {
 };
 
 const ROBOLIFE2_BACKEND_API = {
-    base_url: 'http://localhost/api', // При локальном запуске - http://localhost:8000/, docker - http://localhost/api
-    weather_metrics_url: '/api/metrics/v1/weather_metrics/',
-    soil_moisture_url: '/api/metrics/v1/soil_moisture/',
-    comments_url: '/api/comments/v1/comments/',
-    notification_url: '/api/notifications/v1/notification/',
+    base_url: 'http://localhost:8000', // При локальном запуске - http://localhost:8000/, docker - http://localhost
+    weather_metrics_url: '/api/metrics/q/',
+    soil_moisture_url: '/api/metrics/q/soil-moisture/',
+    comments_url: '/api/comments/',
+    notification_url: '/api/notifications/',
+    authorization_url: '/api/accounts/authorization/',
+    registration_url: '/api/accounts/register/',
+    agriculture_url: '/api/agriculture/',
     admin_panel_url: '/admin'
 };
 
 const CHART_PARAMETERS_ENUM = {
     countPrecipitation: 'Количество осадков',
     averageTemperature: 'Средняя температура воздуха',
-    maxTemperature: 'Максимальная температура',
-    minTemperature: 'Минимальная температура',
+    maxTemperature: 'Максимальная температура воздуха',
+    minTemperature: 'Минимальная температура воздуха',
     averageWindSpeed: 'Средння скорость ветра',
     maxWindSpeed: 'Максимальная скорость ветра',
     increaseCountPrecipitation: 'Нарастающее количество осадков',
@@ -32,8 +35,8 @@ const CHART_PARAMETERS_ENUM = {
     solarRadiation: 'Солнечная радиация',
     humidity: 'Влажность листа',
 
-    historyTemperatureMax: 'Максимальная температура',
-    historyTemperatureMin: 'Минимальная температура',
+    historyTemperatureMax: 'Максимальная температура воздуха',
+    historyTemperatureMin: 'Минимальная температура воздуха',
     historyTemperatureMaxNormal: 'Норма максимальной температуры',
     historyTemperatureMinNormal: 'Норма минимальной температуры',
     precipitationSum: 'Сумма осадков',

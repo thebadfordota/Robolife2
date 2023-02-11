@@ -8,8 +8,8 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const pages = {
-    id: 'pages',
+const calculation = {
+    id: 'calculation',
     title: 'Расчеты',
     caption: '',
     type: 'group',
@@ -24,4 +24,4 @@ const pages = {
     ]
 };
 
-export default pages;
+export default calculation;

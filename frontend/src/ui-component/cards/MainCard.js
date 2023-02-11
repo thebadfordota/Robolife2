@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
-
+import { Card, CardContent, CardHeader, Divider, Grid, Typography } from '@mui/material';
+import { IconButton } from 'rsuite';
+import GearIcon from '@rsuite/icons/Gear';
+import { Link } from 'react-router-dom';
 // constant
 const headerSX = {
     '& .MuiCardHeader-action': { mr: 0 }
@@ -27,6 +29,7 @@ const MainCard = forwardRef(
             sx = {},
             title,
             subheader,
+            settings,
             ...others
         },
         ref
@@ -51,7 +54,20 @@ const MainCard = forwardRef(
                 {darkTitle && title && !subheader && (
                     <CardHeader sx={headerSX} title={<Typography variant="h3">{title}</Typography>} action={secondary} />
                 )}
-                {!darkTitle && title && subheader && <CardHeader sx={headerSX} title={title} subheader={subheader} action={secondary} />}
+                {!darkTitle && title && subheader && (
+                    <Grid container spacing={2} direction="row" alignItems="center" justifyContent="space-between">
+                        <Grid item>
+                            <CardHeader sx={headerSX} title={title} subheader={subheader} action={secondary} />
+                        </Grid>
+                        {settings ? (
+                            <Grid item marginRight={'20px'}>
+                                <Link to={{ pathname: 'settings' }}>
+                                    <IconButton icon={<GearIcon />} />
+                                </Link>
+                            </Grid>
+                        ) : null}
+                    </Grid>
+                )}
                 {darkTitle && title && subheader && (
                     <CardHeader
                         sx={headerSX}
@@ -60,10 +76,8 @@ const MainCard = forwardRef(
                         action={secondary}
                     />
                 )}
-
                 {/* content & header divider */}
                 {title && <Divider />}
-
                 {/* card content */}
                 {content && (
                     <CardContent sx={contentSX} className={contentClass}>

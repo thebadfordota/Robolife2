@@ -8,7 +8,7 @@ from components.notifications.views import (
 app_name = 'notifications'
 
 router = DefaultRouter()
-router.register(r'notification/q', UserNotificationsQueryModelViewSet, basename='notifications_query')
-router.register(r'notification/c', UserNotificationsCommandModelViewSet, basename='notifications_command')
+router.register(r'q', UserNotificationsQueryModelViewSet, basename='notifications_query')
+router.register(r'c', UserNotificationsCommandModelViewSet, basename='notifications_command')
 
 urlpatterns = router.urls

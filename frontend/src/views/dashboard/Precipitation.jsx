@@ -1,96 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import LineChart from '../../ui-component/LineChart';
 import fieldClimateAPI from '../../clients/FieldClimateClient';
 import { generateNormal, getChartData } from '../../utils/ChartUtils';
-import SubCard from '../../ui-component/cards/SubCard';
-import { DATA_FREQUENCY_CONVERT, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
+import { ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 import { useSelector } from 'react-redux';
-import { Grid } from '@mui/material';
-import { Button, IconButton, Table } from 'rsuite';
-import EditIcon from '@rsuite/icons/Edit';
-import CheckIcon from '@rsuite/icons/Check';
-import CloseIcon from '@rsuite/icons/Close';
 import ChartMainCard from '../../ui-component/extended/ChartMainCard';
-import { addHours } from 'date-fns';
+import { addHours, format } from 'date-fns';
 import axios from 'axios';
-import MainCard from '../../ui-component/cards/MainCard';
-import ColumnChart from '../../ui-component/ColumnChart';
-import SaveIcon from '@mui/icons-material/Save';
-
-const { Column, HeaderCell, Cell } = Table;
-
-const EditableCell = ({ rowData, dataKey, onChange, ...props }) => {
-    const editing = rowData.status === 'EDIT';
-    return (
-        <Cell {...props} className={editing ? 'table-content-editing' : ''}>
-            {editing ? (
-                <input
-                    className="rs-input"
-                    style={{ position: 'absolute', left: 0, top: '5px' }}
-                    defaultValue={rowData[dataKey]}
-                    onChange={(event) => {
-                        onChange && onChange(rowData.id, dataKey, event.target.value);
-                    }}
-                />
-            ) : (
-                <span className="table-content-edit-span">{rowData[dataKey]}</span>
-            )}
-        </Cell>
-    );
-};
-
-const ActionCell = ({ rowData, dataKey, onClick, ...props }) => {
-    return (
-        <Cell {...props} style={{ padding: '6px' }}>
-            <Button
-                appearance="link"
-                onClick={() => {
-                    onClick(rowData.id);
-                }}
-            >
-                {rowData.status === 'EDIT' ? <SaveIcon fontSize="small" /> : <EditIcon />}
-            </Button>
-        </Cell>
-    );
-};
+import MainCardChartAndTable from '../../ui-component/cards/MainCardChartAndTable';
 
 const Precipitation = () => {
-    const [data, setData] = useState([]);
-    const [editMode, setEditMode] = useState(false);
-    const [editData, setEditData] = useState({});
-    const [dataInc, setDataInc] = useState([]);
-    const [dataHistory, setDataHistory] = useState([]);
+    const [chartData, setChartData] = useState([]);
+    const [tableData, setTableData] = useState([]);
+    const [chartDataInc, setChartDataInc] = useState([]);
+    const [tableDataInc, setTableDataInc] = useState([]);
+    const [chartDataHistory, setChartDataHistory] = useState([]);
+    const [tableDataHistory, setTableDataHistory] = useState([]);
     const date = useSelector((state) => [state.chartSettings.dateFrom, state.chartSettings.dateTo]);
     const freq = useSelector((state) => state.chartSettings.freq);
     const station = useSelector((state) => state.station);
-    const handleChange = (id, key, value) => {
-        const nextData = Object.assign([], editData);
-        nextData.find((item) => item.id === id)[key] = value;
-        setEditData(nextData);
-    };
-    const handleEditState = (id) => {
-        const nextData = Object.assign([], editData);
-        const activeItem = nextData.find((item) => item.id === id);
-        activeItem.status = activeItem.status === 'EDIT' ? 'Edited' : 'EDIT';
-        setEditData(nextData);
-    };
 
     const saveData = (editData) => {
         const data = editData
             .filter((obj) => obj.status === 'Edited')
             .map((obj) => {
-                return { dt: obj.dateTime, c: 6, ch: 5, v: Number(obj.precipitation) };
+                return { dt: format(obj.dateTime, 'yyyy-MM-dd HH:mm:ss'), c: 6, ch: 5, v: Number(obj.precipitation) };
             });
         fieldClimateAPI.setRainData(station.id, data).then(() => {
             fieldClimateAPI
                 .getForecast(station.id, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000), freq)
                 .then((response) => {
-                    setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
+                    setChartData(
+                        getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates)
+                    );
                 });
             fieldClimateAPI
                 .getCalculationRain(station.id, 5, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000))
                 .then((response) => {
-                    setDataInc(
+                    setChartDataInc(
                         getChartData(
                             Object.values(response.chart).length
                                 ? { increaseCountPrecipitation: Object.values(response.chart).map((value) => Number(value)) }
@@ -106,17 +52,21 @@ const Precipitation = () => {
         fieldClimateAPI
             .getForecast(station.id, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000), freq)
             .then((response) => {
-                setData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
-                let editableData = [];
+                setChartData(getChartData(response.data.length ? { countPrecipitation: response.data[1].values.sum } : {}, response.dates));
+                let tableData = [];
                 response.dates.forEach((value, index) => {
-                    editableData.push({ id: index, dateTime: value, precipitation: response.data[1].values.sum[index] });
+                    tableData.push({
+                        id: index,
+                        dateTime: Number(Date.parse(value)),
+                        precipitation: response.data[1].values.sum[index]
+                    });
                 });
-                setEditData(editableData);
+                setTableData(tableData);
             });
         fieldClimateAPI
             .getCalculationRain(station.id, 5, Math.round(addHours(date[0], 3) / 1000), Math.round(addHours(date[1], 3) / 1000))
             .then((response) => {
-                setDataInc(
+                setChartDataInc(
                     getChartData(
                         Object.values(response.chart).length
                             ? { increaseCountPrecipitation: Object.values(response.chart).map((value) => Number(value)) }
@@ -124,6 +74,15 @@ const Precipitation = () => {
                         Object.keys(response.chart)
                     )
                 );
+                let tableData = [];
+                Object.keys(response.chart).forEach((value, index) => {
+                    tableData.push({
+                        id: index,
+                        dateTime: Date.parse(value),
+                        increasePrecipitation: Object.values(response.chart).map((value) => Number(value))[index]
+                    });
+                });
+                setTableDataInc(tableData);
             });
     }, [date[0], date[1], freq, station.id]);
 
@@ -137,109 +96,81 @@ const Precipitation = () => {
                     headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                 }
             )
-            .then((response) => {
-                setDataHistory(
+            .then(({ data }) => {
+                let normal = generateNormal(
+                    data.region_norm,
+                    data.metrics.map(({ date }) => date)
+                );
+                setChartDataHistory(
                     getChartData(
-                        Object.values(response.data.metric).length
+                        data.metrics.length
                             ? {
-                                  precipitationSum: Object.values(response.data.metric).map((value) => Number(value.value)),
-                                  precipitationSumNormal: generateNormal(
-                                      Object.values(response.data.region_norm),
-                                      Object.values(response.data.metric).map((value) => value.date)
-                                  ),
-                                  id: Object.values(response.data.metric).map((value) => value.id)
+                                  precipitationSum: data.metrics.map(({ value }) => Number(value)),
+                                  precipitationSumNormal: normal,
+                                  id: data.metrics.map(({ id }) => id)
                               }
                             : {},
-                        Object.values(response.data.metric).map((value) => value.date)
+                        data.metrics.map(({ date }) => date)
                     )
                 );
+                let tableData = [];
+                data.metrics.forEach((value, index) => {
+                    tableData.push({
+                        id: index,
+                        dateTime: Date.parse(value.date),
+                        precipitationSum: data.metrics.map(({ value }) => Number(value))[index],
+                        precipitationSumNormal: normal[index]
+                    });
+                });
+                setTableDataHistory(tableData);
             });
     }, [date[0], date[1]]);
 
     return (
         <div>
             <ChartMainCard title="Осадки" />
-            <MainCard title="Количество осадков" subheader="Данные получены из API Fieldclimate">
-                <Grid container style={{ justifyContent: 'right' }}>
-                    <Grid item>
-                        {!editMode ? (
-                            <IconButton icon={<EditIcon />} onClick={() => setEditMode(true)}>
-                                Редактировать данные
-                            </IconButton>
-                        ) : (
-                            <div>
-                                <IconButton
-                                    appearance="primary"
-                                    color="cyan"
-                                    style={{ marginRight: '10px' }}
-                                    icon={<CloseIcon />}
-                                    onClick={() => {
-                                        setEditMode(false);
-                                    }}
-                                >
-                                    Отменить
-                                </IconButton>
-                                <IconButton
-                                    icon={<CheckIcon />}
-                                    appearance="primary"
-                                    color="green"
-                                    onClick={() => {
-                                        setEditMode(false);
-                                        saveData(editData);
-                                    }}
-                                >
-                                    Применить
-                                </IconButton>
-                            </div>
-                        )}
-                    </Grid>
-                </Grid>
-                {!editMode ? (
-                    <LineChart
-                        titleChart="Осадки, mm"
-                        chartRootName="chart1"
-                        data={data}
-                        intervalTimeUnit={DATA_FREQUENCY_CONVERT[freq]}
-                        intervalCount={1}
-                    />
-                ) : (
-                    <Table height={420} data={editData}>
-                        <Column width={200}>
-                            <HeaderCell>Дата и время</HeaderCell>
-                            <Cell dataKey="dateTime" />
-                        </Column>
-
-                        <Column width={200}>
-                            <HeaderCell>Осадки (мм)</HeaderCell>
-                            <EditableCell dataKey="precipitation" onChange={handleChange} />
-                        </Column>
-
-                        <Column flexGrow={1}>
-                            <HeaderCell>...</HeaderCell>
-                            <ActionCell dataKey="id" onClick={handleEditState} />
-                        </Column>
-                    </Table>
-                )}
-            </MainCard>
-            <MainCard title="Нарастающее количество осадков" subheader="Данные получены из API Fieldclimate">
-                <LineChart
-                    titleChart="Нарастающее количество осадков, mm"
-                    chartRootName="chart2"
-                    data={dataInc}
-                    intervalTimeUnit="hour"
-                    intervalCount={1}
-                />
-            </MainCard>
-            <MainCard title="Исторические данные об осадках" subheader="Данные получены из API Robolife2">
-                <LineChart
-                    titleChart="Осадки (внешние данные), mm"
-                    chartRootName="chart3"
-                    data={dataHistory}
-                    intervalTimeUnit="day"
-                    intervalCount={1}
-                    comments={true}
-                />
-            </MainCard>
+            <MainCardChartAndTable
+                title="Количество осадков"
+                subheader="Данные получены из API Fieldclimate"
+                tableData={tableData}
+                setTableData={setTableData}
+                saveData={saveData}
+                columnNames={[{ key: 'precipitation', name: 'Осадки (мм)' }]}
+                freq={freq}
+                chartData={chartData}
+                editable={true}
+                chartTitle="Осадки, mm"
+                chartRootName="chart1"
+            />
+            <MainCardChartAndTable
+                title="Нарастающее количество осадков"
+                subheader="Данные получены из API Fieldclimate"
+                tableData={tableDataInc}
+                setTableData={setTableDataInc}
+                chartTitle="Нарастающее количество осадков, mm"
+                chartRootName="chart2"
+                freq="hourly"
+                chartData={chartDataInc}
+                columnNames={[{ key: 'increasePrecipitation', name: 'Нарастающее количество осадков' }]}
+            />
+            <MainCardChartAndTable
+                title="Исторические данные об осадках"
+                subheader="Данные получены из API Robolife2"
+                tableData={tableDataHistory}
+                chartData={chartDataHistory}
+                setTableData={setTableDataHistory}
+                chartTitle="Осадки (внешние данные), mm"
+                chartRootName="chart3"
+                columnNames={[
+                    { key: 'precipitationSum', name: 'Сумма осадков' },
+                    {
+                        key: 'precipitationSumNormal',
+                        name: 'Норма суммы осадков'
+                    }
+                ]}
+                freq="daily"
+                comments={true}
+            />
         </div>
     );
 };

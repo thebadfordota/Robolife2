@@ -12,7 +12,7 @@ from shared.api.views import BaseQueryModelViewSet
 class UserCommentsQueryModelViewSet(BaseQueryModelViewSet):
     """QueryModelViewSet для работы с комментариями пользователя"""
 
-    queryset = UserCommentsModel.objects.all()
+    queryset = UserCommentsModel.objects.all().order_by('created')
     serializer_class = UserCommentsListModelSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None

@@ -2,26 +2,26 @@ from typing import NoReturn
 
 from components.accounts.models import UserModel
 from components.comments.models import UserCommentsModel
+from components.notifications.enums import NotificationsTypeEnum
 from components.notifications.models import UserNotificationsModel
 
 
 class UserNotificationRepository:
     """Репозиторий для работы с уведомлениями пользователей """
 
-    @staticmethod
-    def get_all_users_without_author(author_model: UserModel) -> list[UserModel]:
-        """Получить список всех пользователей за исключением автора"""
+    model_class = UserNotificationsModel
 
-        return UserModel.objects.all().exclude(id=author_model.id)
-
-    @staticmethod
-    def create_user_notifications(users: list[UserModel], user_comment: UserCommentsModel) -> NoReturn:
+    def create_user_notifications(self,
+                                  users: list[UserModel],
+                                  user_comment: UserCommentsModel,
+                                  notification_type: NotificationsTypeEnum) -> NoReturn:
         """Создать массово уведомления для пользователей"""
 
-        UserNotificationsModel.objects.bulk_create([
+        self.model_class.objects.bulk_create([
             UserNotificationsModel(
                 comment=user_comment,
-                user=user
+                user=user,
+                notification_type=notification_type.value
             )
             for user in users
         ])

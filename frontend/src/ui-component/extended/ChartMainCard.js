@@ -4,7 +4,7 @@ import DataFrequencyPicker from '../pickers/DataFrequencyPicker';
 import MainCard from '../cards/MainCard';
 import { useDispatch, useSelector } from 'react-redux';
 
-const ChartMainCard = ({ title }) => {
+const ChartMainCard = ({ title, settings = false }) => {
     const date = useSelector((state) => [state.chartSettings.dateFrom, state.chartSettings.dateTo]);
     const freq = useSelector((state) => state.chartSettings.freq);
 
@@ -22,7 +22,7 @@ const ChartMainCard = ({ title }) => {
     };
 
     return (
-        <MainCard title={title} subheader={stationData}>
+        <MainCard title={title} subheader={stationData} settings={settings}>
             <ChartDateRangePicker date={date} setDate={handleSetDate} />
             <DataFrequencyPicker freq={freq} setFreq={handleSetFreq} />
         </MainCard>

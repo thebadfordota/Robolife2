@@ -4,10 +4,12 @@ import * as am5radar from '@amcharts/amcharts5/radar';
 import * as am5xy from '@amcharts/amcharts5/xy';
 import * as am5 from '@amcharts/amcharts5';
 import * as am5plugins_exporting from '@amcharts/amcharts5/plugins/exporting';
+import am5locales_ru_RU from '@amcharts/amcharts5/locales/ru_RU';
 
 const WindRose = ({ titleChart, chartRootName, data }) => {
     useLayoutEffect(() => {
         let root = am5.Root.new(chartRootName);
+        root.locale = am5locales_ru_RU;
         if (root._logo) {
             root._logo.dispose();
         }
