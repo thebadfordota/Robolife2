@@ -10,34 +10,44 @@ from rest_framework.viewsets import GenericViewSet
 from fastbook import load_learner, PILImage
 
 
-class CornDiseases(CreateModelMixin, GenericViewSet):
-    """
-        Cercospora - Серая пятнистость листьев (GLS) — лиственное грибковое заболевание, поражающее кукурузу ,
-            Есть два грибковых патогена, которые вызывают GLS: Cercospora zeae-maydis и Cercospora zeina
-        -------------------------
-		common_rust
-		  Обыкновенная ржавчина вызывается грибком Puccinia sorghi.
-		  Поздние инфекции имеют ограниченное влияние на урожайность.
-		-------------------------
-		healthy - здоровый
-		--------------------------
-		northern_leaf_blight - Северная пятнистость листьев кукурузы (NCLB) или ожог листьев Turcicum (TLB)
-		 лиственное заболевание кукурузы ( вызываемое Exserohilum turcicum ,
-		 анаморфой аскомицета Setosphaeria turcica .
-		 Благодаря своим характерным сигарообразным поражениям это заболевание может привести к значительной потере урожая восприимчивых гибридов кукурузы.
+class Diseases(CreateModelMixin, GenericViewSet):
 
-    """
+    agricultures = {'corn': 'corn_diseases.pkl',
+                    'soy': 'soy_diseases.pkl',
+                    'sunflower': 'sunflower_diseases.pkl',
+                    'wheat': 'wheat_diseases.pkl'}
 
-    learn_inf = NotImplemented
+    tensors_name = {
+        "corn": {
+        0: 'cercospora',
+        1: 'common_rust',
+        2: 'healthy',
+        3: 'northern_leaf_blight'},
+        "sunflower": {
+        0: 'Downy_mildew',
+        1: 'Gray_mold',
+        2: 'Healthy',
+        3: 'Leaf_scars' },
+        "soy": {
+        0: 'Caterpillar',
+        1: 'Diabrotica_speciosa',
+        2: 'Healthy'
+        },
+        "wheat":{
+        0: "Healthy",
+        1: "septoria",
+        2: "stripe_rust"
+        }
 
-    def __init__(self, *args, **kwargs):
-        base_path = pathlib.Path(os.path.dirname(__file__))
-        self.learn_inf = load_learner(base_path/'learner/corn_diseases.pkl')
-        super().__init__(*args, **kwargs)
+    }
+
 
     def create(self, request, *args, **kwargs):
-
+        agriculture = request.POST.get('agriculture', None)
         file = request.FILES.get('image', None)
+        if agriculture is None or agriculture not in self.agricultures.keys():
+            return JsonResponse({"error": 'Нету такой агрокультуры'},
+                                safe=False, status=status.HTTP_400_BAD_REQUEST)
         if file is None:
             return JsonResponse({"error": 'Файл не передан'},
                                 safe=False, status=status.HTTP_400_BAD_REQUEST)
@@ -46,7 +56,18 @@ class CornDiseases(CreateModelMixin, GenericViewSet):
         except UnidentifiedImageError:
             return JsonResponse({"error": 'Неправильный формат изображения'},
                                 safe=False, status=status.HTTP_400_BAD_REQUEST)
-        learn_result = self.learn_inf.predict(img)
-        return JsonResponse({"result": learn_result[0], 'other_date':learn_result[0]},
+        base_path = pathlib.Path(os.path.dirname(__file__))
+        learn_inf = load_learner(base_path / 'learner'/self.agricultures[agriculture])
+
+        learn_result = learn_inf.predict(img)
+
+        response_result = []
+        for index, tensor in enumerate(learn_result[2]):
+            coincidence = float(tensor)
+            tensor_name = self.tensors_name[agriculture][index]
+            response_result.append({tensor_name: coincidence})
+
+
+        return JsonResponse(response_result ,
                             safe=False, status=status.HTTP_200_OK)
 
