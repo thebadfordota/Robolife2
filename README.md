@@ -16,10 +16,10 @@
 docker-compose -f .deploy/robolife2_production/docker-compose.yml  up -d --build
 ```
 4) После нужно заполнить базу данных начальными значениями. Необходимо перейти в директорию backend и ввести следующие команды:
-- docker-compose exec django_server python manage.py loaddata metrics.json
-- docker-compose exec django_server  python manage.py loaddata region_norm.json
-- docker-compose exec django_server  python manage.py update_metrics
+- docker exec -it django_server python manage.py loaddata metrics.json
+- docker exec -it django_server python manage.py loaddata region_norm.json
+- docker exec -it django_server python manage.py update_metrics
 
-5) После успешной установки нужно обратиться по следующей ссылке, чтобы открыть приложение: http://localhost:80  
+5) После успешной установки нужно обратиться по следующей ссылке, чтобы открыть приложение: http://localhost:80
 
 #### По всем вопросам, связанным с локальным разворачиванием приложения, можно обращаться к Александру Скрыннику в телеграмме 
