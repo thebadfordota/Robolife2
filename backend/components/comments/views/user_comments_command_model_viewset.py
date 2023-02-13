@@ -4,10 +4,10 @@ from components.comments.models import UserCommentsModel
 from components.comments.serializers import UserCommentsCreateModelSerializer
 from components.notifications.enums import NotificationsTypeEnum
 from components.notifications.services import UserNotificationService
-from shared.api.views import BaseCommandModelViewSet
+from shared.api.views import CommandModelViewSet
 
 
-class UserCommentsCommandModelViewSet(BaseCommandModelViewSet):
+class UserCommentsCommandModelViewSet(CommandModelViewSet):
     """CommandModelViewSet для работы с комментариями пользователя"""
 
     queryset = UserCommentsModel.objects.all()
@@ -22,4 +22,7 @@ class UserCommentsCommandModelViewSet(BaseCommandModelViewSet):
 
     def perform_create(self, serializer):
         user_comment_model = serializer.save()
-        self.service_class.create_user_notifications(user_comment_model, NotificationsTypeEnum.COMMENT_CREATED)
+        self.service_class.create_user_notifications(
+            user_comment_model,
+            NotificationsTypeEnum.COMMENT_CREATED
+        )

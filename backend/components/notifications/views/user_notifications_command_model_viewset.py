@@ -5,11 +5,11 @@ from rest_framework.status import HTTP_204_NO_CONTENT
 
 from components.comments.serializers import UserCommentsCreateModelSerializer
 from components.notifications.models import UserNotificationsModel
-from shared.api.views import BaseCommandModelViewSet
+from shared.api.views import CommandModelViewSet
 from shared.exceptions import IncorrectParametersError
 
 
-class UserNotificationsCommandModelViewSet(BaseCommandModelViewSet):
+class UserNotificationsCommandModelViewSet(CommandModelViewSet):
     """CommandModelViewSet для работы с уведомлениями пользователя"""
 
     queryset = UserNotificationsModel.objects.all()

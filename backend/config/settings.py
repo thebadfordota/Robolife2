@@ -160,16 +160,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-# SMTP Settings
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_PORT = env('EMAIL_PORT', cast=int, default=1337)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = env('EMAIL_USE_TLS', cast=bool, default=True)
-EMAIL_USE_SSL = env('EMAIL_USE_SSL', cast=bool, default=False)
-SERVER_EMAIL = EMAIL_HOST_USER
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = env('STATIC_URL', default='/static_django/')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
