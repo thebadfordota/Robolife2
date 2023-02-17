@@ -6,7 +6,7 @@ app_name = 'neural_network'
 
 
 urlpatterns = [
-    path('check-plant-diseases/', CheckPlantDiseasesAPIView.as_view(), name='check_plant_diseases'),
+    path('check-plant-diseases/c/', CheckPlantDiseasesAPIView.as_view(), name='check_plant_diseases'),
 ]
 
 
