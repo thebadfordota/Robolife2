@@ -1,17 +1,15 @@
-import pathlib
 import os
+import pathlib
 
 from PIL import UnidentifiedImageError
 from django.http import JsonResponse
+from fastbook import load_learner, PILImage
 from rest_framework import status
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-from fastbook import load_learner, PILImage
-
 
 class Diseases(CreateModelMixin, GenericViewSet):
-
     agricultures = {'corn': 'corn_diseases.pkl',
                     'soy': 'soy_diseases.pkl',
                     'sunflower': 'sunflower_diseases.pkl',
@@ -19,30 +17,32 @@ class Diseases(CreateModelMixin, GenericViewSet):
 
     tensors_name = {
         "corn": {
-        0: 'cercospora',
-        1: 'common_rust',
-        2: 'healthy',
-        3: 'northern_leaf_blight'},
+            0: 'cercospora',
+            1: 'common_rust',
+            2: 'healthy',
+            3: 'northern_leaf_blight'},
         "sunflower": {
-        0: 'Downy_mildew',
-        1: 'Gray_mold',
-        2: 'Healthy',
-        3: 'Leaf_scars' },
+            0: 'Downy_mildew',
+            1: 'Gray_mold',
+            2: 'Healthy',
+            3: 'Leaf_scars'},
         "soy": {
-        0: 'Caterpillar',
-        1: 'Diabrotica_speciosa',
-        2: 'Healthy'
+            0: 'Caterpillar',
+            1: 'Diabrotica_speciosa',
+            2: 'Healthy'
         },
-        "wheat":{
-        0: "Healthy",
-        1: "septoria",
-        2: "stripe_rust"
+        "wheat": {
+            0: "Healthy",
+            1: "septoria",
+            2: "stripe_rust"
         }
 
     }
 
-
     def create(self, request, *args, **kwargs):
+        temp = pathlib.PosixPath
+        pathlib.PosixPath = pathlib.WindowsPath
+
         agriculture = request.POST.get('agriculture', None)
         file = request.FILES.get('image', None)
         if agriculture is None or agriculture not in self.agricultures.keys():
@@ -57,7 +57,7 @@ class Diseases(CreateModelMixin, GenericViewSet):
             return JsonResponse({"error": 'Неправильный формат изображения'},
                                 safe=False, status=status.HTTP_400_BAD_REQUEST)
         base_path = pathlib.Path(os.path.dirname(__file__))
-        learn_inf = load_learner(base_path / 'learner'/self.agricultures[agriculture])
+        learn_inf = load_learner(base_path / 'learner' / self.agricultures[agriculture])
 
         learn_result = learn_inf.predict(img)
 
@@ -67,7 +67,5 @@ class Diseases(CreateModelMixin, GenericViewSet):
             tensor_name = self.tensors_name[agriculture][index]
             response_result.append({tensor_name: coincidence})
 
-
-        return JsonResponse(response_result ,
+        return JsonResponse(response_result,
                             safe=False, status=status.HTTP_200_OK)
-
