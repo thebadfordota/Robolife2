@@ -6,25 +6,25 @@ DATASETS_PATH = os.path.join(BASE_DIR, 'datasets')
 
 PLANTS_PATH = os.path.join(DATASETS_PATH, 'plants')
 
-tensors_name = {
-    "corn": (
+TENSORS_NAMES = {
+    "Corn": (
         'cercospora',
         'common_rust',
         'healthy',
         'northern_leaf_blight'
     ),
-    "sunflower": (
+    "Sunflower": (
         'Downy_mildew',
         'Gray_mold',
         'Healthy',
         'Leaf_scars'
     ),
-    "soy": (
+    "Soy": (
         'Caterpillar',
         'Diabrotica_speciosa',
         'Healthy'
     ),
-    "wheat": (
+    "Wheat": (
         "Healthy",
         "septoria",
         "stripe_rust"

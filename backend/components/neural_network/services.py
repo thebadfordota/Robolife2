@@ -2,10 +2,11 @@ import os.path
 import pathlib
 from typing import Mapping
 
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from fastai.learner import load_learner
 from fastai.vision.core import PILImage
 
-from components.neural_network.constants import PLANTS_PATH, tensors_name
+from components.neural_network.constants import PLANTS_PATH, TENSORS_NAMES
 from components.neural_network.enums import AgricultureDatasetEnum
 
 
@@ -16,7 +17,7 @@ class PlantDiseasesService:
         pathlib.PosixPath = pathlib.WindowsPath
 
     def calculate_diseases_probability(self,
-                                       file: bytes,
+                                       file: InMemoryUploadedFile,
                                        agriculture: AgricultureDatasetEnum) -> list[Mapping[str, float]]:
         img = PILImage.create(file)
 
@@ -27,7 +28,7 @@ class PlantDiseasesService:
         result = []
         for index, tensor in enumerate(learn_result[2]):
             coincidence = float(tensor)
-            tensor_name = tensors_name[agriculture][index]
+            tensor_name = TENSORS_NAMES[agriculture.label][index]
             result.append({tensor_name: coincidence})
 
         return result

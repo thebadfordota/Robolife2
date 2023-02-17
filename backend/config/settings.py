@@ -68,7 +68,6 @@ COMPONENTS = [
     'components.notifications',
     'components.agriculture',
     'components.neural_network',
-    'components.ML',
 ]
 
 

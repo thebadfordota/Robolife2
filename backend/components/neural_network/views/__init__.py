@@ -1,0 +1,2 @@
+from .check_plant_diseases_apiview import CheckPlantDiseasesAPIView
+

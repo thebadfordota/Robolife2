@@ -1,12 +1,12 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-# from components.my_comp.views.my_comp_viewset import MyCompViewSet
+from components.neural_network.views import CheckPlantDiseasesAPIView
 
 app_name = 'neural_network'
 
 
-router = DefaultRouter()
-# router.register(r'product', MyCompViewSet, basename='product')
+urlpatterns = [
+    path('check-plant-diseases/', CheckPlantDiseasesAPIView.as_view(), name='check_plant_diseases'),
+]
 
-urlpatterns = router.urls
 
