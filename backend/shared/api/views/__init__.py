@@ -1,3 +1,3 @@
-from .query_model_viewset import BaseQueryModelViewSet
-from .command_model_viewset import BaseCommandModelViewSet
+from .query_model_viewset import QueryModelViewSet
+from .command_model_viewset import CommandModelViewSet
 

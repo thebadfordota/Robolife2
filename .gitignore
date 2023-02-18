@@ -157,3 +157,7 @@ fabric.properties
 .deploy/robolife2_develop/redis.conf
 .deploy/robolife2_production/data/*
 .deploy/robolife2_production/redis.conf
+/backend/components/ML/learner/corn_diseases.pkl
+/backend/components/ML/learner/soy_diseases.pkl
+/backend/components/ML/learner/sunflower_diseases.pkl
+/backend/components/ML/learner/wheat_diseases.pkl

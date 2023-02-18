@@ -36,6 +36,7 @@ urlpatterns = [
     path('api/comments/', include('components.comments.urls')),
     path('api/notifications/', include('components.notifications.urls')),
     path('api/agriculture/', include('components.agriculture.urls')),
+    path('api/neural-network/', include('components.neural_network.urls')),
     # swagger urls
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

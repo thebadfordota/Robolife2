@@ -13,12 +13,12 @@ from components.metrics.serializers import (
 )
 from components.metrics.serializers import WeatherMetricsModelSerializer
 from components.metrics.services import MetricsService
-from shared.api.views import BaseQueryModelViewSet
+from shared.api.views import QueryModelViewSet
 from shared.exceptions import MethodIsForbiddenError
 
 
-class WeatherMetricsQueryModelViewSet(BaseQueryModelViewSet):
-    """ViewSet для получения списка погодных метрик"""
+class WeatherMetricsQueryModelViewSet(QueryModelViewSet):
+    """QueryModelViewSet для получения списка погодных метрик"""
 
     queryset = WeatherMetricsModel.objects.all().order_by('date')
     serializer_class = WeatherMetricsModelSerializer

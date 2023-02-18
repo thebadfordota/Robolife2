@@ -6,10 +6,10 @@ from components.comments.serializers import (
     UserCommentsListModelSerializer,
 )
 from components.metrics.models import WeatherMetricsModel
-from shared.api.views import BaseQueryModelViewSet
+from shared.api.views import QueryModelViewSet
 
 
-class UserCommentsQueryModelViewSet(BaseQueryModelViewSet):
+class UserCommentsQueryModelViewSet(QueryModelViewSet):
     """QueryModelViewSet для работы с комментариями пользователя"""
 
     queryset = UserCommentsModel.objects.all().order_by('created')

@@ -8,3 +8,6 @@ media/
 
 # Env
 .env.dev
+
+# Datasets
+datasets/**/*.pkl
