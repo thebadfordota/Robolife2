@@ -1,7 +1,8 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import MainCard from '../../ui-component/cards/MainCard';
-import {Button, SelectPicker, Uploader} from 'rsuite';
-import {Grid} from '@mui/material';
+import { Button, SelectPicker, Uploader } from 'rsuite';
+import { Grid } from '@mui/material';
+import { CULTURE_NAME, DISEASES_NAME, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 
 const PlantDiseasesPage = () => {
     function previewFile(file, callback) {
@@ -15,7 +16,13 @@ const PlantDiseasesPage = () => {
     const [culture, setCulture] = useState();
     const [file, setFile] = useState([]);
     const [filePlant, setFilePlant] = useState(null);
-    const data = ['Кукуруза', 'Подсолнечник', 'Соя'].map((item) => ({label: item, value: item}));
+    const data = [
+        { label: CULTURE_NAME['Corn'], value: 'Corn' },
+        { label: CULTURE_NAME['Sunflower'], value: 'Sunflower' },
+        { label: CULTURE_NAME['Soy'], value: 'Soy' }
+    ];
+    const [state, setState] = useState({ disease: 'healthy', chance: 0 });
+
     const uploader = useRef();
 
     return (
@@ -27,14 +34,15 @@ const PlantDiseasesPage = () => {
                 <Grid container spacing={4}>
                     <Grid item xs={6}>
                         <Uploader
-                            action=""
+                            action={ROBOLIFE2_BACKEND_API.base_url + ROBOLIFE2_BACKEND_API.neural_network_url}
                             autoUpload={false}
                             draggable
                             fileList={file}
                             fileListVisible={false}
                             accept="image/*"
-                            data={{culture: culture}}
-                            headers={{Authorization: 'Bearer ' + localStorage.getItem('token')}}
+                            name="image"
+                            data={{ agriculture_name: culture }}
+                            headers={{ Authorization: 'Bearer ' + localStorage.getItem('token') }}
                             onChange={(fileList) => {
                                 setFile([fileList[fileList.length - 1]]);
                                 previewFile(fileList[fileList.length - 1].blobFile, (value) => {
@@ -43,6 +51,19 @@ const PlantDiseasesPage = () => {
                             }}
                             onUpload={(file) => {
                                 console.log(file);
+                            }}
+                            onSuccess={(response) => {
+                                let st = { ...state };
+                                Object.entries(response).map((entry) => {
+                                    console.log(entry[1], st.chance, entry[1] > st.chance);
+                                    entry[1] > st.chance
+                                        ? (st = {
+                                              disease: entry[0],
+                                              chance: entry[1]
+                                          })
+                                        : null;
+                                });
+                                setState({ ...st });
                             }}
                             ref={uploader}
                         >
@@ -55,29 +76,37 @@ const PlantDiseasesPage = () => {
                                 }}
                             >
                                 {!filePlant ? (
-                                    <span>Click or Drag files to this area to upload</span>
+                                    <span>Нажмите или перетащите файлы в эту область, чтобы загрузить</span>
                                 ) : (
-                                    <img style={{maxWidth: '300px', maxHeight: '400px'}} src={filePlant} alt=""/>
+                                    <img style={{ maxWidth: '300px', maxHeight: '400px' }} src={filePlant} alt="" />
                                 )}
                             </div>
                         </Uploader>
                     </Grid>
                     <Grid item xs={6}>
                         <SelectPicker
-                            locale={{searchPlaceholder: 'Поиск', placeholder: 'Выберите культуру'}}
+                            locale={{ searchPlaceholder: 'Поиск', placeholder: 'Выберите культуру' }}
                             data={data}
-                            style={{width: 224}}
+                            style={{ width: 224 }}
                             value={culture}
                             onChange={setCulture}
                         />
 
                         <Button
-                            style={{backgroundColor: 'rgb(109, 72, 184)'}}
+                            style={{ backgroundColor: 'rgb(109, 72, 184)' }}
                             appearance="primary"
-                            onClick={() => uploader.current.start()}
+                            onClick={() => {
+                                uploader.current.start();
+                                setFilePlant(null);
+                            }}
                         >
                             Проверить
                         </Button>
+                    </Grid>
+                    <Grid item>
+                        <p>
+                            {DISEASES_NAME[state.disease]} с вероятностью {state.chance}
+                        </p>
                     </Grid>
                 </Grid>
             </MainCard>
