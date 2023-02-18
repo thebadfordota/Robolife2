@@ -19,7 +19,8 @@ const PlantDiseasesPage = () => {
     const data = [
         { label: CULTURE_NAME['Corn'], value: 'Corn' },
         { label: CULTURE_NAME['Sunflower'], value: 'Sunflower' },
-        { label: CULTURE_NAME['Soy'], value: 'Soy' }
+        { label: CULTURE_NAME['Soy'], value: 'Soy' },
+        { label: CULTURE_NAME['Wheat'], value: 'Wheat' }
     ];
     const [state, setState] = useState({ disease: 'healthy', chance: 0 });
 
