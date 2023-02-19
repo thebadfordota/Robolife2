@@ -25,11 +25,11 @@ class PlantDiseasesService:
         learn_inf = load_learner(path)
 
         learn_result = learn_inf.predict(img)
-        result = []
+        result = {}
         for index, tensor in enumerate(learn_result[2]):
             coincidence = float(tensor)
             tensor_name = TENSORS_NAMES[agriculture.label][index]
-            result.append({tensor_name: coincidence})
+            result[tensor_name] = coincidence
 
         return result
 
