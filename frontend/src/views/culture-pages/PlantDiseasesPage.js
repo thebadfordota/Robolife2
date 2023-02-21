@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import MainCard from '../../ui-component/cards/MainCard';
-import { Button, SelectPicker, Uploader } from 'rsuite';
+import { Button, Message, SelectPicker, Uploader } from 'rsuite';
 import { Grid } from '@mui/material';
 import { CULTURE_NAME, DISEASES_NAME, ROBOLIFE2_BACKEND_API } from '../../constants/Constants';
 
@@ -25,7 +25,7 @@ const PlantDiseasesPage = () => {
     const [state, setState] = useState({ disease: 'healthy', chance: 0 });
 
     const uploader = useRef();
-
+    var type_message = 'info';
     return (
         <div>
             <MainCard
@@ -104,10 +104,10 @@ const PlantDiseasesPage = () => {
                             Проверить
                         </Button>
                     </Grid>
-                    <Grid item>
-                        <p>
+                    <Grid item xs={12}>
+                        <Message type={state.disease === 'healthy' ? 'info' : 'error'}>
                             {DISEASES_NAME[state.disease]} с вероятностью {state.chance}
-                        </p>
+                        </Message>
                     </Grid>
                 </Grid>
             </MainCard>
