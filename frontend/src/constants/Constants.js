@@ -17,6 +17,7 @@ const ROBOLIFE2_BACKEND_API = {
     authorization_url: '/api/accounts/authorization/',
     registration_url: '/api/accounts/register/',
     agriculture_url: '/api/agriculture/',
+    neural_network_url: '/api/neural-network/check-plant-diseases/c/',
     admin_panel_url: '/admin'
 };
 
@@ -57,4 +58,31 @@ const DATA_FREQUENCY_CONVERT = {
     monthly: 'month'
 };
 
-export { FIELD_CLIMATE_API, ROBOLIFE2_BACKEND_API, CHART_PARAMETERS_ENUM, DATA_FREQUENCY_CONVERT, PARAMS_CONVERT };
+const CULTURE_NAME = {
+    Corn: 'Кукуруза',
+    Soy: 'Соя',
+    Wheat: 'Пшеница',
+    Sunflower: 'Подсолнечник'
+};
+
+const DISEASES_NAME = {
+    healthy: 'Здоровый',
+    cercospora: 'Церкоспора',
+    common_rust: 'Обыкновенная ржавчина',
+    northern_leaf_blight: 'Северная пятнистость листьев',
+    downy_mildew: 'Ложная мучнистая роса',
+    gray_mold: 'Серая плесень',
+    leaf_scars: 'Листовые шрамы',
+    septoria: 'септориоз',
+    stripe_rust: 'полоса ржавчины'
+};
+
+export {
+    FIELD_CLIMATE_API,
+    ROBOLIFE2_BACKEND_API,
+    CHART_PARAMETERS_ENUM,
+    DATA_FREQUENCY_CONVERT,
+    PARAMS_CONVERT,
+    CULTURE_NAME,
+    DISEASES_NAME
+};

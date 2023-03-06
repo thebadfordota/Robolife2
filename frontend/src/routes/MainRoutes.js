@@ -27,6 +27,8 @@ const SoilMoistureCalculationPage = Loadable(lazy(() => import('views/calculatio
 const CornPage = Loadable(lazy(() => import('views/culture-pages/CornPage')));
 
 const SettingsCulturePage = Loadable(lazy(() => import('views/culture-pages/SettingsCulturePage')));
+
+const PlantDiseasesPage = Loadable(lazy(() => import('views/culture-pages/PlantDiseasesPage')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -165,6 +167,14 @@ const MainRoutes = {
                     element: (
                         <RequiredAuth>
                             <SettingsCulturePage />
+                        </RequiredAuth>
+                    )
+                },
+                {
+                    path: 'culture-diseases',
+                    element: (
+                        <RequiredAuth>
+                            <PlantDiseasesPage />
                         </RequiredAuth>
                     )
                 }

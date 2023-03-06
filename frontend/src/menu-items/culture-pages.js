@@ -1,9 +1,10 @@
 // assets
-import { GiCorn } from 'react-icons/gi';
+import { GiCorn, GiGooeyMolecule } from 'react-icons/gi';
 
 // constant
 const icons = {
-    GiCorn
+    GiCorn,
+    GiGooeyMolecule
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -20,6 +21,13 @@ const culturePages = {
             type: 'item',
             url: '/culture',
             icon: icons.GiCorn
+        },
+        {
+            id: 'culture-diseases',
+            title: 'Болезни',
+            type: 'item',
+            url: '/culture/culture-diseases',
+            icon: icons.GiGooeyMolecule
         }
     ]
 };
