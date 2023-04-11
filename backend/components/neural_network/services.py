@@ -1,6 +1,5 @@
 import os.path
 import pathlib
-from typing import Mapping
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from fastai.learner import load_learner
@@ -18,7 +17,7 @@ class PlantDiseasesService:
 
     def calculate_diseases_probability(self,
                                        file: InMemoryUploadedFile,
-                                       agriculture: AgricultureDatasetEnum) -> list[Mapping[str, float]]:
+                                       agriculture: AgricultureDatasetEnum) -> dict[str, float]:
         img = PILImage.create(file)
 
         path = self.get_plant_dataset_path(agriculture)

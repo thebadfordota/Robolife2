@@ -86,6 +86,7 @@ const ActionCell = ({ rowData, dataKey, onSave, onCancel, onEditState, onDelete,
 
 const SettingsCulturePage = () => {
     const [deleteModal, setDeleteModal] = useState({ status: false, id: null });
+    const [isLoading, setIsLoading] = useState(true);
 
     const [data, setData] = useState([]);
     const [editedData, setEditedData] = useState([]);
@@ -96,6 +97,7 @@ const SettingsCulturePage = () => {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
             })
             .then(({ data }) => {
+                setIsLoading(false);
                 setData(data);
                 setEditedData(data);
             });
@@ -133,7 +135,7 @@ const SettingsCulturePage = () => {
     const handleSave = (id) => {
         const nextData = Object.assign([], editedData);
         const activeItem = nextData.find((item) => item.id === id);
-
+        setIsLoading(true);
         if (activeItem.status === 'EDIT') {
             activeItem.status = null;
             axios
@@ -151,7 +153,8 @@ const SettingsCulturePage = () => {
                         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                     }
                 )
-                .then(({ data }) => {
+                .then(() => {
+                    setIsLoading(false);
                     setData(nextData);
                 });
         } else {
@@ -171,7 +174,8 @@ const SettingsCulturePage = () => {
                         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
                     }
                 )
-                .then(({ data }) => {
+                .then(() => {
+                    setIsLoading(false);
                     setData(nextData);
                 });
         }
@@ -238,7 +242,7 @@ const SettingsCulturePage = () => {
                 <IconButton icon={<PlusIcon />} onClick={handleAdd}>
                     Добавить
                 </IconButton>
-                <Table height={420} data={data} loading={!data.length}>
+                <Table height={420} data={data} loading={isLoading}>
                     <Column fullText width={100}>
                         <HeaderCell>Название</HeaderCell>
                         <EditableCell dataKey="name" onChange={handleChange} />

@@ -1,4 +1,4 @@
-FROM python:3.10.8-alpine3.17
+FROM python:3.10.11-slim
 
 ENV WORKDIR=/code \
     BASEDIR=backend
@@ -6,14 +6,15 @@ ENV WORKDIR=/code \
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
+ENV DEBIAN_FRONTEND="noninteractive" TZ="Europe/Samara"
 
 # set work directory
 WORKDIR $WORKDIR
 
 COPY $BASEDIR/config/requirements.txt $WORKDIR
 
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev zlib-dev jpeg-dev  musl-dev gcc make
+RUN apt update && \
+    apt install -y postgresql gcc g++ python3-dev zlib1g-dev libjpeg-dev musl-dev make gfortran libopenblas-dev pkgconf
 
 # install dependencies
 RUN pip install --upgrade pip
