@@ -15,7 +15,7 @@ const { Column, HeaderCell, Cell } = Table;
 const EditableCell = ({ rowData, type = 'text', dataKey, onChange, ...props }) => {
     const editing = rowData.status === 'EDIT' || rowData.status === 'ADD';
     if (type === 'date') {
-        rowData[dataKey] = new Date(rowData[dataKey]);
+        rowData[dataKey] = new Date(rowData[dataKey]) === 'Invalid time' ? new Date(rowData[dataKey]) : new Date();
     }
     return (
         <Cell {...props} className={editing ? 'table-content-editing' : ''}>
@@ -191,7 +191,7 @@ const SettingsCulturePage = () => {
     const handleAdd = () => {
         const nextData = Object.assign([], data);
         const row = {
-            id: nextData[nextData.length - 1].id + 1,
+            id: nextData.length ? nextData[nextData.length - 1].id + 1 : 1,
             name: '',
             min_permissible_precipitation_level: 0,
             max_permissible_precipitation_level: 0,
